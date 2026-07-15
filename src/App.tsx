@@ -1,13 +1,20 @@
-import { lazy, Suspense } from 'react';
+import { createRouter, RouterProvider } from '@tanstack/react-router';
 
-const Index = lazy(() => import('./Index.tsx'));
+import { routeTree } from './routeTree.gen';
+
+const router = createRouter({
+  routeTree,
+});
+
+// Register the router instance for type safety
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 function App() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Index />
-    </Suspense>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

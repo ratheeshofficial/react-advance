@@ -9,16 +9,22 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
-import { toaster } from './components/ui/toaster';
-import Child from './components/Chid';
-import FilterUser from './components/ui/FilterUser';
+import { toaster } from './ui/toaster';
+import Child from './Chid';
+import FilterUser from './ui/FilterUser';
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 
 function Index() {
   console.log('parent');
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isloadingPost, setIsLoadingPost] = useState(false);
-  const [singlePost, setSinglePost] = useState(null);
+  const [singlePost, setSinglePost] = useState<Post | null>(null);
   const [errorPost, setErrorPost] = useState('');
 
   const [postId, setPostId] = useState(1);
