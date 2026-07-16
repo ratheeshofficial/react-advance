@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as R404RouteImport } from './routes/404'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppHomeHomeLayoutRouteImport } from './routes/app/home/_homeLayout'
 import { Route as AppHomeHomeLayoutIndexRouteImport } from './routes/app/home/_homeLayout/index'
 import { Route as AppHomeHomeLayoutServiceRouteImport } from './routes/app/home/_homeLayout/service'
@@ -18,6 +19,11 @@ import { Route as AppHomeHomeLayoutAboutRouteImport } from './routes/app/home/_h
 const R404Route = R404RouteImport.update({
   id: '/404',
   path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppHomeHomeLayoutRoute = AppHomeHomeLayoutRouteImport.update({
@@ -43,6 +49,7 @@ const AppHomeHomeLayoutAboutRoute = AppHomeHomeLayoutAboutRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/404': typeof R404Route
   '/app/home': typeof AppHomeHomeLayoutRouteWithChildren
   '/app/home/about': typeof AppHomeHomeLayoutAboutRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/app/home/': typeof AppHomeHomeLayoutIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/404': typeof R404Route
   '/app/home/about': typeof AppHomeHomeLayoutAboutRoute
   '/app/home/service': typeof AppHomeHomeLayoutServiceRoute
@@ -57,6 +65,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/404': typeof R404Route
   '/app/home/_homeLayout': typeof AppHomeHomeLayoutRouteWithChildren
   '/app/home/_homeLayout/about': typeof AppHomeHomeLayoutAboutRoute
@@ -66,15 +75,17 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/404'
     | '/app/home'
     | '/app/home/about'
     | '/app/home/service'
     | '/app/home/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/404' | '/app/home/about' | '/app/home/service' | '/app/home'
+  to: '/' | '/404' | '/app/home/about' | '/app/home/service' | '/app/home'
   id:
     | '__root__'
+    | '/'
     | '/404'
     | '/app/home/_homeLayout'
     | '/app/home/_homeLayout/about'
@@ -83,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   R404Route: typeof R404Route
   AppHomeHomeLayoutRoute: typeof AppHomeHomeLayoutRouteWithChildren
 }
@@ -94,6 +106,13 @@ declare module '@tanstack/react-router' {
       path: '/404'
       fullPath: '/404'
       preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/home/_homeLayout': {
@@ -143,6 +162,7 @@ const AppHomeHomeLayoutRouteWithChildren =
   AppHomeHomeLayoutRoute._addFileChildren(AppHomeHomeLayoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   R404Route: R404Route,
   AppHomeHomeLayoutRoute: AppHomeHomeLayoutRouteWithChildren,
 }
