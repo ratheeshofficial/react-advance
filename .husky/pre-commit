@@ -1,0 +1,6 @@
+# Run ESLint
+npx eslint .
+echo "ESLint Check COMPLETE"
+
+# Run pnpm build check
+pnpm build

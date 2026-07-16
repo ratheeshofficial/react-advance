@@ -82,7 +82,7 @@ const TestCallback = () => {
     setCount((prev) => prev + 1);
   }, []);
 
-  async function handleSearch(e) {
+  async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
   }
 
@@ -104,13 +104,20 @@ const TestCallback = () => {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {searchList.map((item) => (
-                  <Table.Row key={item.id}>
-                    <Table.Cell>{item.title}</Table.Cell>
-                    <Table.Cell>{item.category}</Table.Cell>
-                    <Table.Cell textAlign='end'>{item.price}</Table.Cell>
-                  </Table.Row>
-                ))}
+                {searchList.map(
+                  (item: {
+                    id: number;
+                    title: string;
+                    category: string;
+                    price: number;
+                  }) => (
+                    <Table.Row key={item?.id}>
+                      <Table.Cell>{item.title}</Table.Cell>
+                      <Table.Cell>{item.category}</Table.Cell>
+                      <Table.Cell textAlign='end'>{item.price}</Table.Cell>
+                    </Table.Row>
+                  ),
+                )}
               </Table.Body>
             </Table.Root>
           ) : (
@@ -132,13 +139,20 @@ const TestCallback = () => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {paginationData.map((item) => (
-                <Table.Row key={item.id}>
-                  <Table.Cell>{item.title}</Table.Cell>
-                  <Table.Cell>{item.category}</Table.Cell>
-                  <Table.Cell textAlign='end'>{item.price}</Table.Cell>
-                </Table.Row>
-              ))}
+              {paginationData.map(
+                (item: {
+                  id: number;
+                  title: string;
+                  category: string;
+                  price: number;
+                }) => (
+                  <Table.Row key={item?.id}>
+                    <Table.Cell>{item.title}</Table.Cell>
+                    <Table.Cell>{item.category}</Table.Cell>
+                    <Table.Cell textAlign='end'>{item.price}</Table.Cell>
+                  </Table.Row>
+                ),
+              )}
             </Table.Body>
           </Table.Root>
         ) : (
