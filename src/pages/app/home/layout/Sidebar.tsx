@@ -1,4 +1,4 @@
-import { Box, VStack, Heading, Flex, Text } from '@chakra-ui/react';
+import { Box, VStack, Heading, Flex, Text, CloseButton } from '@chakra-ui/react';
 import { Link as RouterLink } from '@tanstack/react-router';
 import { FiHome, FiInfo, FiServer } from 'react-icons/fi';
 
@@ -8,10 +8,10 @@ const navItems = [
   { name: 'Service', path: '/app/home/service', icon: FiServer },
 ];
 
-export function Sidebar() {
+export function Sidebar({ onClose }: { onClose?: () => void }) {
   return (
     <Box
-      w='260px'
+      w={{ base: 'full', md: '260px' }}
       bg='white'
       p='6'
       borderRightWidth='1px'
@@ -22,7 +22,7 @@ export function Sidebar() {
       flexDirection='column'
       zIndex='10'
     >
-      <Flex align='center' mb='8' px='2'>
+      <Flex align='center' justify='space-between' mb='8' px='2'>
         <Heading
           size='md'
           color='blue.600'
@@ -31,12 +31,14 @@ export function Sidebar() {
         >
           REACT
         </Heading>
+        {onClose && <CloseButton color='gray' display={{ base: 'flex', md: 'none' }} onClick={onClose} />}
       </Flex>
       <VStack align='stretch' gap='2'>
         {navItems.map((item) => (
           <RouterLink
             key={item.name}
             to={item.path}
+            onClick={onClose}
             style={{
               display: 'block',
               textDecoration: 'none',
