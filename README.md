@@ -18,7 +18,7 @@
 - Verify automatic deployment after every push
 - Share the live preview URL
 
-# Slice 2 — Concepts
+# Slice 3 — Concepts
 - Mobile Responsive
 
 ## Start Dev Server
