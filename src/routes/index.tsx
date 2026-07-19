@@ -1,9 +1,8 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import BlogLayout from '../pages/posts/layout/BlogLayout'
 
 export const Route = createFileRoute('/')({
-  beforeLoad: () => {
-    throw redirect({
-      to: '/app/home',
-    })
-  },
+  component: BlogLayout,
 })
+
+

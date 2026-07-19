@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 export default function NotFoundPage() {
   const navigate = useNavigate();
   function navigateHome() {
-    navigate({ to: '/app/home' });
+    navigate({ to: '/' });
   }
   return (
     <Box display='flex' alignItems='center' justifyContent='center' minH='80vh'>

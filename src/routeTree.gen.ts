@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppPostsBlogLayoutRouteImport } from './routes/app/posts/_blogLayout'
 import { Route as AppHomeHomeLayoutRouteImport } from './routes/app/home/_homeLayout'
 import { Route as AppHomeHomeLayoutIndexRouteImport } from './routes/app/home/_homeLayout/index'
+import { Route as AppPostsBlogLayoutPostIdRouteImport } from './routes/app/posts/_blogLayout/$postId'
 import { Route as AppHomeHomeLayoutServiceRouteImport } from './routes/app/home/_homeLayout/service'
 import { Route as AppHomeHomeLayoutAboutRouteImport } from './routes/app/home/_homeLayout/about'
 
@@ -26,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppPostsBlogLayoutRoute = AppPostsBlogLayoutRouteImport.update({
+  id: '/app/posts/_blogLayout',
+  path: '/app/posts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppHomeHomeLayoutRoute = AppHomeHomeLayoutRouteImport.update({
   id: '/app/home/_homeLayout',
   path: '/app/home',
@@ -36,6 +43,12 @@ const AppHomeHomeLayoutIndexRoute = AppHomeHomeLayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppHomeHomeLayoutRoute,
 } as any)
+const AppPostsBlogLayoutPostIdRoute =
+  AppPostsBlogLayoutPostIdRouteImport.update({
+    id: '/$postId',
+    path: '/$postId',
+    getParentRoute: () => AppPostsBlogLayoutRoute,
+  } as any)
 const AppHomeHomeLayoutServiceRoute =
   AppHomeHomeLayoutServiceRouteImport.update({
     id: '/service',
@@ -52,15 +65,19 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/404': typeof R404Route
   '/app/home': typeof AppHomeHomeLayoutRouteWithChildren
+  '/app/posts': typeof AppPostsBlogLayoutRouteWithChildren
   '/app/home/about': typeof AppHomeHomeLayoutAboutRoute
   '/app/home/service': typeof AppHomeHomeLayoutServiceRoute
+  '/app/posts/$postId': typeof AppPostsBlogLayoutPostIdRoute
   '/app/home/': typeof AppHomeHomeLayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/404': typeof R404Route
+  '/app/posts': typeof AppPostsBlogLayoutRouteWithChildren
   '/app/home/about': typeof AppHomeHomeLayoutAboutRoute
   '/app/home/service': typeof AppHomeHomeLayoutServiceRoute
+  '/app/posts/$postId': typeof AppPostsBlogLayoutPostIdRoute
   '/app/home': typeof AppHomeHomeLayoutIndexRoute
 }
 export interface FileRoutesById {
@@ -68,8 +85,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/404': typeof R404Route
   '/app/home/_homeLayout': typeof AppHomeHomeLayoutRouteWithChildren
+  '/app/posts/_blogLayout': typeof AppPostsBlogLayoutRouteWithChildren
   '/app/home/_homeLayout/about': typeof AppHomeHomeLayoutAboutRoute
   '/app/home/_homeLayout/service': typeof AppHomeHomeLayoutServiceRoute
+  '/app/posts/_blogLayout/$postId': typeof AppPostsBlogLayoutPostIdRoute
   '/app/home/_homeLayout/': typeof AppHomeHomeLayoutIndexRoute
 }
 export interface FileRouteTypes {
@@ -78,18 +97,29 @@ export interface FileRouteTypes {
     | '/'
     | '/404'
     | '/app/home'
+    | '/app/posts'
     | '/app/home/about'
     | '/app/home/service'
+    | '/app/posts/$postId'
     | '/app/home/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/404' | '/app/home/about' | '/app/home/service' | '/app/home'
+  to:
+    | '/'
+    | '/404'
+    | '/app/posts'
+    | '/app/home/about'
+    | '/app/home/service'
+    | '/app/posts/$postId'
+    | '/app/home'
   id:
     | '__root__'
     | '/'
     | '/404'
     | '/app/home/_homeLayout'
+    | '/app/posts/_blogLayout'
     | '/app/home/_homeLayout/about'
     | '/app/home/_homeLayout/service'
+    | '/app/posts/_blogLayout/$postId'
     | '/app/home/_homeLayout/'
   fileRoutesById: FileRoutesById
 }
@@ -97,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   R404Route: typeof R404Route
   AppHomeHomeLayoutRoute: typeof AppHomeHomeLayoutRouteWithChildren
+  AppPostsBlogLayoutRoute: typeof AppPostsBlogLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -115,6 +146,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/posts/_blogLayout': {
+      id: '/app/posts/_blogLayout'
+      path: '/app/posts'
+      fullPath: '/app/posts'
+      preLoaderRoute: typeof AppPostsBlogLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/home/_homeLayout': {
       id: '/app/home/_homeLayout'
       path: '/app/home'
@@ -128,6 +166,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/home/'
       preLoaderRoute: typeof AppHomeHomeLayoutIndexRouteImport
       parentRoute: typeof AppHomeHomeLayoutRoute
+    }
+    '/app/posts/_blogLayout/$postId': {
+      id: '/app/posts/_blogLayout/$postId'
+      path: '/$postId'
+      fullPath: '/app/posts/$postId'
+      preLoaderRoute: typeof AppPostsBlogLayoutPostIdRouteImport
+      parentRoute: typeof AppPostsBlogLayoutRoute
     }
     '/app/home/_homeLayout/service': {
       id: '/app/home/_homeLayout/service'
@@ -161,10 +206,22 @@ const AppHomeHomeLayoutRouteChildren: AppHomeHomeLayoutRouteChildren = {
 const AppHomeHomeLayoutRouteWithChildren =
   AppHomeHomeLayoutRoute._addFileChildren(AppHomeHomeLayoutRouteChildren)
 
+interface AppPostsBlogLayoutRouteChildren {
+  AppPostsBlogLayoutPostIdRoute: typeof AppPostsBlogLayoutPostIdRoute
+}
+
+const AppPostsBlogLayoutRouteChildren: AppPostsBlogLayoutRouteChildren = {
+  AppPostsBlogLayoutPostIdRoute: AppPostsBlogLayoutPostIdRoute,
+}
+
+const AppPostsBlogLayoutRouteWithChildren =
+  AppPostsBlogLayoutRoute._addFileChildren(AppPostsBlogLayoutRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   R404Route: R404Route,
   AppHomeHomeLayoutRoute: AppHomeHomeLayoutRouteWithChildren,
+  AppPostsBlogLayoutRoute: AppPostsBlogLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
