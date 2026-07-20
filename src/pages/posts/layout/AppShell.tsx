@@ -9,12 +9,12 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
   const MetaPanel = childrenArray[3];
 
   return (
-    <Flex direction="column" h="100vh" w="100vw" overflow="hidden">
+    <Flex direction='column' h='100vh' w='100vw' overflow='hidden'>
       {Header}
-      <Flex 
-        flex="1" 
-        direction="row"
-        wrap="wrap"
+      <Flex
+        flex='1'
+        direction='row'
+        wrap='wrap'
         overflow={{ base: 'auto', xl: 'hidden' }}
       >
         {Sidebar}
