@@ -4,8 +4,8 @@ import { Link } from '@tanstack/react-router';
 export const Header = () => {
   const navItems = [
     {
-      name: 'Posts',
-      to: '/app/posts',
+      name: 'Home',
+      to: '/',
     },
   ];
   return (

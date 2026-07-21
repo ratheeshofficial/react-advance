@@ -9,52 +9,39 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as R404RouteImport } from './routes/404'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppPostsBlogLayoutRouteImport } from './routes/app/posts/_blogLayout'
+import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
 import { Route as AppHomeHomeLayoutRouteImport } from './routes/app/home/_homeLayout'
-import { Route as AppPostsBlogLayoutIndexRouteImport } from './routes/app/posts/_blogLayout/index'
 import { Route as AppHomeHomeLayoutIndexRouteImport } from './routes/app/home/_homeLayout/index'
-import { Route as AppPostsBlogLayoutPostIdRouteImport } from './routes/app/posts/_blogLayout/$postId'
 import { Route as AppHomeHomeLayoutServiceRouteImport } from './routes/app/home/_homeLayout/service'
 import { Route as AppHomeHomeLayoutAboutRouteImport } from './routes/app/home/_homeLayout/about'
+import { Route as LayoutAppPostsPostIdRouteImport } from './routes/_layout/app/posts/$postId'
 
+const LayoutRoute = LayoutRouteImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const R404Route = R404RouteImport.update({
   id: '/404',
   path: '/404',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const LayoutIndexRoute = LayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppPostsBlogLayoutRoute = AppPostsBlogLayoutRouteImport.update({
-  id: '/app/posts/_blogLayout',
-  path: '/app/posts',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LayoutRoute,
 } as any)
 const AppHomeHomeLayoutRoute = AppHomeHomeLayoutRouteImport.update({
   id: '/app/home/_homeLayout',
   path: '/app/home',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppPostsBlogLayoutIndexRoute = AppPostsBlogLayoutIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppPostsBlogLayoutRoute,
-} as any)
 const AppHomeHomeLayoutIndexRoute = AppHomeHomeLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppHomeHomeLayoutRoute,
 } as any)
-const AppPostsBlogLayoutPostIdRoute =
-  AppPostsBlogLayoutPostIdRouteImport.update({
-    id: '/$postId',
-    path: '/$postId',
-    getParentRoute: () => AppPostsBlogLayoutRoute,
-  } as any)
 const AppHomeHomeLayoutServiceRoute =
   AppHomeHomeLayoutServiceRouteImport.update({
     id: '/service',
@@ -66,82 +53,85 @@ const AppHomeHomeLayoutAboutRoute = AppHomeHomeLayoutAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => AppHomeHomeLayoutRoute,
 } as any)
+const LayoutAppPostsPostIdRoute = LayoutAppPostsPostIdRouteImport.update({
+  id: '/app/posts/$postId',
+  path: '/app/posts/$postId',
+  getParentRoute: () => LayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/404': typeof R404Route
+  '/': typeof LayoutIndexRoute
   '/app/home': typeof AppHomeHomeLayoutRouteWithChildren
-  '/app/posts': typeof AppPostsBlogLayoutRouteWithChildren
+  '/app/posts/$postId': typeof LayoutAppPostsPostIdRoute
   '/app/home/about': typeof AppHomeHomeLayoutAboutRoute
   '/app/home/service': typeof AppHomeHomeLayoutServiceRoute
-  '/app/posts/$postId': typeof AppPostsBlogLayoutPostIdRoute
   '/app/home/': typeof AppHomeHomeLayoutIndexRoute
-  '/app/posts/': typeof AppPostsBlogLayoutIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/404': typeof R404Route
+  '/': typeof LayoutIndexRoute
+  '/app/posts/$postId': typeof LayoutAppPostsPostIdRoute
   '/app/home/about': typeof AppHomeHomeLayoutAboutRoute
   '/app/home/service': typeof AppHomeHomeLayoutServiceRoute
-  '/app/posts/$postId': typeof AppPostsBlogLayoutPostIdRoute
   '/app/home': typeof AppHomeHomeLayoutIndexRoute
-  '/app/posts': typeof AppPostsBlogLayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/404': typeof R404Route
+  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/': typeof LayoutIndexRoute
   '/app/home/_homeLayout': typeof AppHomeHomeLayoutRouteWithChildren
-  '/app/posts/_blogLayout': typeof AppPostsBlogLayoutRouteWithChildren
+  '/_layout/app/posts/$postId': typeof LayoutAppPostsPostIdRoute
   '/app/home/_homeLayout/about': typeof AppHomeHomeLayoutAboutRoute
   '/app/home/_homeLayout/service': typeof AppHomeHomeLayoutServiceRoute
-  '/app/posts/_blogLayout/$postId': typeof AppPostsBlogLayoutPostIdRoute
   '/app/home/_homeLayout/': typeof AppHomeHomeLayoutIndexRoute
-  '/app/posts/_blogLayout/': typeof AppPostsBlogLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/404'
+    | '/'
     | '/app/home'
-    | '/app/posts'
+    | '/app/posts/$postId'
     | '/app/home/about'
     | '/app/home/service'
-    | '/app/posts/$postId'
     | '/app/home/'
-    | '/app/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/404'
+    | '/'
+    | '/app/posts/$postId'
     | '/app/home/about'
     | '/app/home/service'
-    | '/app/posts/$postId'
     | '/app/home'
-    | '/app/posts'
   id:
     | '__root__'
-    | '/'
     | '/404'
+    | '/_layout'
+    | '/_layout/'
     | '/app/home/_homeLayout'
-    | '/app/posts/_blogLayout'
+    | '/_layout/app/posts/$postId'
     | '/app/home/_homeLayout/about'
     | '/app/home/_homeLayout/service'
-    | '/app/posts/_blogLayout/$postId'
     | '/app/home/_homeLayout/'
-    | '/app/posts/_blogLayout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   R404Route: typeof R404Route
+  LayoutRoute: typeof LayoutRouteWithChildren
   AppHomeHomeLayoutRoute: typeof AppHomeHomeLayoutRouteWithChildren
-  AppPostsBlogLayoutRoute: typeof AppPostsBlogLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/404': {
       id: '/404'
       path: '/404'
@@ -149,19 +139,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof R404RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_layout/': {
+      id: '/_layout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app/posts/_blogLayout': {
-      id: '/app/posts/_blogLayout'
-      path: '/app/posts'
-      fullPath: '/app/posts'
-      preLoaderRoute: typeof AppPostsBlogLayoutRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRoute
     }
     '/app/home/_homeLayout': {
       id: '/app/home/_homeLayout'
@@ -170,26 +153,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeHomeLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/posts/_blogLayout/': {
-      id: '/app/posts/_blogLayout/'
-      path: '/'
-      fullPath: '/app/posts/'
-      preLoaderRoute: typeof AppPostsBlogLayoutIndexRouteImport
-      parentRoute: typeof AppPostsBlogLayoutRoute
-    }
     '/app/home/_homeLayout/': {
       id: '/app/home/_homeLayout/'
       path: '/'
       fullPath: '/app/home/'
       preLoaderRoute: typeof AppHomeHomeLayoutIndexRouteImport
       parentRoute: typeof AppHomeHomeLayoutRoute
-    }
-    '/app/posts/_blogLayout/$postId': {
-      id: '/app/posts/_blogLayout/$postId'
-      path: '/$postId'
-      fullPath: '/app/posts/$postId'
-      preLoaderRoute: typeof AppPostsBlogLayoutPostIdRouteImport
-      parentRoute: typeof AppPostsBlogLayoutRoute
     }
     '/app/home/_homeLayout/service': {
       id: '/app/home/_homeLayout/service'
@@ -205,8 +174,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeHomeLayoutAboutRouteImport
       parentRoute: typeof AppHomeHomeLayoutRoute
     }
+    '/_layout/app/posts/$postId': {
+      id: '/_layout/app/posts/$postId'
+      path: '/app/posts/$postId'
+      fullPath: '/app/posts/$postId'
+      preLoaderRoute: typeof LayoutAppPostsPostIdRouteImport
+      parentRoute: typeof LayoutRoute
+    }
   }
 }
+
+interface LayoutRouteChildren {
+  LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutAppPostsPostIdRoute: typeof LayoutAppPostsPostIdRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutIndexRoute: LayoutIndexRoute,
+  LayoutAppPostsPostIdRoute: LayoutAppPostsPostIdRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 interface AppHomeHomeLayoutRouteChildren {
   AppHomeHomeLayoutAboutRoute: typeof AppHomeHomeLayoutAboutRoute
@@ -223,24 +212,10 @@ const AppHomeHomeLayoutRouteChildren: AppHomeHomeLayoutRouteChildren = {
 const AppHomeHomeLayoutRouteWithChildren =
   AppHomeHomeLayoutRoute._addFileChildren(AppHomeHomeLayoutRouteChildren)
 
-interface AppPostsBlogLayoutRouteChildren {
-  AppPostsBlogLayoutPostIdRoute: typeof AppPostsBlogLayoutPostIdRoute
-  AppPostsBlogLayoutIndexRoute: typeof AppPostsBlogLayoutIndexRoute
-}
-
-const AppPostsBlogLayoutRouteChildren: AppPostsBlogLayoutRouteChildren = {
-  AppPostsBlogLayoutPostIdRoute: AppPostsBlogLayoutPostIdRoute,
-  AppPostsBlogLayoutIndexRoute: AppPostsBlogLayoutIndexRoute,
-}
-
-const AppPostsBlogLayoutRouteWithChildren =
-  AppPostsBlogLayoutRoute._addFileChildren(AppPostsBlogLayoutRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   R404Route: R404Route,
+  LayoutRoute: LayoutRouteWithChildren,
   AppHomeHomeLayoutRoute: AppHomeHomeLayoutRouteWithChildren,
-  AppPostsBlogLayoutRoute: AppPostsBlogLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
