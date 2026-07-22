@@ -8,7 +8,7 @@ export const MetaPanel = () => {
       overflowY={{ base: 'visible', xl: 'auto' }}
       w={{ base: '100%', xl: '300px' }}
       bg='gray.50'
-      borderLeft={{ base: 'none', xl: '1px solid' }}
+      // borderLeft={{ base: 'none', xl: '1px solid' }}
       borderTop={{ base: '1px solid', xl: 'none' }}
       borderColor='gray.200'
       p='6'
