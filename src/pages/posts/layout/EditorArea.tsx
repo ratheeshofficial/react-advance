@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 import { hideScrollbarCss } from '../../../constant/styles';
 
@@ -14,12 +14,12 @@ export const EditorArea = ({ children }: { children?: React.ReactNode }) => {
       css={hideScrollbarCss}
     >
       <Box maxW='3xl' mx='auto'>
-        <Text fontSize='3xl' fontWeight='extrabold' mb='6' color='gray.800'>
+        {/* <Text fontSize='3xl' fontWeight='extrabold' mb='6' color='gray.800'>
           Editor Canvas
         </Text>
         <Text fontSize='lg' color='gray.500' mb='8'>
           (Write Blog Here)
-        </Text>
+        </Text> */}
         {children}
       </Box>
     </Box>

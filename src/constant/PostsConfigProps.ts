@@ -75,6 +75,19 @@ export const mockPosts: Post[] = [
   },
 ];
 
+export const SORTBY = [
+  {
+    label: 'Last Updated',
+    value: 'lastUpdated',
+  },
+  {
+    label: 'Publish Date',
+    value: 'publishDate',
+  },
+];
+
+export const STATUS = ['All', 'Draft', 'Published', 'Scheduled', 'Archived'];
+
 export const getStatusColor = (status: string) => {
   switch (status) {
     case 'Published':
