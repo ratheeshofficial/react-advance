@@ -8,12 +8,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import PostCard from './PostCard';
-import { mockPosts, SORTBY, STATUS } from '../../../constant/PostsConfigProps';
+import { SORTBY, STATUS } from '../../../constant/PostsConfigProps';
 import { useEffect, useState, useMemo } from 'react';
 import useDebounce from '../../../hooks/useDebounce';
 import PrimarySelect from '../../../components/common/PrimarySelect';
+import { usePosts } from '../../../hooks/usePosts';
 
 function BlogPost() {
+  const { list, posts } = usePosts();
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortValue, setSortValue] = useState('');
@@ -21,11 +23,11 @@ function BlogPost() {
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('');
 
-  const authorList = mockPosts.map((post) => {
+  const authorList = posts.map((post) => {
     return { label: post.author, value: post.author };
   });
 
-  const categoryList = [...new Set(mockPosts.map((post) => post.category))].map(
+  const categoryList = [...new Set(posts.map((post) => post.category))].map(
     (category) => ({
       label: category,
       value: category,
@@ -36,8 +38,12 @@ function BlogPost() {
   const isSearching = searchQuery !== debouncedSearchQuery;
   const isLoading = isLoadingPosts || isSearching;
 
+  useEffect(() => {
+    list();
+  }, []);
+
   const filteredPosts = useMemo(() => {
-    let result = [...mockPosts];
+    let result = [...posts];
 
     if (debouncedSearchQuery) {
       result = result.filter((post) =>
