@@ -1,12 +1,12 @@
 import { Box, Flex, Text, HStack, VStack } from '@chakra-ui/react';
 import { FiClock, FiCalendar } from 'react-icons/fi';
 import { Link } from '@tanstack/react-router';
-import type { Post } from '../../../types/posts/posts';
+import type { IPost } from '../../../types/posts/posts';
 import { getStatusColor } from '../../../constant/PostsConfigProps';
 import { formatDate } from '../../../utils/date.utils';
 import { getInitials } from '../../../utils/common.utils';
 
-function PostCard({ post }: { post: Post }) {
+function PostCard({ post }: { post: IPost }) {
   return (
     <Link to='/app/posts/$postId' params={{ postId: String(post.id) }}>
       <Flex

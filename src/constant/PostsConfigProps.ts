@@ -1,6 +1,6 @@
-import type { Post } from '../types/posts/posts';
+import type { IPost } from '../types/posts/posts';
 
-export const mockPosts: Post[] = [
+export const mockPosts: IPost[] = [
   {
     id: '1',
     title: 'The Future of Web Development in 2026',
