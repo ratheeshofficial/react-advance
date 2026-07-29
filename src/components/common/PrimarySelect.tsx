@@ -1,28 +1,34 @@
 import { Select } from 'chakra-react-select';
 
-interface IPrimarySelectProps {
-  options: { label: string; value: string }[];
-  value?: string;
-  onChange?: (value: { label: string; value: string } | null) => void;
+export interface IOptionProps<T = string | number> {
+  label: string;
+  value: T;
+  tooltip?: string;
+}
+
+interface IPrimarySelectProps<T = string | number> {
+  options: IOptionProps<T>[];
+  value?: T;
+  onChange?: (value: IOptionProps<T> | null) => void;
   placeholder?: string;
 }
 
-function PrimarySelect({
+function PrimarySelect<T = string | number>({
   options,
   value,
   onChange,
   placeholder,
-}: IPrimarySelectProps) {
+}: IPrimarySelectProps<T>) {
   const selectedOption = options.find((opt) => opt.value === value) || null;
 
   return (
-    <Select
+    <Select<IOptionProps<T>>
       isClearable={true}
       placeholder={placeholder || 'Select'}
       isSearchable={false}
       options={options}
       value={selectedOption}
-      onChange={onChange}
+      onChange={(newValue) => onChange?.(newValue as IOptionProps<T> | null)}
     />
   );
 }

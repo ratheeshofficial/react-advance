@@ -13,7 +13,7 @@ export const Header = () => {
     },
   ];
 
-  function handleCreateBlog() {
+  async function handleCreateBlog() {
     const randomId = crypto.randomUUID();
     const newPost: IPost = {
       id: randomId,
@@ -24,7 +24,7 @@ export const Header = () => {
       lastUpdated: new Date().toISOString(),
       author: 'Admin',
     };
-    create(newPost);
+    await create(newPost);
     navigate({ to: `/app/posts/$postId`, params: { postId: randomId } });
   }
   return (
