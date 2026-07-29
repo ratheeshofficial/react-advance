@@ -23,16 +23,45 @@ function BlogPost() {
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('');
 
-  const authorList = posts.map((post) => {
-    return { label: post.author, value: post.author };
-  });
+  const uniqueAuthors = useMemo(() => {
+    const uniqueAuthors: string[] = [];
 
-  const categoryList = [...new Set(posts.map((post) => post.category))].map(
-    (category) => ({
+    for (let i = 0; i < posts.length; i++) {
+      const currentAuthor = posts[i]?.author;
+      if (currentAuthor && !uniqueAuthors.includes(currentAuthor)) {
+        uniqueAuthors.push(currentAuthor);
+      }
+    }
+
+    return uniqueAuthors;
+  }, [posts]);
+
+  const uniqueCategory = useMemo(() => {
+    const uniqueCategory: string[] = [];
+
+    for (let i = 0; i < posts.length; i++) {
+      const currentCatogery = posts[i]?.category;
+      if (currentCatogery && !uniqueCategory.includes(currentCatogery)) {
+        uniqueCategory.push(currentCatogery);
+      }
+    }
+
+    return uniqueCategory;
+  }, [posts]);
+
+  const categoryList = useMemo(() => {
+    return uniqueCategory.map((category) => ({
       label: category,
       value: category,
-    }),
-  );
+    }));
+  }, [uniqueCategory]);
+
+  const authorList = useMemo(() => {
+    return uniqueAuthors.map((author) => ({
+      label: author,
+      value: author,
+    }));
+  }, [uniqueAuthors]);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 1000);
   const isSearching = searchQuery !== debouncedSearchQuery;
@@ -150,19 +179,23 @@ function BlogPost() {
             </Button>
           ))}
         </Flex>
-        <Flex mb='5' gap={5}>
-          <PrimarySelect
-            placeholder='Authors'
-            value={author}
-            onChange={handleAuthorChange}
-            options={authorList}
-          />
-          <PrimarySelect
-            placeholder='Category'
-            value={category}
-            onChange={handleCategoryChange}
-            options={categoryList}
-          />
+        <Flex mb='5' gap={5} wrap='wrap' align='center'>
+          <Box minW='200px'>
+            <PrimarySelect
+              placeholder='Authors'
+              value={author}
+              onChange={handleAuthorChange}
+              options={authorList}
+            />
+          </Box>
+          <Box minW='200px'>
+            <PrimarySelect
+              placeholder='Category'
+              value={category}
+              onChange={handleCategoryChange}
+              options={categoryList}
+            />
+          </Box>
           <Button onClick={handleReset}>Reset</Button>
         </Flex>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={2}>

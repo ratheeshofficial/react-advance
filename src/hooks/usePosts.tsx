@@ -8,6 +8,7 @@ export function usePosts() {
   );
   const [singlePost, setSinglePost] = useState<IPost | null>(null);
   const [isLoadingPosts, setIsLoadingPosts] = useState(false);
+  const [isUpdatingPosts, setIsUpdatingPosts] = useState(false);
   const [isCreatingPosts, setIsCreatingPosts] = useState(false);
 
   async function create(post: IPost) {
@@ -36,12 +37,15 @@ export function usePosts() {
   }
 
   async function update(id: string, changes: IPost) {
+    setIsUpdatingPosts(true);
     try {
       const updated = await postsRepository.updatePost(id, changes);
       setPosts((prev) => prev.map((post) => (post.id === id ? updated : post)));
       return updated;
     } catch (error) {
       console.log('error - ', error);
+    } finally {
+      setIsUpdatingPosts(false);
     }
   }
 
@@ -55,12 +59,16 @@ export function usePosts() {
   }
 
   async function getById(id: string) {
+    setIsLoadingPosts(true);
     try {
-      const singlePost = posts.find((post) => post.id === id);
-      await postsRepository.getByIdPost(id);
-      setSinglePost(singlePost || null);
+      const fetchedPost = await postsRepository.getByIdPost(id);
+      setSinglePost(fetchedPost || null);
+      return fetchedPost;
     } catch (error) {
       console.log('error', error);
+      setSinglePost(null);
+    } finally {
+      setIsLoadingPosts(false);
     }
   }
 
@@ -69,6 +77,7 @@ export function usePosts() {
     posts,
     isCreatingPosts,
     isLoadingPosts,
+    isUpdatingPosts,
     list,
     update,
     remove,
