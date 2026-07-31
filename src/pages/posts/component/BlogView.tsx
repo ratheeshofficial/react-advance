@@ -17,11 +17,19 @@ import { useState, useRef, useEffect } from 'react';
 import { FiUploadCloud, FiTrash2, FiRefreshCw } from 'react-icons/fi';
 import { IoIosArrowBack } from 'react-icons/io';
 import type { IPost } from '../../../types/posts/posts';
+import BlockEditor from './block/BlockEditor';
 
 function BlogView() {
   const navigate = useNavigate();
   const { postId } = useParams({ from: '/_layout/app/posts/$postId' });
-  const { remove, getById, singlePost, update, isUpdatingPosts, isLoadingPosts } = usePosts();
+  const {
+    remove,
+    getById,
+    singlePost,
+    update,
+    isUpdatingPosts,
+    isLoadingPosts,
+  } = usePosts();
 
   const [title, setTitle] = useState(singlePost?.title || '');
   const [excerpt, setExcerpt] = useState(singlePost?.excerpt || '');
@@ -283,6 +291,8 @@ function BlogView() {
               </HStack>
             </Box>
           )}
+
+          <BlockEditor />
 
           <Flex justify='flex-end' mt='6' gap={3}>
             <Button
