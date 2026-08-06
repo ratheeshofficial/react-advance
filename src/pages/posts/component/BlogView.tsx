@@ -26,7 +26,6 @@ function BlogView() {
     getById,
     singlePost,
     update,
-    isUpdatingPosts,
     isLoadingPosts,
     title,
     setTitle,
@@ -34,8 +33,6 @@ function BlogView() {
     setExcerpt,
     coverImage,
     setCoverImage,
-    handleSavePost,
-    handleDeletePost,
   } = usePosts();
 
   const [isAutoUpdating, setIsAutoUpdating] = useState(false);
@@ -80,18 +77,6 @@ function BlogView() {
       getById(postId);
     }
   }, [postId]);
-
-  function handleDelete() {
-    if (postId) {
-      handleDeletePost(postId, navigate);
-    }
-  }
-
-  function handleSave() {
-    if (postId) {
-      handleSavePost(postId, navigate);
-    }
-  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -282,26 +267,6 @@ function BlogView() {
           )}
 
           <BlockEditor />
-
-          <Flex justify='flex-end' mt='6' gap={3}>
-            <Button
-              bg='red.500'
-              color='white'
-              _hover={{ bg: 'red.600' }}
-              onClick={handleDelete}
-            >
-              Delete Post
-            </Button>
-            <Button
-              disabled={isUpdatingPosts}
-              bg='green.500'
-              color='white'
-              _hover={{ bg: 'green.600' }}
-              onClick={handleSave}
-            >
-              Save Post
-            </Button>
-          </Flex>
         </Box>
       ) : (
         <Box>Post not found</Box>
