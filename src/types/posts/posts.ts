@@ -21,5 +21,5 @@ export interface IBlockOptionItem {
   color: string;
   bg: string;
   badge?: string;
-  category: 'Text' | 'Formatting' | 'Media & Code';
+  category: 'Text' | 'Formatting' | 'Media & Code' | 'Layout';
 }

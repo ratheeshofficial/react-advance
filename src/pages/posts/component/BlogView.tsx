@@ -23,19 +23,18 @@ function BlogView() {
   const navigate = useNavigate();
   const { postId } = useParams({ from: '/_layout/app/posts/$postId' });
   const {
-    remove,
     getById,
     singlePost,
     update,
-    isUpdatingPosts,
     isLoadingPosts,
+    title,
+    setTitle,
+    excerpt,
+    setExcerpt,
+    coverImage,
+    setCoverImage,
   } = usePosts();
 
-  const [title, setTitle] = useState(singlePost?.title || '');
-  const [excerpt, setExcerpt] = useState(singlePost?.excerpt || '');
-  const [coverImage, setCoverImage] = useState<string | null>(
-    singlePost?.cover_image || '',
-  );
   const [isAutoUpdating, setIsAutoUpdating] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -45,6 +44,7 @@ function BlogView() {
     coverImage === (singlePost?.cover_image || '');
 
   async function saveDraft() {
+    if (!postId) return;
     const payload: IPost = {
       ...singlePost,
       title: title,
@@ -73,36 +73,10 @@ function BlogView() {
   }, [title, excerpt, coverImage]);
 
   useEffect(() => {
-    async function loadPost() {
-      const result = await getById(postId);
-      setTitle(result?.title || '');
-      setExcerpt(result?.excerpt || '');
-      setCoverImage(result?.cover_image || '');
+    if (postId) {
+      getById(postId);
     }
-    loadPost();
   }, [postId]);
-
-  function handleDelete() {
-    remove(postId);
-    navigate({
-      to: '/',
-    });
-  }
-
-  function handleSave() {
-    const payload: IPost = {
-      ...singlePost,
-      title: title,
-      excerpt: excerpt,
-      status: 'Published',
-      lastUpdated: new Date().toISOString(),
-      cover_image: coverImage as string,
-    };
-    update(postId, payload);
-    navigate({
-      to: '/',
-    });
-  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -293,26 +267,6 @@ function BlogView() {
           )}
 
           <BlockEditor />
-
-          <Flex justify='flex-end' mt='6' gap={3}>
-            <Button
-              bg='red.500'
-              color='white'
-              _hover={{ bg: 'red.600' }}
-              onClick={handleDelete}
-            >
-              Delete Post
-            </Button>
-            <Button
-              disabled={isUpdatingPosts}
-              bg='green.500'
-              color='white'
-              _hover={{ bg: 'green.600' }}
-              onClick={handleSave}
-            >
-              Save Post
-            </Button>
-          </Flex>
         </Box>
       ) : (
         <Box>Post not found</Box>

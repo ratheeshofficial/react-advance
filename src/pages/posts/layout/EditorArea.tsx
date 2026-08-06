@@ -7,7 +7,8 @@ export const EditorArea = ({ children }: { children?: React.ReactNode }) => {
     <Box
       h={{ base: 'auto', xl: '100%' }}
       w={{ base: '100%', md: 'calc(100% - 250px)', xl: 'calc(100% - 550px)' }}
-      p='8'
+      py={5}
+      px={4}
       bg='white'
       color='black'
       overflowY={{ base: 'visible', xl: 'auto' }}
