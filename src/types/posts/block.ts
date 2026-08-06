@@ -1,3 +1,5 @@
+export type ColumnLayoutType = '100' | '50-50' | '33-67' | '67-33';
+
 export type BlockType =
   | 'paragraph'
   | 'heading2'
@@ -8,7 +10,8 @@ export type BlockType =
   | 'divider'
   | 'callout'
   | 'code'
-  | 'image';
+  | 'image'
+  | 'column';
 
 export interface IBlock {
   id: string;
@@ -19,6 +22,10 @@ export interface IBlock {
   language?: string;
   calloutType?: 'info' | 'warning' | 'success' | 'note';
   items?: string[];
+  column?: string;
+  columnLayout?: ColumnLayoutType;
+  columnContents?: string[];
+  columnBlocks?: IBlock[][];
 }
 
 export interface BaseBlockProps {
@@ -36,3 +43,4 @@ export interface IBlockOption {
   badge?: string;
   category: 'text' | 'formatting' | 'media';
 }
+

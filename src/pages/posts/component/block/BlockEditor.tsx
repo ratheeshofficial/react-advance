@@ -2,37 +2,22 @@ import { useReducer } from 'react';
 import {
   Box,
   Button,
-  IconButton,
   VStack,
   Text,
   Flex,
   HStack,
-  Badge,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  LuPlus,
-  LuEye,
-  LuPencil,
-  LuArrowUp,
-  LuArrowDown,
-  LuTrash2,
-} from 'react-icons/lu';
+import { LuPlus, LuEye, LuPencil } from 'react-icons/lu';
+import { arrayMove } from '@dnd-kit/sortable';
 
-import type { IBlock, BlockType } from '../../../../types/posts/block';
+import type {
+  IBlock,
+  BlockType,
+  ColumnLayoutType,
+} from '../../../../types/posts/block';
 import { AddBlockPicker } from './AddBlockPicker';
-import {
-  ParagraphBlock,
-  Heading2Block,
-  Heading3Block,
-  QuoteBlock,
-  OrderedListBlock,
-  UnorderedListBlock,
-  DividerBlock,
-  CalloutBlock,
-  CodeBlock,
-  ImageBlock,
-} from './index';
+import { SortableBlockList, EmptyCanvas, createDefaultBlock } from './index';
 
 interface BlockEditorState {
   blocks: IBlock[];
@@ -41,10 +26,11 @@ interface BlockEditorState {
 }
 
 type BlockEditorAction =
-  | { type: 'ADD_BLOCK'; blockType: BlockType }
+  | { type: 'ADD_BLOCK'; blockType: BlockType; columnLayout?: ColumnLayoutType }
   | { type: 'UPDATE_BLOCK'; updated: IBlock }
   | { type: 'DELETE_BLOCK'; id: string }
   | { type: 'MOVE_BLOCK'; index: number; direction: 'up' | 'down' }
+  | { type: 'REORDER_BLOCKS'; activeId: string; overId: string }
   | { type: 'DUPLICATE_BLOCK'; blockId: string }
   | { type: 'TOGGLE_EDITING_MODE' }
   | { type: 'SET_INSERT_AFTER'; blockId: string | null };
@@ -75,38 +61,16 @@ const initialState: BlockEditorState = {
   insertAfterBlockId: null,
 };
 
-const createDefaultBlock = (type: BlockType): IBlock => ({
-  id: String(Date.now()),
-  type,
-  content:
-    type === 'heading2'
-      ? 'New Section Heading'
-      : type === 'heading3'
-        ? 'Sub Section Title'
-        : type === 'quote'
-          ? 'Inspiring quote goes here...'
-          : type === 'callout'
-            ? 'Important note or reminder.'
-            : type === 'code'
-              ? '// Add code here'
-              : type === 'paragraph'
-                ? ''
-                : '',
-  calloutType: type === 'callout' ? 'info' : undefined,
-  language: type === 'code' ? 'typescript' : undefined,
-  items:
-    type === 'orderedList' || type === 'unorderedList'
-      ? ['Item 1', 'Item 2']
-      : undefined,
-});
-
 function blockEditorReducer(
   state: BlockEditorState,
   action: BlockEditorAction,
 ): BlockEditorState {
   switch (action.type) {
     case 'ADD_BLOCK': {
-      const newBlock = createDefaultBlock(action.blockType);
+      const newBlock = createDefaultBlock(
+        action.blockType,
+        action.columnLayout,
+      );
       if (!state.insertAfterBlockId) {
         return {
           ...state,
@@ -158,6 +122,16 @@ function blockEditorReducer(
         blocks: newBlocks,
       };
     }
+    case 'REORDER_BLOCKS': {
+      const oldIndex = state.blocks.findIndex((b) => b.id === action.activeId);
+      const newIndex = state.blocks.findIndex((b) => b.id === action.overId);
+      if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex)
+        return state;
+      return {
+        ...state,
+        blocks: arrayMove(state.blocks, oldIndex, newIndex),
+      };
+    }
     case 'DUPLICATE_BLOCK': {
       const duplicated = state.blocks.find((b) => b.id === action.blockId);
       if (!duplicated) return state;
@@ -202,8 +176,8 @@ export function BlockEditor() {
     onClose();
   };
 
-  const handleAddBlock = (type: BlockType) => {
-    dispatch({ type: 'ADD_BLOCK', blockType: type });
+  const handleAddBlock = (type: BlockType, columnLayout?: ColumnLayoutType) => {
+    dispatch({ type: 'ADD_BLOCK', blockType: type, columnLayout });
   };
 
   const handleUpdateBlock = (updated: IBlock) => {
@@ -222,162 +196,21 @@ export function BlockEditor() {
     dispatch({ type: 'DUPLICATE_BLOCK', blockId });
   };
 
-  const renderBlock = (block: IBlock, index: number) => {
-    const props = {
-      block,
-      onChange: handleUpdateBlock,
-      onDelete: handleDeleteBlock,
-      isEditing: isEditingMode,
-    };
-
-    let component;
-    switch (block.type) {
-      case 'paragraph':
-        component = <ParagraphBlock {...props} />;
-        break;
-      case 'heading2':
-        component = <Heading2Block {...props} />;
-        break;
-      case 'heading3':
-        component = <Heading3Block {...props} />;
-        break;
-      case 'quote':
-        component = <QuoteBlock {...props} />;
-        break;
-      case 'orderedList':
-        component = <OrderedListBlock {...props} />;
-        break;
-      case 'unorderedList':
-        component = <UnorderedListBlock {...props} />;
-        break;
-      case 'divider':
-        component = <DividerBlock />;
-        break;
-      case 'callout':
-        component = <CalloutBlock {...props} />;
-        break;
-      case 'code':
-        component = <CodeBlock {...props} />;
-        break;
-      case 'image':
-        component = <ImageBlock {...props} />;
-        break;
-      default:
-        component = <ParagraphBlock {...props} />;
-    }
-
-    return (
-      <Box key={block.id}>
-        <Box
-          position='relative'
-          p='4'
-          borderRadius='xl'
-          bg='white'
-          borderWidth='1px'
-          borderColor='gray.200'
-          boxShadow='sm'
-          _hover={{ borderColor: 'purple.400', boxShadow: 'md' }}
-          transition='all 0.2s'
-        >
-          {isEditingMode && (
-            <Flex
-              justify='space-between'
-              align='center'
-              mb='3'
-              pb='2'
-              borderBottom='1px solid'
-              borderColor='gray.100'
-            >
-              <Badge
-                size='sm'
-                variant='subtle'
-                textTransform='capitalize'
-                colorPalette='purple'
-                px='2.5'
-                py='1'
-                borderRadius='md'
-              >
-                {block.type}
-              </Badge>
-
-              <HStack gap='1.5'>
-                {index > 0 && (
-                  <IconButton
-                    aria-label='Move block up'
-                    size='xs'
-                    variant='subtle'
-                    colorPalette='gray'
-                    onClick={() => handleMoveBlock(index, 'up')}
-                    title='Move block up'
-                    borderRadius='md'
-                  >
-                    <LuArrowUp />
-                  </IconButton>
-                )}
-                {index < blocks.length - 1 && (
-                  <IconButton
-                    aria-label='Move block down'
-                    size='xs'
-                    variant='subtle'
-                    colorPalette='gray'
-                    onClick={() => handleMoveBlock(index, 'down')}
-                    title='Move block down'
-                    borderRadius='md'
-                  >
-                    <LuArrowDown />
-                  </IconButton>
-                )}
-                <IconButton
-                  aria-label='Delete block'
-                  size='xs'
-                  variant='solid'
-                  colorPalette='red'
-                  onClick={() => handleDeleteBlock(block.id)}
-                  title='Delete block'
-                  borderRadius='md'
-                >
-                  <LuTrash2 />
-                </IconButton>
-              </HStack>
-            </Flex>
-          )}
-          {component}
-
-          <Text
-            fontSize='xs'
-            mt='4'
-            _hover={{ color: 'purple.500' }}
-            color='gray.400'
-            cursor='pointer'
-            onClick={() => handleDuplicateBlock(block.id)}
-          >
-            Duplicate{' '}
-          </Text>
-        </Box>
-        <Button
-          size='sm'
-          variant='subtle'
-          colorPalette='purple'
-          onClick={() => handleOpenPicker(block.id)}
-          borderRadius='full'
-          px='6'
-          mt='4'
-        >
-          <LuPlus /> Add Block Below
-        </Button>
-      </Box>
-    );
+  const handleReorderBlocks = (activeId: string, overId: string) => {
+    dispatch({ type: 'REORDER_BLOCKS', activeId, overId });
   };
 
   return (
     <Box maxW='4xl' mx='auto' py='4'>
       {/* Editor Control Header */}
       <Flex
+        direction={{ base: 'column', sm: 'row' }}
         justify='space-between'
-        align='center'
+        align={{ base: 'stretch', sm: 'center' }}
+        gap={{ base: '3', sm: '0' }}
         mb='6'
         bg='white'
-        p='4'
+        p={{ base: '3', sm: '4' }}
         borderRadius='2xl'
         borderWidth='1px'
         borderColor='gray.100'
@@ -392,7 +225,7 @@ export function BlockEditor() {
           </Text>
         </VStack>
 
-        <HStack gap='3'>
+        <HStack gap='3' justify={{ base: 'space-between', sm: 'flex-end' }}>
           <Button
             size='sm'
             variant='outline'
@@ -419,29 +252,18 @@ export function BlockEditor() {
 
       {/* Blocks Container */}
       {blocks.length === 0 ? (
-        <Box
-          p='10'
-          border='2px dashed'
-          borderColor='purple.200'
-          borderRadius='2xl'
-          textAlign='center'
-          bg='purple.50/30'
-        >
-          <Text color='gray.600' fontWeight='medium' mb='4'>
-            No content blocks added yet. Start creating your article!
-          </Text>
-          <Button
-            colorPalette='purple'
-            size='sm'
-            onClick={() => handleOpenPicker()}
-          >
-            <LuPlus /> Add Your First Block
-          </Button>
-        </Box>
+        <EmptyCanvas onSelectBlock={handleAddBlock} />
       ) : (
-        <VStack align='stretch' gap='4'>
-          {blocks.map((block, idx) => renderBlock(block, idx))}
-        </VStack>
+        <SortableBlockList
+          blocks={blocks}
+          isEditingMode={isEditingMode}
+          onUpdateBlock={handleUpdateBlock}
+          onDeleteBlock={handleDeleteBlock}
+          onMoveBlock={handleMoveBlock}
+          onReorderBlocks={handleReorderBlocks}
+          onDuplicateBlock={handleDuplicateBlock}
+          onOpenPicker={handleOpenPicker}
+        />
       )}
 
       {/* Block Picker Dialog */}

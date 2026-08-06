@@ -1,4 +1,5 @@
 import type { IPost, IBlockOptionItem } from '../types/posts/posts';
+import type { ColumnLayoutOption } from '../pages/posts/component/block/ColumnLayoutPicker';
 import {
   LuAlignLeft,
   LuHeading2,
@@ -10,6 +11,7 @@ import {
   LuCode,
   LuListOrdered,
   LuList,
+  LuLayoutDashboard,
 } from 'react-icons/lu';
 
 export const BLOCK_OPTIONS: IBlockOptionItem[] = [
@@ -106,6 +108,15 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     bg: 'violet.50',
     badge: 'Dev',
     category: 'Media & Code',
+  },
+  {
+    type: 'column',
+    title: 'Column',
+    icon: LuLayoutDashboard,
+    color: 'blue.600',
+    subtitle: 'Add columns to your post',
+    category: 'Layout',
+    bg: 'blue.50',
   },
 ];
 
@@ -209,3 +220,31 @@ export const getStatusColor = (status: string) => {
       return 'blue.500';
   }
 };
+
+export const COLUMN_LAYOUT_OPTIONS: ColumnLayoutOption[] = [
+  {
+    id: '100',
+    title: 'Single',
+    subtitle: 'Full width single column layout',
+    columns: [1],
+  },
+  {
+    id: '50-50',
+    title: '50 / 50',
+    subtitle: 'Two equal width half columns',
+    columns: [1, 1],
+  },
+  {
+    id: '33-67',
+    title: '1/3 - 2/3',
+    subtitle: 'Narrow left column with wide main area',
+    columns: [1, 2],
+  },
+  {
+    id: '67-33',
+    title: '2/3 - 1/3',
+    subtitle: 'Wide main area with narrow right column',
+    columns: [2, 1],
+  },
+];
+

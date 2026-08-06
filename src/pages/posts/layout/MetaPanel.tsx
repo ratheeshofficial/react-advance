@@ -1,20 +1,41 @@
-import { Box, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import { hideScrollbarCss } from '../../../constant/styles';
 import { usePosts } from '../../../hooks/usePosts';
 import { useEffect } from 'react';
-import { useParams } from '@tanstack/react-router';
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { formatDate } from '../../../utils/date.utils';
 
 export const MetaPanel = () => {
+  const navigate = useNavigate();
   const params = useParams({ strict: false });
   const postId = (params as { postId?: string }).postId;
-  const { singlePost, getById, isLoadingPosts } = usePosts();
+  const {
+    singlePost,
+    getById,
+    isLoadingPosts,
+    isUpdatingPosts,
+    title,
+    handleSavePost,
+    handleDeletePost,
+  } = usePosts();
 
   useEffect(() => {
     if (postId) {
       getById(postId);
     }
   }, [postId]);
+
+  const handleDelete = async () => {
+    if (postId) {
+      await handleDeletePost(postId, navigate);
+    }
+  };
+
+  const handleSave = async () => {
+    if (postId) {
+      await handleSavePost(postId, navigate);
+    }
+  };
 
   return (
     <Box
@@ -42,6 +63,14 @@ export const MetaPanel = () => {
         </Text>
       ) : (
         <VStack align='start' gap='4'>
+          <Box>
+            <Text fontSize='sm' fontWeight='semibold' color='gray.600'>
+              Title
+            </Text>
+            <Text fontSize='sm' color='gray.800' fontWeight='medium' mt='1'>
+              {title || singlePost?.title || 'N/A'}
+            </Text>
+          </Box>
           <Box>
             <Text fontSize='sm' fontWeight='semibold' color='gray.600'>
               Updated On
@@ -74,6 +103,30 @@ export const MetaPanel = () => {
               {singlePost?.author || 'N/A'}
             </Text>
           </Box>
+
+          <HStack w='100%' pt='4' gap={3}>
+            <Button
+              flex={1}
+              size='sm'
+              bg='red.500'
+              color='white'
+              _hover={{ bg: 'red.600' }}
+              onClick={handleDelete}
+            >
+              Delete Post
+            </Button>
+            <Button
+              flex={1}
+              size='sm'
+              disabled={isUpdatingPosts}
+              bg='green.500'
+              color='white'
+              _hover={{ bg: 'green.600' }}
+              onClick={handleSave}
+            >
+              Save Post
+            </Button>
+          </HStack>
         </VStack>
       )}
     </Box>
