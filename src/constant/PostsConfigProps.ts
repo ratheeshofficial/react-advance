@@ -247,18 +247,44 @@ export const SORTBY = [
   },
 ];
 
-export const STATUS = ['All', 'Draft', 'Published', 'Scheduled', 'Archived'];
+export const STATUS = [
+  'All',
+  'Draft',
+  'In Review',
+  'Approved',
+  'Scheduled',
+  'Published',
+];
 
 export const getStatusColor = (status: string) => {
   switch (status) {
     case 'Published':
       return 'green.500';
-    case 'Draft':
-      return 'gray.500';
     case 'Scheduled':
-      return 'orange.500';
-    default:
+      return 'purple.500';
+    case 'Approved':
       return 'blue.500';
+    case 'In Review':
+      return 'amber.500';
+    case 'Draft':
+    default:
+      return 'gray.500';
+  }
+};
+
+export const getBadgePalette = (status: string) => {
+  switch (status) {
+    case 'Published':
+      return 'green';
+    case 'Scheduled':
+      return 'purple';
+    case 'Approved':
+      return 'blue';
+    case 'In Review':
+      return 'amber';
+    case 'Draft':
+    default:
+      return 'gray';
   }
 };
 

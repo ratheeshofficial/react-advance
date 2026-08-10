@@ -170,8 +170,8 @@ function BlogPost() {
             <Button
               key={status}
               size='sm'
-              variant={statusFilter === status ? 'solid' : 'ghost'}
-              colorScheme={statusFilter === status ? 'blue' : 'gray'}
+              variant={statusFilter === status ? 'solid' : 'subtle'}
+              colorPalette={statusFilter === status ? 'purple' : 'gray'}
               onClick={() => setStatusFilter(status)}
               borderRadius='full'
             >

@@ -1,11 +1,15 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Button, Flex, Text, HStack } from '@chakra-ui/react';
+import { Link, useNavigate, useParams } from '@tanstack/react-router';
 import { usePosts } from '../../../hooks/usePosts';
 import type { IPost } from '../../../types/posts/posts';
+import WorkflowActionsToolbar from '../component/workflow/WorkflowActionsToolbar';
 
 export const Header = () => {
-  const { create } = usePosts();
+  const { create, singlePost } = usePosts();
   const navigate = useNavigate();
+  const params = useParams({ strict: false });
+  const postId = (params as { postId?: string }).postId;
+
   const navItems = [
     {
       name: 'Home',
@@ -27,6 +31,7 @@ export const Header = () => {
     await create(newPost);
     navigate({ to: `/app/posts/$postId`, params: { postId: randomId } });
   }
+
   return (
     <Flex
       h='60px'
@@ -37,20 +42,29 @@ export const Header = () => {
       align='center'
       px='6'
       justify='space-between'
+      gap='4'
     >
-      <Text fontSize='xl' fontWeight='bold' letterSpacing='tight'>
-        Editorial Desk
-      </Text>
-      <Button
-        size='sm'
-        bg='purple.600'
-        color='white'
-        _hover={{ bg: 'purple.700' }}
-        rounded={'full'}
-        onClick={handleCreateBlog}
-      >
-        + New Blog
-      </Button>
+      <HStack gap='4' align='center'>
+        <Text fontSize='xl' fontWeight='bold' letterSpacing='tight'>
+          Editorial Desk
+        </Text>
+        <Button
+          size='sm'
+          bg='purple.600'
+          color='white'
+          _hover={{ bg: 'purple.700' }}
+          rounded={'full'}
+          onClick={handleCreateBlog}
+        >
+          + New Blog
+        </Button>
+      </HStack>
+
+      {/* Workflow State Machine Actions Toolbar when in Post Editor view */}
+      {postId && singlePost && (
+        <WorkflowActionsToolbar postId={postId} post={singlePost} />
+      )}
+
       <Flex gap='6' align='center'>
         {navItems.map((item, key) => (
           <Link key={`menu-${key + 1}`} to={item.to}>
@@ -61,3 +75,4 @@ export const Header = () => {
     </Flex>
   );
 };
+
