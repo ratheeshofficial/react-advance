@@ -6,7 +6,7 @@ export const EditorArea = ({ children }: { children?: React.ReactNode }) => {
   return (
     <Box
       h={{ base: 'auto', xl: '100%' }}
-      w={{ base: '100%', md: 'calc(100% - 250px)', xl: 'calc(100% - 550px)' }}
+      w={{ base: '100%', md: 'calc(100% - 250px)', xl: 'calc(100% - 590px)' }}
       py={5}
       px={4}
       bg='white'
