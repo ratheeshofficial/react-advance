@@ -28,20 +28,20 @@ async function createPost(post: IPost): Promise<IPost> {
 
 async function updatePost(id: string, post: IPost): Promise<IPost> {
   const existing = await getAllPosts();
-  const updatedList = existing.map((p) => (p.id === id ? post : p));
+  const updatedList = existing.map((p) => (String(p.id) === String(id) ? post : p));
   localStorage.setItem(PREF_KEYS.blog, JSON.stringify(updatedList));
   return post;
 }
 
 async function deletePost(id: string): Promise<void> {
   const existing = await getAllPosts();
-  const updatedList = existing.filter((p) => p.id !== id);
+  const updatedList = existing.filter((p) => String(p.id) !== String(id));
   localStorage.setItem(PREF_KEYS.blog, JSON.stringify(updatedList));
 }
 
 async function getByIdPost(id: string): Promise<IPost | undefined> {
   const existing = await getAllPosts();
-  return existing.find((p) => p.id === id);
+  return existing.find((p) => String(p.id) === String(id));
 }
 
 export const postsRepository = {

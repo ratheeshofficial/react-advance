@@ -33,9 +33,10 @@ function BlogView() {
     setExcerpt,
     coverImage,
     setCoverImage,
+    isAutoUpdating,
+    setIsAutoUpdating,
   } = usePosts();
 
-  const [isAutoUpdating, setIsAutoUpdating] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isSameValue =

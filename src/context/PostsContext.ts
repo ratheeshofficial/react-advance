@@ -14,6 +14,10 @@ export interface PostsContextType {
   setExcerpt: React.Dispatch<React.SetStateAction<string>>;
   coverImage: string | null;
   setCoverImage: React.Dispatch<React.SetStateAction<string | null>>;
+  isAutoUpdating: boolean;
+  setIsAutoUpdating: React.Dispatch<React.SetStateAction<boolean>>;
+  isDirty: boolean;
+  setIsDirty: React.Dispatch<React.SetStateAction<boolean>>;
   create: (post: IPost) => Promise<IPost | undefined>;
   list: () => Promise<void>;
   update: (id: string, changes: IPost) => Promise<IPost | undefined>;

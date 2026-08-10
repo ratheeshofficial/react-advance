@@ -14,7 +14,7 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
       <Flex
         flex='1'
         direction='row'
-        wrap='wrap'
+        wrap={{ base: 'wrap', xl: 'nowrap' }}
         overflow={{ base: 'auto', xl: 'hidden' }}
       >
         {Sidebar}

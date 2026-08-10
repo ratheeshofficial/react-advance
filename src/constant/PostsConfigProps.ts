@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import type { IPost, IBlockOptionItem } from '../types/posts/posts';
 import type { ColumnLayoutOption } from '../pages/posts/component/block/ColumnLayoutPicker';
 import {
@@ -129,6 +130,11 @@ export const mockPosts: IPost[] = [
     category: 'Technology',
     lastUpdated: '2026-07-19T10:00:00Z',
     publishDate: '2026-07-20T11:00:00Z',
+    slug: 'the-future-of-web-development-in-2026',
+    tags: ['Web', 'React', 'Trends'],
+    seoTitle: 'Future of Web Development (2026)',
+    seoDescription: 'Explore the key web development trends, frameworks, and tools defining software engineering in 2026.',
+    editorialNotes: 'Approved for publishing by chief editor.',
   },
   {
     id: '2',
@@ -138,6 +144,11 @@ export const mockPosts: IPost[] = [
     category: 'Engineering',
     lastUpdated: '2026-07-18T14:30:00Z',
     publishDate: '',
+    slug: 'mastering-react-19-server-components',
+    tags: ['React', 'Server Components', 'JavaScript'],
+    seoTitle: 'Mastering React 19 Server Components',
+    seoDescription: 'A deep dive into server components, streaming SSR, and action handlers in React 19.',
+    editorialNotes: 'Pending final review of code examples.',
   },
   {
     id: '3',
@@ -147,6 +158,11 @@ export const mockPosts: IPost[] = [
     category: 'Design',
     lastUpdated: '2026-07-15T09:15:00Z',
     publishDate: '2026-07-22T08:00:00Z',
+    slug: 'designing-beautiful-uis-with-css-variables',
+    tags: ['CSS', 'UI/UX', 'Design System'],
+    seoTitle: 'Designing UIs with Custom CSS Variables',
+    seoDescription: 'Learn how to leverage CSS custom properties to build dynamic, themeable user interfaces easily.',
+    editorialNotes: 'Scheduled for publishing next week.',
   },
   {
     id: '4',
@@ -156,6 +172,11 @@ export const mockPosts: IPost[] = [
     category: 'AI',
     lastUpdated: '2026-07-10T11:20:00Z',
     publishDate: '2026-07-11T12:00:00Z',
+    slug: 'understanding-ai-driven-coding-assistants',
+    tags: ['AI', 'Productivity', 'Tools'],
+    seoTitle: 'Understanding AI-Driven Coding Assistants',
+    seoDescription: 'Discover how modern AI models assist software developers in writing, debugging, and testing code.',
+    editorialNotes: 'Featured article for July.',
   },
   {
     id: '5',
@@ -165,6 +186,11 @@ export const mockPosts: IPost[] = [
     category: 'Design',
     lastUpdated: '2026-07-19T16:45:00Z',
     publishDate: '2026-07-19T17:00:00Z',
+    slug: 'a-guide-to-modern-micro-animations',
+    tags: ['Animation', 'CSS', 'UX'],
+    seoTitle: 'Guide to Micro-Animations in Web Apps',
+    seoDescription: 'Enhance user interactions with subtle, performant micro-animations in web applications.',
+    editorialNotes: 'Verified all GIF previews.',
   },
   {
     id: '6',
@@ -174,6 +200,11 @@ export const mockPosts: IPost[] = [
     category: 'Engineering',
     lastUpdated: '2026-07-16T13:10:00Z',
     publishDate: '',
+    slug: 'performance-tuning-vite-applications',
+    tags: ['Vite', 'Performance', 'Bundling'],
+    seoTitle: 'Performance Tuning Vite Applications',
+    seoDescription: 'Tips and tricks to speed up build times and optimize bundle sizes when using Vite.',
+    editorialNotes: 'Draft phase.',
   },
   {
     id: '7',
@@ -183,6 +214,11 @@ export const mockPosts: IPost[] = [
     category: 'Architecture',
     lastUpdated: '2026-07-14T10:00:00Z',
     publishDate: '2026-07-25T09:00:00Z',
+    slug: 'building-resilient-distributed-systems',
+    tags: ['Architecture', 'Distributed Systems', 'Cloud'],
+    seoTitle: 'Building Resilient Distributed Systems',
+    seoDescription: 'Architectural patterns for fault tolerance, circuit breakers, and high availability in microservices.',
+    editorialNotes: 'Needs diagrams updated.',
   },
   {
     id: '8',
@@ -192,6 +228,11 @@ export const mockPosts: IPost[] = [
     category: 'Technology',
     lastUpdated: '2026-07-05T08:30:00Z',
     publishDate: '2026-07-06T09:00:00Z',
+    slug: 'the-rise-of-edge-computing',
+    tags: ['Edge', 'Cloud', 'Serverless'],
+    seoTitle: 'The Rise of Edge Computing in 2026',
+    seoDescription: 'How edge computing reduces latency and revolutionizes real-time data processing across global networks.',
+    editorialNotes: 'Published.',
   },
 ];
 
@@ -247,4 +288,39 @@ export const COLUMN_LAYOUT_OPTIONS: ColumnLayoutOption[] = [
     columns: [2, 1],
   },
 ];
+
+export const metaPanelSchema = (
+  existingPosts: IPost[],
+  currentPostId?: string,
+) =>
+  z.object({
+    author: z.string().min(1, 'Author is required'),
+    category: z.string().min(1, 'Category is required'),
+    slug: z
+      .string()
+      .min(1, 'Slug is required')
+      .regex(
+        /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+        'Slug must be in kebab-case format (e.g. my-post-slug)',
+      )
+      .refine(
+        (slugVal) => {
+          if (!slugVal) return true;
+          const isDuplicate = existingPosts.some(
+            (p) => p.id !== currentPostId && p.slug === slugVal,
+          );
+          return !isDuplicate;
+        },
+        {
+          message: 'This slug is already used by another post.',
+        },
+      ),
+    tags: z.array(z.string()),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    editorialNotes: z.string().optional(),
+  });
+
+export type MetaPanelFormValues = z.infer<ReturnType<typeof metaPanelSchema>>;
+
 

@@ -11,6 +11,11 @@ export interface IPost {
   publishDate?: string;
   excerpt?: string;
   cover_image?: string;
+  slug?: string;
+  tags?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+  editorialNotes?: string;
 }
 
 export interface IBlockOptionItem {

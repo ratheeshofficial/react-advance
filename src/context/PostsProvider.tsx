@@ -16,6 +16,8 @@ export function PostsProvider({ children }: { children: ReactNode }) {
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [coverImage, setCoverImage] = useState<string | null>(null);
+  const [isAutoUpdating, setIsAutoUpdating] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   async function create(post: IPost) {
     setIsCreatingPosts(true);
@@ -46,7 +48,9 @@ export function PostsProvider({ children }: { children: ReactNode }) {
     setIsUpdatingPosts(true);
     try {
       const updated = await postsRepository.updatePost(id, changes);
-      setPosts((prev) => prev.map((post) => (post.id === id ? updated : post)));
+      setPosts((prev) =>
+        prev.map((post) => (String(post.id) === String(id) ? updated : post)),
+      );
       setSinglePost(updated);
       return updated;
     } catch (error) {
@@ -59,8 +63,8 @@ export function PostsProvider({ children }: { children: ReactNode }) {
   async function remove(id: string) {
     try {
       await postsRepository.deletePost(id);
-      setPosts((prev) => prev.filter((post) => post.id !== id));
-      if (singlePost?.id === id) {
+      setPosts((prev) => prev.filter((post) => String(post.id) !== String(id)));
+      if (singlePost && String(singlePost.id) === String(id)) {
         setSinglePost(null);
         setTitle('');
         setExcerpt('');
@@ -148,6 +152,10 @@ export function PostsProvider({ children }: { children: ReactNode }) {
         setExcerpt,
         coverImage,
         setCoverImage,
+        isAutoUpdating,
+        setIsAutoUpdating,
+        isDirty,
+        setIsDirty,
         handleSavePost,
         handleDeletePost,
       }}
