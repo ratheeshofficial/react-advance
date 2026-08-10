@@ -128,8 +128,11 @@ function PostCard({ post }: { post: IPost }) {
           <HStack color='gray.400' fontSize='xs'>
             <FiCalendar />
             <Text>
-              {post.status === 'Scheduled' ? 'Scheduled for ' : 'Published: '}
-              {formatDate(post.publishDate ?? '')}
+              {post.status === 'Scheduled'
+                ? `Scheduled for: ${formatDate(post.publishDate ?? '')}`
+                : post.status === 'Published' && post.publishDate
+                ? `Published: ${formatDate(post.publishDate)}`
+                : `Status: ${post.status || 'Draft'}`}
             </Text>
           </HStack>
         </VStack>
