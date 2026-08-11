@@ -92,7 +92,7 @@ export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockPro
             borderRadius='md'
           />
         ) : (
-          <Text fontSize='md' color='gray.800' lineHeight='relaxed'>
+          <Text fontSize='lg' color='gray.800' lineHeight='relaxed' fontWeight='medium'>
             {block.content || 'Important callout text...'}
           </Text>
         )}

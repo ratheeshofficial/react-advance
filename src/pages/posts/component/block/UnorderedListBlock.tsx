@@ -25,9 +25,11 @@ export function UnorderedListBlock({ block, onChange, isEditing = true }: BaseBl
   return (
     <Box py='1'>
       <Flex gap='2' align='top'>
-        <Box color='purple.600' pt='2' fontSize='lg'>
-          <LuList />
-        </Box>
+        {isEditing && (
+          <Box color='purple.600' pt='2' fontSize='lg'>
+            <LuList />
+          </Box>
+        )}
         <Box flex='1'>
           {isEditing ? (
             <VStack align='stretch' gap='2'>
@@ -67,11 +69,11 @@ export function UnorderedListBlock({ block, onChange, isEditing = true }: BaseBl
               </Button>
             </VStack>
           ) : (
-            <VStack align='stretch' gap='1.5' pl='2'>
+            <VStack align='stretch' gap='2' pl='1'>
               {items.map((item, idx) => (
-                <HStack key={idx} align='center' gap='3'>
-                  <Box w='2' h='2' borderRadius='full' bg='purple.500' />
-                  <Text fontSize='md' color='gray.700'>
+                <HStack key={idx} align='top' gap='3'>
+                  <Box w='2' h='2' borderRadius='full' bg='purple.500' mt='2.5' flexShrink={0} />
+                  <Text fontSize='lg' color='gray.800' lineHeight='1.7'>
                     {item}
                   </Text>
                 </HStack>

@@ -161,10 +161,28 @@ function blockEditorReducer(
   }
 }
 
-export function BlockEditor() {
+export interface BlockEditorProps {
+  isEditingMode?: boolean;
+  onToggleEditingMode?: () => void;
+}
+
+export function BlockEditor({
+  isEditingMode: externalIsEditingMode,
+  onToggleEditingMode,
+}: BlockEditorProps = {}) {
   const { open, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useReducer(blockEditorReducer, initialState);
-  const { blocks, isEditingMode } = state;
+
+  const isEditingMode =
+    externalIsEditingMode !== undefined
+      ? externalIsEditingMode
+      : state.isEditingMode;
+  const { blocks } = state;
+
+  const handleToggleMode = () => {
+    dispatch({ type: 'TOGGLE_EDITING_MODE' });
+    onToggleEditingMode?.();
+  };
 
   const handleOpenPicker = (blockId?: string) => {
     dispatch({ type: 'SET_INSERT_AFTER', blockId: blockId ?? null });
@@ -218,7 +236,7 @@ export function BlockEditor() {
       >
         <VStack align='start' gap='0'>
           <Text fontSize='lg' fontWeight='bold' color='gray.800'>
-            Block Content Editor
+            {isEditingMode ? 'Block Content Editor' : 'Article Reader Preview'}
           </Text>
           <Text fontSize='xs' color='gray.500'>
             {blocks.length} {blocks.length === 1 ? 'block' : 'blocks'} total
@@ -230,29 +248,39 @@ export function BlockEditor() {
             size='sm'
             variant='outline'
             colorPalette={isEditingMode ? 'gray' : 'purple'}
-            onClick={() => dispatch({ type: 'TOGGLE_EDITING_MODE' })}
+            onClick={handleToggleMode}
             borderRadius='lg'
           >
             {isEditingMode ? <LuEye /> : <LuPencil />}
             {isEditingMode ? 'Preview Post' : 'Edit Mode'}
           </Button>
 
-          <Button
-            size='sm'
-            colorPalette='purple'
-            variant='solid'
-            onClick={() => handleOpenPicker()}
-            borderRadius='lg'
-            boxShadow='sm'
-          >
-            <LuPlus /> Add Block
-          </Button>
+          {isEditingMode && (
+            <Button
+              size='sm'
+              colorPalette='purple'
+              variant='solid'
+              onClick={() => handleOpenPicker()}
+              borderRadius='lg'
+              boxShadow='sm'
+            >
+              <LuPlus /> Add Block
+            </Button>
+          )}
         </HStack>
       </Flex>
 
       {/* Blocks Container */}
       {blocks.length === 0 ? (
-        <EmptyCanvas onSelectBlock={handleAddBlock} />
+        isEditingMode ? (
+          <EmptyCanvas onSelectBlock={handleAddBlock} />
+        ) : (
+          <Box p='8' textAlign='center' bg='white' borderRadius='xl' borderWidth='1px' borderColor='gray.100'>
+            <Text color='gray.400' fontStyle='italic'>
+              No content blocks added to this post yet. Switch to Edit Mode to add blocks.
+            </Text>
+          </Box>
+        )
       ) : (
         <SortableBlockList
           blocks={blocks}

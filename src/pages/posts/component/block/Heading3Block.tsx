@@ -24,7 +24,7 @@ export function Heading3Block({ block, onChange, isEditing = true }: BaseBlockPr
           />
         </Flex>
       ) : (
-        <Heading as='h3' size='lg' fontWeight='semibold' color='gray.700'>
+        <Heading as='h3' size='lg' fontWeight='bold' color='gray.800' pt='1'>
           {block.content || 'H3 Heading'}
         </Heading>
       )}

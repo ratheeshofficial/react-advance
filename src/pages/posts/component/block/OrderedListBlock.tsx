@@ -41,9 +41,11 @@ export function OrderedListBlock({
   return (
     <Box py='1'>
       <Flex gap='2' align='top'>
-        <Box color='purple.600' pt='2' fontSize='lg'>
-          <LuListOrdered />
-        </Box>
+        {isEditing && (
+          <Box color='purple.600' pt='2' fontSize='lg'>
+            <LuListOrdered />
+          </Box>
+        )}
         <Box flex='1'>
           {isEditing ? (
             <VStack align='stretch' gap='2'>
@@ -85,13 +87,13 @@ export function OrderedListBlock({
               </Button>
             </VStack>
           ) : (
-            <VStack align='stretch' gap='1.5' pl='2'>
+            <VStack align='stretch' gap='2' pl='1'>
               {items.map((item, idx) => (
-                <HStack key={idx} align='top' gap='2'>
-                  <Text fontWeight='bold' color='purple.600' minW='20px'>
+                <HStack key={idx} align='top' gap='2.5'>
+                  <Text fontWeight='bold' color='purple.600' fontSize='md' minW='24px'>
                     {idx + 1}.
                   </Text>
-                  <Text fontSize='md' color='gray.700'>
+                  <Text fontSize='lg' color='gray.800' lineHeight='1.7'>
                     {item}
                   </Text>
                 </HStack>

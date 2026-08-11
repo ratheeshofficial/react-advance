@@ -24,7 +24,7 @@ export function Heading2Block({ block, onChange, isEditing = true }: BaseBlockPr
           />
         </Flex>
       ) : (
-        <Heading as='h2' size='xl' fontWeight='bold' color='gray.800' borderBottom='2px solid' borderColor='purple.100' pb='1'>
+        <Heading as='h2' size='xl' fontWeight='extrabold' color='gray.900' borderBottom='2px solid' borderColor='purple.100' pb='1.5' pt='2'>
           {block.content || 'H2 Heading'}
         </Heading>
       )}

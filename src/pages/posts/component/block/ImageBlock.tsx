@@ -12,15 +12,15 @@ export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps
 
   return (
     <Box py='1'>
-      <Box
-        borderRadius='xl'
-        overflow='hidden'
-        borderWidth='1px'
-        borderColor='gray.200'
-        bg='gray.50'
-        p='3'
-      >
-        {isEditing ? (
+      {isEditing ? (
+        <Box
+          borderRadius='xl'
+          overflow='hidden'
+          borderWidth='1px'
+          borderColor='gray.200'
+          bg='gray.50'
+          p='3'
+        >
           <VStack gap='3' align='stretch'>
             <Flex gap='2' align='center'>
               <Box color='purple.500'>
@@ -70,25 +70,26 @@ export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps
               bg='white'
             />
           </VStack>
-        ) : (
-          <VStack gap='2' align='center'>
-            <Image
-              src={imgError ? DEFAULT_PLACEHOLDER : imgSrc}
-              alt={block.caption || 'Block image'}
-              borderRadius='lg'
-              maxH='400px'
-              w='100%'
-              objectFit='cover'
-              onError={() => setImgError(true)}
-            />
-            {block.caption && (
-              <Text fontSize='xs' color='gray.500' fontStyle='italic'>
-                {block.caption}
-              </Text>
-            )}
-          </VStack>
-        )}
-      </Box>
+        </Box>
+      ) : (
+        <VStack gap='2' align='center' w='100%'>
+          <Image
+            src={imgError ? DEFAULT_PLACEHOLDER : imgSrc}
+            alt={block.caption || 'Block image'}
+            borderRadius='xl'
+            maxH='420px'
+            w='100%'
+            objectFit='cover'
+            boxShadow='sm'
+            onError={() => setImgError(true)}
+          />
+          {block.caption && (
+            <Text fontSize='sm' color='gray.500' fontStyle='italic' textAlign='center'>
+              {block.caption}
+            </Text>
+          )}
+        </VStack>
+      )}
     </Box>
   );
 }

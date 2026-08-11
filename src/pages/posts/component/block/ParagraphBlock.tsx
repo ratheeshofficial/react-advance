@@ -20,8 +20,8 @@ export function ParagraphBlock({ block, onChange, isEditing = true }: BaseBlockP
           lineHeight='relaxed'
         />
       ) : (
-        <Text fontSize='md' color='gray.700' lineHeight='relaxed'>
-          {block.content || 'Empty paragraph block'}
+        <Text fontSize='lg' color='gray.800' lineHeight='1.8' whiteSpace='pre-wrap'>
+          {block.content || ''}
         </Text>
       )}
     </Box>
