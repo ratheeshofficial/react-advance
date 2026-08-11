@@ -162,11 +162,11 @@ export function ColumnBlock({
           return (
             <Box
               key={colIdx}
-              flex={{ base: '1 1 100%', md: col.flex }}
+              flex={{ base: '1 1 100%', md: `${col.flex} ${col.flex} 0%` }}
               w={{ base: '100%', md: 'auto' }}
-              p={{ base: '2.5', sm: '3.5' }}
+              p={isEditing ? { base: '2.5', sm: '3.5' } : '0'}
               bg={isEditing ? 'purple.50/30' : 'transparent'}
-              borderRadius='xl'
+              borderRadius={isEditing ? 'xl' : 'none'}
               borderWidth={isEditing ? '1px' : '0px'}
               borderColor='purple.200'
               borderStyle='dashed'

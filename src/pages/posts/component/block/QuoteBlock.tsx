@@ -31,11 +31,11 @@ export function QuoteBlock({ block, onChange, isEditing = true }: BaseBlockProps
             />
           </Flex>
         ) : (
-          <Flex gap='3' align='top'>
+          <Flex gap='3' align='top' py='1'>
             <Box color='purple.500' pt='1'>
               <LuQuote size={24} />
             </Box>
-            <Text fontSize='lg' fontStyle='italic' color='gray.700' lineHeight='relaxed'>
+            <Text fontSize='lg' fontStyle='italic' color='gray.800' lineHeight='relaxed' fontWeight='medium'>
               "{block.content || 'Quote text goes here...'}"
             </Text>
           </Flex>

@@ -68,16 +68,16 @@ export function SortableBlockItem({
   };
 
   return (
-    <Box ref={setNodeRef} style={style}>
+    <Box ref={setNodeRef} style={style} mb={isEditingMode ? '0' : '4'}>
       <Box
         position='relative'
-        p={{ base: '3', sm: '2' }}
-        borderRadius='xl'
-        bg='white'
-        borderWidth='1px'
+        p={isEditingMode ? { base: '3', sm: '2' } : '0'}
+        borderRadius={isEditingMode ? 'xl' : 'none'}
+        bg={isEditingMode ? 'white' : 'transparent'}
+        borderWidth={isEditingMode ? '1px' : '0px'}
         borderColor={isDragging ? 'purple.400' : 'gray.200'}
-        boxShadow={isDragging ? 'lg' : 'sm'}
-        _hover={{ borderColor: 'purple.400', boxShadow: 'md' }}
+        boxShadow={isEditingMode ? (isDragging ? 'lg' : 'sm') : 'none'}
+        _hover={isEditingMode ? { borderColor: 'purple.400', boxShadow: 'md' } : {}}
         transition='border-color 0.2s, box-shadow 0.2s'
       >
         {isEditingMode && (
