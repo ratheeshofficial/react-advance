@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HStack, Button, Badge, Text } from '@chakra-ui/react';
+import { HStack, Button, Text, Box } from '@chakra-ui/react';
 import { FiCheckSquare, FiClock } from 'react-icons/fi';
 import { usePosts } from '../../../../hooks/usePosts';
 import type { IPost } from '../../../../types/posts/posts';
@@ -14,13 +14,21 @@ import PublishChecklistModal from './PublishChecklistModal';
 import ScheduleModal from './ScheduleModal';
 import ConfirmModal from '../../../../components/common/ConfirmModal';
 import { formatDate } from '../../../../utils/date.utils';
-import { getBadgePalette } from '../../../../constant/PostsConfigProps';
 
 export interface WorkflowActionsToolbarProps {
   postId?: string;
   post?: IPost | null;
   blocksCount?: number;
 }
+
+const getStatusStyles = (status?: string) => {
+  const s = (status || 'draft').toLowerCase();
+  if (s === 'published') return { bg: 'var(--published-soft)', color: 'var(--published)' };
+  if (s === 'in review' || s === 'review' || s === 'inreview') return { bg: 'var(--review-soft)', color: 'var(--review)' };
+  if (s === 'approved') return { bg: 'var(--approved-soft)', color: 'var(--approved)' };
+  if (s === 'scheduled') return { bg: 'var(--scheduled-soft)', color: 'var(--scheduled)' };
+  return { bg: 'var(--draft-soft)', color: 'var(--draft)' };
+};
 
 export function WorkflowActionsToolbar({
   postId,
@@ -40,6 +48,7 @@ export function WorkflowActionsToolbar({
   const currentStatus: PostStatus = post.status || 'Draft';
   const transitions = WORKFLOW_TRANSITIONS[currentStatus] || [];
   const validationResult = validatePostForPublish(post, blocksCount);
+  const statusStyle = getStatusStyles(currentStatus);
 
   const handleActionClick = (transition: StatusTransitionConfig) => {
     // Validation check for Publish or Schedule
@@ -120,23 +129,38 @@ export function WorkflowActionsToolbar({
 
   return (
     <HStack gap='3' align='center' wrap='wrap'>
-      {/* Current Workflow Status Badge */}
-      <HStack gap='1.5' align='center'>
-        <Badge
-          colorPalette={getBadgePalette(currentStatus)}
-          variant='solid'
+      {/* Current Workflow Status Stamp Badge */}
+      <HStack gap='2' align='center'>
+        <HStack
+          bg={statusStyle.bg}
+          color={statusStyle.color}
           px='3'
-          py='1'
+          py='1.5'
           borderRadius='full'
-          fontSize='xs'
-          fontWeight='bold'
-          textTransform='uppercase'
+          fontSize='12px'
+          fontWeight='700'
+          fontFamily="'Inter', sans-serif"
+          letterSpacing='0.02em'
+          gap='6px'
+          shadow='var(--shadow-sm)'
         >
-          {currentStatus}
-        </Badge>
+          <Box w='6px' h='6px' borderRadius='full' bg={statusStyle.color} />
+          <Text>{currentStatus}</Text>
+        </HStack>
+
         {currentStatus === 'Scheduled' && post.publishDate && (
-          <HStack color='purple.300' fontSize='xs' gap='1'>
-            <FiClock />
+          <HStack
+            color='var(--scheduled)'
+            bg='var(--scheduled-soft)'
+            px='2.5'
+            py='1.5'
+            borderRadius='full'
+            fontSize='11.5px'
+            fontFamily="'IBM Plex Mono', monospace"
+            fontWeight='500'
+            gap='5px'
+          >
+            <FiClock size={12} />
             <Text>{formatDate(post.publishDate)}</Text>
           </HStack>
         )}
@@ -144,17 +168,24 @@ export function WorkflowActionsToolbar({
 
       {/* Publish Checklist Trigger Button */}
       <Button
-        size='xs'
-        variant='ghost'
-        colorPalette={validationResult.isValid ? 'green' : 'amber'}
+        size='sm'
+        variant='outline'
+        borderColor='var(--rule)'
+        bg='var(--paper-raised)'
+        color='var(--ink-soft)'
+        fontSize='12.5px'
+        fontWeight='500'
+        fontFamily="'Inter', sans-serif"
+        borderRadius='8px'
+        px='3'
+        py='1.5'
+        h='auto'
+        _hover={{ bg: 'var(--rule-soft)' }}
         onClick={() => setIsChecklistOpen(true)}
-        px='2.5'
-        py='1'
-        borderRadius='md'
       >
-        <HStack gap='1.5'>
-          <FiCheckSquare />
-          <Text fontSize='xs' fontWeight='medium'>
+        <HStack gap='6px' align='center'>
+          <FiCheckSquare size={13} color={validationResult.isValid ? 'var(--published)' : 'var(--stamp)'} />
+          <Text>
             Checklist ({validationResult.checks.filter((c) => c.passed).length}/
             {validationResult.checks.length})
           </Text>
@@ -162,19 +193,30 @@ export function WorkflowActionsToolbar({
       </Button>
 
       {/* Workflow Transition Action Buttons */}
-      {transitions.map((t) => (
-        <Button
-          key={t.actionLabel}
-          size='xs'
-          variant={t.variant || 'solid'}
-          colorPalette={t.colorPalette || 'purple'}
-          onClick={() => handleActionClick(t)}
-          borderRadius='full'
-          px='3'
-        >
-          {t.actionLabel}
-        </Button>
-      ))}
+      {transitions.map((t) => {
+        const targetTheme = getStatusStyles(t.targetStatus);
+        return (
+          <Button
+            key={t.actionLabel}
+            size='sm'
+            bg={targetTheme.color}
+            color='white'
+            fontFamily="'Inter', sans-serif"
+            fontSize='12.5px'
+            fontWeight='600'
+            borderRadius='8px'
+            px='3.5'
+            py='1.5'
+            h='auto'
+            shadow='var(--shadow-sm)'
+            transition='all 0.12s ease'
+            _hover={{ opacity: 0.9, transform: 'translateY(-1px)' }}
+            onClick={() => handleActionClick(t)}
+          >
+            {t.actionLabel}
+          </Button>
+        );
+      })}
 
       {/* Publish Checklist Modal */}
       <PublishChecklistModal
@@ -213,3 +255,4 @@ export function WorkflowActionsToolbar({
 }
 
 export default WorkflowActionsToolbar;
+

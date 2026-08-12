@@ -1,35 +1,38 @@
-import { Box, Input, Heading, Flex } from '@chakra-ui/react';
-import { LuHeading2 } from 'react-icons/lu';
+import { Box, Input } from '@chakra-ui/react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
 export function Heading2Block({ block, onChange, isEditing = true }: BaseBlockProps) {
   return (
     <Box py='1'>
       {isEditing ? (
-        <Flex gap='2' align='center'>
-          <Box color='purple.600' fontSize='xl'>
-            <LuHeading2 />
-          </Box>
-          <Input
-            value={block.content || ''}
-            onChange={(e) => onChange?.({ ...block, content: e.target.value })}
-            placeholder='H2 Heading Title...'
-            variant='subtle'
-            size='lg'
-            fontWeight='bold'
-            fontSize='xl'
-            bg='gray.50'
-            _focus={{ bg: 'white', borderColor: 'purple.500' }}
-            borderRadius='md'
-          />
-        </Flex>
+        <Input
+          value={block.content || ''}
+          onChange={(e) => onChange?.({ ...block, content: e.target.value })}
+          placeholder='Heading 2 title…'
+          border='none'
+          outline='none'
+          _focus={{ outline: 'none', boxShadow: 'none' }}
+          fontFamily="'Fraunces', serif"
+          fontSize='21px'
+          fontWeight='600'
+          color='var(--ink)'
+          py='2'
+          px='0'
+        />
       ) : (
-        <Heading as='h2' size='xl' fontWeight='extrabold' color='gray.900' borderBottom='2px solid' borderColor='purple.100' pb='1.5' pt='2'>
-          {block.content || 'H2 Heading'}
-        </Heading>
+        <Box
+          fontFamily="'Fraunces', serif"
+          fontSize='21px'
+          fontWeight='600'
+          color='var(--ink)'
+          py='2'
+        >
+          {block.content || 'Heading 2 Title'}
+        </Box>
       )}
     </Box>
   );
 }
 
 export default Heading2Block;
+

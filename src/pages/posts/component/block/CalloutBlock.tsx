@@ -1,79 +1,82 @@
-import { Box, Flex, Textarea, Text, HStack, Badge } from '@chakra-ui/react';
-import { LuInfo, LuTriangleAlert, LuCircleCheck, LuLightbulb } from 'react-icons/lu';
+import { Box, Flex, Textarea, Text, HStack } from '@chakra-ui/react';
+import { FiInfo, FiAlertTriangle, FiCheckCircle, FiHelpCircle } from 'react-icons/fi';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
 export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockProps) {
-  const type = block.calloutType || 'info';
+  const type = block.calloutType || 'note';
 
   const typeConfigs = {
     info: {
-      bg: 'blue.50',
-      borderColor: 'blue.300',
-      iconColor: 'blue.600',
-      Icon: LuInfo,
-      label: 'Info',
+      bg: 'var(--approved-soft)',
+      labelColor: 'var(--approved)',
+      Icon: FiInfo,
+      label: 'INFO',
     },
     warning: {
-      bg: 'amber.50',
-      borderColor: 'amber.300',
-      iconColor: 'amber.600',
-      Icon: LuTriangleAlert,
-      label: 'Warning',
+      bg: 'var(--stamp-soft)',
+      labelColor: 'var(--stamp)',
+      Icon: FiAlertTriangle,
+      label: 'WARNING',
     },
     success: {
-      bg: 'green.50',
-      borderColor: 'green.300',
-      iconColor: 'green.600',
-      Icon: LuCircleCheck,
-      label: 'Success',
+      bg: 'var(--published-soft)',
+      labelColor: 'var(--published)',
+      Icon: FiCheckCircle,
+      label: 'SUCCESS',
     },
     note: {
-      bg: 'purple.50',
-      borderColor: 'purple.300',
-      iconColor: 'purple.600',
-      Icon: LuLightbulb,
-      label: 'Tip',
+      bg: 'var(--stamp-soft)',
+      labelColor: 'var(--stamp)',
+      Icon: FiHelpCircle,
+      label: 'TIP',
     },
   };
 
-  const currentConfig = typeConfigs[type];
+  const currentConfig = typeConfigs[type] || typeConfigs.note;
   const IconComponent = currentConfig.Icon;
 
   return (
     <Box py='1'>
       <Box
-        p='4'
-        borderRadius='xl'
+        p='12px 14px'
+        borderRadius='8px'
         bg={currentConfig.bg}
-        borderWidth='1px'
-        borderColor={currentConfig.borderColor}
       >
-        <Flex justify='space-between' align='center' mb='2'>
-          <HStack gap='2'>
-            <Box color={currentConfig.iconColor} fontSize='xl'>
+        <Flex justify='space-between' align='center' mb='1.5'>
+          <HStack gap='8px' align='center'>
+            <Box color={currentConfig.labelColor} fontSize='14px'>
               <IconComponent />
             </Box>
-            <Badge size='sm' variant='subtle' textTransform='uppercase'>
+            <Text
+              fontFamily="'IBM Plex Mono', monospace"
+              fontSize='10px'
+              fontWeight='700'
+              color={currentConfig.labelColor}
+              letterSpacing='0.06em'
+            >
               {currentConfig.label}
-            </Badge>
+            </Text>
           </HStack>
 
           {isEditing && (
-            <HStack gap='1'>
-              {(['info', 'note', 'warning', 'success'] as const).map((t) => (
+            <HStack gap='4px'>
+              {(['note', 'info', 'warning', 'success'] as const).map((t) => (
                 <Box
                   key={t}
                   as='button'
-                  px='2'
-                  py='0.5'
-                  fontSize='xs'
-                  borderRadius='md'
-                  fontWeight={type === t ? 'bold' : 'normal'}
+                  px='7px'
+                  py='2px'
+                  fontFamily="'IBM Plex Mono', monospace"
+                  fontSize='9.5px'
+                  borderRadius='4px'
+                  fontWeight={type === t ? '700' : '400'}
                   bg={type === t ? 'white' : 'transparent'}
-                  boxShadow={type === t ? 'xs' : 'none'}
+                  color={type === t ? currentConfig.labelColor : 'var(--muted-2)'}
+                  shadow={type === t ? 'var(--shadow-sm)' : 'none'}
                   onClick={() => onChange?.({ ...block, calloutType: t })}
+                  cursor='pointer'
                 >
-                  {t}
+                  {t.toUpperCase()}
                 </Box>
               ))}
             </HStack>
@@ -84,16 +87,26 @@ export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockPro
           <Textarea
             value={block.content || ''}
             onChange={(e) => onChange?.({ ...block, content: e.target.value })}
-            placeholder='Important callout message or note...'
-            variant='subtle'
-            size='sm'
-            bg='white/80'
-            _focus={{ bg: 'white', borderColor: currentConfig.borderColor }}
-            borderRadius='md'
+            placeholder='Click "Add block" or hover between sections to insert new content anytime.'
+            border='none'
+            outline='none'
+            _focus={{ outline: 'none', boxShadow: 'none' }}
+            fontFamily="'Inter', sans-serif"
+            fontSize='13.5px'
+            color='var(--ink-soft)'
+            lineHeight='1.5'
+            py='0'
+            px='0'
+            minH='44px'
           />
         ) : (
-          <Text fontSize='lg' color='gray.800' lineHeight='relaxed' fontWeight='medium'>
-            {block.content || 'Important callout text...'}
+          <Text
+            fontFamily="'Inter', sans-serif"
+            fontSize='13.5px'
+            color='var(--ink-soft)'
+            lineHeight='1.5'
+          >
+            {block.content || ''}
           </Text>
         )}
       </Box>
@@ -102,3 +115,4 @@ export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockPro
 }
 
 export default CalloutBlock;
+

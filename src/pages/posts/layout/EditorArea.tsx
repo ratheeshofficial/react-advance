@@ -5,24 +5,20 @@ import { hideScrollbarCss } from '../../../constant/styles';
 export const EditorArea = ({ children }: { children?: React.ReactNode }) => {
   return (
     <Box
+      flex='1'
       h={{ base: 'auto', xl: '100%' }}
-      w={{ base: '100%', md: 'calc(100% - 250px)', xl: 'calc(100% - 590px)' }}
-      py={5}
-      px={4}
-      bg='white'
-      color='black'
+      w={{ base: '100%', md: 'calc(100% - 220px)', xl: 'calc(100% - 560px)' }}
+      py={{ base: 4, md: 6 }}
+      px={{ base: 4, md: 7 }}
+      bg='var(--paper)'
+      color='var(--ink)'
       overflowY={{ base: 'visible', xl: 'auto' }}
       css={hideScrollbarCss}
     >
-      <Box maxW='3xl' mx='auto'>
-        {/* <Text fontSize='3xl' fontWeight='extrabold' mb='6' color='gray.800'>
-          Editor Canvas
-        </Text>
-        <Text fontSize='lg' color='gray.500' mb='8'>
-          (Write Blog Here)
-        </Text> */}
+      <Box maxW='1100px' mx='auto'>
         {children}
       </Box>
     </Box>
   );
 };
+
