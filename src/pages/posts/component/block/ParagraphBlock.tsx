@@ -8,19 +8,28 @@ export function ParagraphBlock({ block, onChange, isEditing = true }: BaseBlockP
         <Textarea
           value={block.content || ''}
           onChange={(e) => onChange?.({ ...block, content: e.target.value })}
-          placeholder='Type your paragraph content...'
-          variant='subtle'
-          size='md'
+          placeholder='Write paragraph text here…'
+          border='none'
+          outline='none'
+          _focus={{ outline: 'none', boxShadow: 'none' }}
+          fontFamily="'Inter', sans-serif"
+          fontSize='14px'
+          lineHeight='1.65'
+          color='var(--ink-soft)'
+          py='1'
+          px='0'
           resize='vertical'
-          minH='80px'
-          bg='gray.50'
-          _focus={{ bg: 'white', borderColor: 'purple.500' }}
-          borderRadius='md'
-          fontSize='md'
-          lineHeight='relaxed'
+          minH='60px'
         />
       ) : (
-        <Text fontSize='lg' color='gray.800' lineHeight='1.8' whiteSpace='pre-wrap'>
+        <Text
+          fontFamily="'Inter', sans-serif"
+          fontSize='14px'
+          lineHeight='1.65'
+          color='var(--ink-soft)'
+          whiteSpace='pre-wrap'
+          py='1'
+        >
           {block.content || ''}
         </Text>
       )}
@@ -29,3 +38,4 @@ export function ParagraphBlock({ block, onChange, isEditing = true }: BaseBlockP
 }
 
 export default ParagraphBlock;
+

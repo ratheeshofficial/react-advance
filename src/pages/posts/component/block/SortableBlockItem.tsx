@@ -4,20 +4,22 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
   Box,
-  Button,
-  IconButton,
-  Text,
   Flex,
   HStack,
-  Badge,
+  Text,
 } from '@chakra-ui/react';
 import {
-  LuPlus,
-  LuArrowUp,
-  LuArrowDown,
-  LuTrash2,
-  LuGripVertical,
-} from 'react-icons/lu';
+  FiChevronUp,
+  FiChevronDown,
+  FiTrash2,
+  FiPlus,
+  FiType,
+  FiAlignLeft,
+  FiInfo,
+  FiCode,
+  FiPaperclip,
+  FiMessageSquare,
+} from 'react-icons/fi';
 import { BlockRenderer } from './BlockRenderer';
 
 export interface SortableBlockItemProps {
@@ -34,6 +36,69 @@ export interface SortableBlockItemProps {
   showAddBelow?: boolean;
 }
 
+const getBlockTheme = (type: string) => {
+  switch (type.toLowerCase()) {
+    case 'heading1':
+    case 'heading2':
+    case 'heading3':
+      return {
+        borderColor: 'var(--approved)',
+        pillBg: 'var(--approved-soft)',
+        pillColor: 'var(--approved)',
+        label: type === 'heading3' ? 'Heading 3' : 'Heading 2',
+        Icon: FiType,
+      };
+    case 'paragraph':
+      return {
+        borderColor: 'var(--muted-2)',
+        pillBg: 'var(--rule-soft)',
+        pillColor: 'var(--muted)',
+        label: 'Paragraph',
+        Icon: FiAlignLeft,
+      };
+    case 'callout':
+      return {
+        borderColor: 'var(--stamp)',
+        pillBg: 'var(--stamp-soft)',
+        pillColor: 'var(--stamp)',
+        label: 'Callout',
+        Icon: FiInfo,
+      };
+    case 'code':
+      return {
+        borderColor: 'var(--scheduled)',
+        pillBg: 'var(--scheduled-soft)',
+        pillColor: 'var(--scheduled)',
+        label: 'Code',
+        Icon: FiCode,
+      };
+    case 'quote':
+      return {
+        borderColor: 'var(--accent)',
+        pillBg: 'var(--accent-soft)',
+        pillColor: 'var(--accent)',
+        label: 'Quote',
+        Icon: FiMessageSquare,
+      };
+    case 'attachment':
+      return {
+        borderColor: 'var(--published)',
+        pillBg: 'var(--published-soft)',
+        pillColor: 'var(--published)',
+        label: 'Attachment',
+        Icon: FiPaperclip,
+      };
+    default:
+      return {
+        borderColor: 'var(--accent)',
+        pillBg: 'var(--accent-soft)',
+        pillColor: 'var(--accent)',
+        label: type.charAt(0).toUpperCase() + type.slice(1),
+        Icon: FiAlignLeft,
+      };
+  }
+};
+
 export function SortableBlockItem({
   block,
   index,
@@ -42,7 +107,6 @@ export function SortableBlockItem({
   onUpdateBlock,
   onDeleteBlock,
   onMoveBlock,
-  onDuplicateBlock,
   onOpenPicker,
   showDragHandle = true,
   showAddBelow = true,
@@ -59,6 +123,9 @@ export function SortableBlockItem({
     disabled: !isEditingMode || !showDragHandle,
   });
 
+  const theme = getBlockTheme(block.type);
+  const IconComponent = theme.Icon;
+
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -68,98 +135,112 @@ export function SortableBlockItem({
   };
 
   return (
-    <Box ref={setNodeRef} style={style} mb={isEditingMode ? '0' : '4'}>
+    <Box ref={setNodeRef} style={style} mb={isEditingMode ? '1' : '4'}>
       <Box
         position='relative'
-        p={isEditingMode ? { base: '3', sm: '2' } : '0'}
-        borderRadius={isEditingMode ? 'xl' : 'none'}
-        bg={isEditingMode ? 'white' : 'transparent'}
-        borderWidth={isEditingMode ? '1px' : '0px'}
-        borderColor={isDragging ? 'purple.400' : 'gray.200'}
-        boxShadow={isEditingMode ? (isDragging ? 'lg' : 'sm') : 'none'}
-        _hover={isEditingMode ? { borderColor: 'purple.400', boxShadow: 'md' } : {}}
-        transition='border-color 0.2s, box-shadow 0.2s'
+        bg={isEditingMode ? 'var(--paper-raised)' : 'transparent'}
+        border={isEditingMode ? '1px solid var(--rule)' : 'none'}
+        borderLeft={isEditingMode ? `4px solid ${theme.borderColor}` : 'none'}
+        borderRadius={isEditingMode ? '9px' : '0'}
+        p={isEditingMode ? '14px 16px 16px' : '0'}
+        transition='all 0.15s ease'
+        _hover={isEditingMode ? { shadow: 'var(--shadow-sm)' } : {}}
       >
         {isEditingMode && (
           <Flex
             justify='space-between'
             align='center'
-            flexWrap='wrap'
-            gap='2'
-            mb='3'
-            pb='2'
-            borderBottom='1px solid'
-            borderColor='gray.100'
+            mb='2.5'
           >
-            <HStack gap='2' flexWrap='wrap'>
+            <HStack gap='9px' align='center'>
               {showDragHandle && (
-                <IconButton
-                  aria-label='Drag block'
-                  size='xs'
-                  variant='ghost'
-                  colorPalette='gray'
+                <Text
+                  color='var(--muted-2)'
                   cursor='grab'
+                  fontSize='14px'
+                  letterSpacing='1px'
+                  userSelect='none'
                   _active={{ cursor: 'grabbing' }}
                   title='Drag to reorder'
-                  borderRadius='md'
                   {...attributes}
                   {...listeners}
                 >
-                  <LuGripVertical />
-                </IconButton>
+                  ⠿
+                </Text>
               )}
-              <Badge
-                size='sm'
-                variant='subtle'
-                textTransform='capitalize'
-                colorPalette='purple'
-                // px='2.5'
-                py='1'
-                borderRadius='md'
-                fontSize='xs'
+              <HStack
+                bg={theme.pillBg}
+                color={theme.pillColor}
+                px='9px'
+                py='3px'
+                borderRadius='5px'
+                fontFamily="'IBM Plex Mono', monospace"
+                fontSize='10.5px'
+                fontWeight='600'
+                letterSpacing='0.03em'
+                gap='5px'
               >
-                {block.type}
-              </Badge>
+                <IconComponent size={10} />
+                <Text>{theme.label}</Text>
+              </HStack>
             </HStack>
 
-            <HStack gap='1.5' flexWrap='wrap' ml='auto'>
+            <HStack gap='5px' align='center'>
               {index > 0 && (
-                <IconButton
-                  aria-label='Move block up'
-                  size='xs'
-                  variant='subtle'
-                  colorPalette='gray'
+                <Flex
+                  w='26px'
+                  h='26px'
+                  borderRadius='6px'
+                  border='1px solid var(--rule)'
+                  bg='var(--paper-raised)'
+                  align='center'
+                  justify='center'
+                  color='var(--muted)'
+                  cursor='pointer'
+                  transition='all 0.12s ease'
+                  _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
                   onClick={() => onMoveBlock(index, 'up')}
                   title='Move block up'
-                  borderRadius='md'
                 >
-                  <LuArrowUp />
-                </IconButton>
+                  <FiChevronUp size={14} />
+                </Flex>
               )}
               {index < totalBlocks - 1 && (
-                <IconButton
-                  aria-label='Move block down'
-                  size='xs'
-                  variant='subtle'
-                  colorPalette='gray'
+                <Flex
+                  w='26px'
+                  h='26px'
+                  borderRadius='6px'
+                  border='1px solid var(--rule)'
+                  bg='var(--paper-raised)'
+                  align='center'
+                  justify='center'
+                  color='var(--muted)'
+                  cursor='pointer'
+                  transition='all 0.12s ease'
+                  _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
                   onClick={() => onMoveBlock(index, 'down')}
                   title='Move block down'
-                  borderRadius='md'
                 >
-                  <LuArrowDown />
-                </IconButton>
+                  <FiChevronDown size={14} />
+                </Flex>
               )}
-              <IconButton
-                aria-label='Delete block'
-                size='xs'
-                variant='solid'
-                colorPalette='red'
+              <Flex
+                w='26px'
+                h='26px'
+                borderRadius='6px'
+                border='1px solid var(--rule)'
+                bg='var(--paper-raised)'
+                align='center'
+                justify='center'
+                color='var(--muted)'
+                cursor='pointer'
+                transition='all 0.12s ease'
+                _hover={{ bg: '#FBEAEA', color: '#C43333', borderColor: '#F0C7C7' }}
                 onClick={() => onDeleteBlock(block.id)}
                 title='Delete block'
-                borderRadius='md'
               >
-                <LuTrash2 />
-              </IconButton>
+                <FiTrash2 size={12} />
+              </Flex>
             </HStack>
           </Flex>
         )}
@@ -170,38 +251,57 @@ export function SortableBlockItem({
           onDelete={onDeleteBlock}
           isEditing={isEditingMode}
         />
-
-        {isEditingMode && onDuplicateBlock && (
-          <Text
-            fontSize='xs'
-            mt='4'
-            _hover={{ color: 'purple.500' }}
-            color='gray.400'
-            cursor='pointer'
-            onClick={() => onDuplicateBlock(block.id)}
-          >
-            Duplicate
-          </Text>
-        )}
       </Box>
 
+      {/* Insert Zone Line & Button */}
       {isEditingMode && showAddBelow && onOpenPicker && (
-        <Flex justify='center' mt='4'>
-          <Button
-            size='sm'
-            variant='subtle'
-            colorPalette='purple'
-            onClick={() => onOpenPicker(block.id)}
+        <Box
+          position='relative'
+          h='26px'
+          display='flex'
+          alignItems='center'
+          justifyContent='center'
+          role='group'
+          my='1'
+        >
+          <Box
+            position='absolute'
+            left='0'
+            right='0'
+            top='50%'
+            h='1px'
+            bg='var(--rule)'
+            opacity='0'
+            transition='opacity 0.15s ease'
+            _groupHover={{ opacity: 1 }}
+          />
+          <Flex
+            position='relative'
+            zIndex={2}
+            w='26px'
+            h='26px'
             borderRadius='full'
-            px='6'
-            w={{ base: '100%', sm: 'auto' }}
+            bg='var(--paper-raised)'
+            border='1.5px solid var(--rule)'
+            color='var(--muted-2)'
+            align='center'
+            justify='center'
+            cursor='pointer'
+            opacity='0'
+            transform='scale(0.85)'
+            transition='all 0.15s ease'
+            _groupHover={{ opacity: 1, transform: 'scale(1)' }}
+            _hover={{ bg: 'var(--accent)', borderColor: 'var(--accent)', color: 'white' }}
+            onClick={() => onOpenPicker(block.id)}
+            title='Insert block here'
           >
-            <LuPlus /> Add Block Below
-          </Button>
-        </Flex>
+            <FiPlus size={13} />
+          </Flex>
+        </Box>
       )}
     </Box>
   );
 }
 
 export default SortableBlockItem;
+

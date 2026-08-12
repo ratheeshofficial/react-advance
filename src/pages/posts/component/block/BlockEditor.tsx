@@ -1,14 +1,13 @@
-import { useReducer } from 'react';
+import { useReducer, useMemo } from 'react';
 import {
   Box,
   Button,
-  VStack,
   Text,
   Flex,
   HStack,
   useDisclosure,
 } from '@chakra-ui/react';
-import { LuPlus, LuEye, LuPencil } from 'react-icons/lu';
+import { FiPlus } from 'react-icons/fi';
 import { arrayMove } from '@dnd-kit/sortable';
 
 import type {
@@ -50,7 +49,8 @@ const initialBlocks: IBlock[] = [
   {
     id: '3',
     type: 'callout',
-    content: 'Tip: Click "Add Block" to insert new content components anytime!',
+    content:
+      'Click "Add block" or hover between sections to insert new content anytime.',
     calloutType: 'note',
   },
 ];
@@ -168,7 +168,6 @@ export interface BlockEditorProps {
 
 export function BlockEditor({
   isEditingMode: externalIsEditingMode,
-  onToggleEditingMode,
 }: BlockEditorProps = {}) {
   const { open, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useReducer(blockEditorReducer, initialState);
@@ -178,11 +177,6 @@ export function BlockEditor({
       ? externalIsEditingMode
       : state.isEditingMode;
   const { blocks } = state;
-
-  const handleToggleMode = () => {
-    dispatch({ type: 'TOGGLE_EDITING_MODE' });
-    onToggleEditingMode?.();
-  };
 
   const handleOpenPicker = (blockId?: string) => {
     dispatch({ type: 'SET_INSERT_AFTER', blockId: blockId ?? null });
@@ -218,66 +212,104 @@ export function BlockEditor({
     dispatch({ type: 'REORDER_BLOCKS', activeId, overId });
   };
 
-  return (
-    <Box maxW='4xl' mx='auto' py='4'>
-      {/* Editor Control Header */}
-      <Flex
-        direction={{ base: 'column', sm: 'row' }}
-        justify='space-between'
-        align={{ base: 'stretch', sm: 'center' }}
-        gap={{ base: '3', sm: '0' }}
-        mb='6'
-        bg='white'
-        p={{ base: '3', sm: '4' }}
-        borderRadius='2xl'
-        borderWidth='1px'
-        borderColor='gray.100'
-        boxShadow='sm'
-      >
-        <VStack align='start' gap='0'>
-          <Text fontSize='lg' fontWeight='bold' color='gray.800'>
-            {isEditingMode ? 'Block Content Editor' : 'Article Reader Preview'}
-          </Text>
-          <Text fontSize='xs' color='gray.500'>
-            {blocks.length} {blocks.length === 1 ? 'block' : 'blocks'} total
-          </Text>
-        </VStack>
+  const totalWords = useMemo(() => {
+    return blocks.reduce((acc, b) => {
+      const text = b.content || '';
+      return acc + text.trim().split(/\s+/).filter(Boolean).length;
+    }, 0);
+  }, [blocks]);
 
-        <HStack gap='3' justify={{ base: 'space-between', sm: 'flex-end' }}>
-          <Button
+  const readTime = Math.max(1, Math.ceil(totalWords / 200));
+
+  return (
+    <Box maxW='760px' mx='auto' py='2'>
+      {/* Content Editor Toolbar */}
+      <Flex
+        align='center'
+        justify='space-between'
+        mb='4'
+        pb='3.5'
+        borderBottom='1px solid var(--rule)'
+      >
+        <Box>
+          <Text
+            fontFamily="'Fraunces', serif"
+            fontWeight='600'
+            fontSize='17px'
+            color='var(--ink)'
+            lineHeight='1.2'
+          >
+            Content
+          </Text>
+          <Text
+            fontFamily="'IBM Plex Mono', monospace"
+            fontSize='11px'
+            color='var(--muted-2)'
+            mt='0.5'
+          >
+            {blocks.length} {blocks.length === 1 ? 'BLOCK' : 'BLOCKS'} · ~
+            {totalWords} WORDS · {readTime} MIN READ
+          </Text>
+        </Box>
+
+        <HStack gap='2.5' align='center'>
+          {/* <Button
             size='sm'
             variant='outline'
-            colorPalette={isEditingMode ? 'gray' : 'purple'}
+            borderColor='var(--rule)'
+            bg='var(--paper-raised)'
+            color='var(--ink-soft)'
+            fontFamily="'Inter', sans-serif"
+            fontSize='13px'
+            fontWeight='600'
+            borderRadius='8px'
+            px='3'
+            py='2'
+            _hover={{ bg: 'var(--rule-soft)' }}
             onClick={handleToggleMode}
-            borderRadius='lg'
           >
-            {isEditingMode ? <LuEye /> : <LuPencil />}
-            {isEditingMode ? 'Preview Post' : 'Edit Mode'}
-          </Button>
+            {isEditingMode ? <FiEye size={14} style={{ marginRight: '4px' }} /> : <FiEdit3 size={14} style={{ marginRight: '4px' }} />}
+            {isEditingMode ? 'Preview' : 'Edit Mode'}
+          </Button> */}
 
           {isEditingMode && (
             <Button
               size='sm'
-              colorPalette='purple'
-              variant='solid'
+              variant='outline'
+              borderColor='var(--rule)'
+              bg='var(--paper-raised)'
+              color='var(--ink-soft)'
+              fontFamily="'Inter', sans-serif"
+              fontSize='13px'
+              fontWeight='600'
+              borderRadius='8px'
+              px='3.5'
+              py='2'
+              _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
               onClick={() => handleOpenPicker()}
-              borderRadius='lg'
-              boxShadow='sm'
             >
-              <LuPlus /> Add Block
+              <FiPlus size={14} style={{ marginRight: '4px' }} />
+              Add block
             </Button>
           )}
         </HStack>
       </Flex>
 
-      {/* Blocks Container */}
+      {/* Blocks Stack Container */}
       {blocks.length === 0 ? (
         isEditingMode ? (
           <EmptyCanvas onSelectBlock={handleAddBlock} />
         ) : (
-          <Box p='8' textAlign='center' bg='white' borderRadius='xl' borderWidth='1px' borderColor='gray.100'>
-            <Text color='gray.400' fontStyle='italic'>
-              No content blocks added to this post yet. Switch to Edit Mode to add blocks.
+          <Box
+            p='8'
+            textAlign='center'
+            bg='var(--paper-raised)'
+            borderRadius='9px'
+            border='1px solid var(--rule)'
+          >
+            <Text color='var(--muted-2)' fontStyle='italic' fontSize='13.5px'>
+              No content blocks added to this post yet. Switch to Edit Mode to
+              add blocks.
             </Text>
           </Box>
         )
