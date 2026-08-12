@@ -11,7 +11,8 @@ export type BlockType =
   | 'callout'
   | 'code'
   | 'image'
-  | 'column';
+  | 'column'
+  | 'attachment';
 
 export interface IBlock {
   id: string;
@@ -26,6 +27,11 @@ export interface IBlock {
   columnLayout?: ColumnLayoutType;
   columnContents?: string[];
   columnBlocks?: IBlock[][];
+  attachmentUrl?: string;
+  attachmentName?: string;
+  attachmentSize?: number;
+  uploadStatus?: 'idle' | 'uploading' | 'completed' | 'error';
+  uploadError?: string;
 }
 
 export interface BaseBlockProps {
@@ -43,4 +49,3 @@ export interface IBlockOption {
   badge?: string;
   category: 'text' | 'formatting' | 'media';
 }
-

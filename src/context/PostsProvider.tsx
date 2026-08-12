@@ -3,15 +3,25 @@ import { postsRepository } from '../repositories/post.repositories';
 import type { IPost } from '../types/posts/posts';
 import type { UseNavigateResult } from '@tanstack/react-router';
 import { PostsContext } from './PostsContext';
+import {
+  usePostsQuery,
+  useCreatePostMutation,
+  useUpdatePostMutation,
+  useDeletePostMutation,
+} from '../hooks/usePostsQuery';
 
 export function PostsProvider({ children }: { children: ReactNode }) {
-  const [posts, setPosts] = useState<IPost[]>(() =>
-    postsRepository.getInitialPosts(),
-  );
+  const {
+    data: posts = [],
+    isLoading: isLoadingPosts,
+    refetch: refetchPosts,
+  } = usePostsQuery();
+  const createMutation = useCreatePostMutation();
+  const updateMutation = useUpdatePostMutation();
+  const deleteMutation = useDeletePostMutation();
+
   const [singlePost, setSinglePost] = useState<IPost | null>(null);
-  const [isLoadingPosts, setIsLoadingPosts] = useState(false);
-  const [isUpdatingPosts, setIsUpdatingPosts] = useState(false);
-  const [isCreatingPosts, setIsCreatingPosts] = useState(false);
+  const [isFetchingSingle, setIsFetchingSingle] = useState(false);
 
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
@@ -20,50 +30,31 @@ export function PostsProvider({ children }: { children: ReactNode }) {
   const [isDirty, setIsDirty] = useState(false);
 
   async function create(post: IPost) {
-    setIsCreatingPosts(true);
     try {
-      const created = await postsRepository.createPost(post);
-      setPosts((prev) => [...prev, created]);
+      const created = await createMutation.mutateAsync(post);
       return created;
     } catch (error) {
-      console.log('error - ', error);
-    } finally {
-      setIsCreatingPosts(false);
+      console.error('Error creating post:', error);
     }
   }
 
   async function list() {
-    setIsLoadingPosts(true);
-    try {
-      const postsData = await postsRepository.getAllPosts();
-      setPosts(postsData);
-    } catch (error) {
-      console.log('error - ', error);
-    } finally {
-      setIsLoadingPosts(false);
-    }
+    await refetchPosts();
   }
 
   async function update(id: string, changes: IPost) {
-    setIsUpdatingPosts(true);
     try {
-      const updated = await postsRepository.updatePost(id, changes);
-      setPosts((prev) =>
-        prev.map((post) => (String(post.id) === String(id) ? updated : post)),
-      );
+      const updated = await updateMutation.mutateAsync({ id, post: changes });
       setSinglePost(updated);
       return updated;
     } catch (error) {
-      console.log('error - ', error);
-    } finally {
-      setIsUpdatingPosts(false);
+      console.error('Error updating post:', error);
     }
   }
 
   async function remove(id: string) {
     try {
-      await postsRepository.deletePost(id);
-      setPosts((prev) => prev.filter((post) => String(post.id) !== String(id)));
+      await deleteMutation.mutateAsync(id);
       if (singlePost && String(singlePost.id) === String(id)) {
         setSinglePost(null);
         setTitle('');
@@ -71,12 +62,12 @@ export function PostsProvider({ children }: { children: ReactNode }) {
         setCoverImage(null);
       }
     } catch (error) {
-      console.log('error - ', error);
+      console.error('Error deleting post:', error);
     }
   }
 
   async function getById(id: string) {
-    setIsLoadingPosts(true);
+    setIsFetchingSingle(true);
     try {
       const fetchedPost = await postsRepository.getByIdPost(id);
       setSinglePost(fetchedPost || null);
@@ -91,13 +82,13 @@ export function PostsProvider({ children }: { children: ReactNode }) {
       }
       return fetchedPost;
     } catch (error) {
-      console.log('error', error);
+      console.error('Error getting post by id:', error);
       setSinglePost(null);
       setTitle('');
       setExcerpt('');
       setCoverImage(null);
     } finally {
-      setIsLoadingPosts(false);
+      setIsFetchingSingle(false);
     }
   }
 
@@ -112,7 +103,7 @@ export function PostsProvider({ children }: { children: ReactNode }) {
       title,
       excerpt,
       cover_image: coverImage as string,
-      status: 'Published',
+      status: singlePost?.status || 'Published',
       lastUpdated: new Date().toISOString(),
     } as IPost;
 
@@ -138,9 +129,9 @@ export function PostsProvider({ children }: { children: ReactNode }) {
       value={{
         create,
         posts,
-        isCreatingPosts,
-        isLoadingPosts,
-        isUpdatingPosts,
+        isCreatingPosts: createMutation.isPending,
+        isLoadingPosts: isLoadingPosts || isFetchingSingle,
+        isUpdatingPosts: updateMutation.isPending,
         list,
         update,
         remove,

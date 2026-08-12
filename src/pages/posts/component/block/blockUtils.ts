@@ -154,6 +154,7 @@ export const createDefaultBlock = (
     caption: type === 'image' ? 'Sample Image' : undefined,
     columnLayout: type === 'column' ? selectedLayout : undefined,
     columnBlocks: defaultColumnBlocks,
+    uploadStatus: type === 'attachment' ? 'idle' : undefined,
   };
 };
 

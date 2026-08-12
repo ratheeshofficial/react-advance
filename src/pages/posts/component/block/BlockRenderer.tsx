@@ -9,6 +9,7 @@ import { DividerBlock } from './DividerBlock';
 import { CalloutBlock } from './CalloutBlock';
 import { CodeBlock } from './CodeBlock';
 import { ImageBlock } from './ImageBlock';
+import { AttachmentBlock } from './AttachmentBlock';
 import { ColumnBlock } from './ColumnBlock';
 
 export function BlockRenderer(props: BaseBlockProps) {
@@ -33,6 +34,8 @@ export function BlockRenderer(props: BaseBlockProps) {
       return <CodeBlock {...props} />;
     case 'image':
       return <ImageBlock {...props} />;
+    case 'attachment':
+      return <AttachmentBlock {...props} />;
     case 'column':
       return <ColumnBlock {...props} />;
     default:

@@ -1,6 +1,7 @@
 import type { IPost } from './posts';
 
-export type PostStatus = 'Draft' | 'In Review' | 'Approved' | 'Scheduled' | 'Published';
+export type PostStatus =
+  'Draft' | 'In Review' | 'Approved' | 'Scheduled' | 'Published';
 
 export interface PublishValidationCheck {
   id: string;
@@ -26,7 +27,10 @@ export interface StatusTransitionConfig {
   confirmMessage?: string;
 }
 
-export const WORKFLOW_TRANSITIONS: Record<PostStatus, StatusTransitionConfig[]> = {
+export const WORKFLOW_TRANSITIONS: Record<
+  PostStatus,
+  StatusTransitionConfig[]
+> = {
   Draft: [
     {
       actionLabel: 'Submit for Review',
@@ -63,7 +67,8 @@ export const WORKFLOW_TRANSITIONS: Record<PostStatus, StatusTransitionConfig[]> 
       colorPalette: 'red',
       requiresConfirmation: true,
       confirmTitle: 'Request Changes?',
-      confirmMessage: 'This post will be reverted back to Draft status so the author can make requested updates.',
+      confirmMessage:
+        'This post will be reverted back to Draft status so the author can make requested updates.',
     },
   ],
   Approved: [
@@ -88,7 +93,8 @@ export const WORKFLOW_TRANSITIONS: Record<PostStatus, StatusTransitionConfig[]> 
       colorPalette: 'gray',
       requiresConfirmation: true,
       confirmTitle: 'Revert to Draft?',
-      confirmMessage: 'Are you sure you want to revert this approved post back to Draft status?',
+      confirmMessage:
+        'Are you sure you want to revert this approved post back to Draft status?',
     },
   ],
   Scheduled: [
@@ -106,7 +112,8 @@ export const WORKFLOW_TRANSITIONS: Record<PostStatus, StatusTransitionConfig[]> 
       colorPalette: 'red',
       requiresConfirmation: true,
       confirmTitle: 'Unschedule Post?',
-      confirmMessage: 'This will cancel the scheduled publish date and revert the post to Draft status.',
+      confirmMessage:
+        'This will cancel the scheduled publish date and revert the post to Draft status.',
     },
   ],
   Published: [
@@ -117,7 +124,8 @@ export const WORKFLOW_TRANSITIONS: Record<PostStatus, StatusTransitionConfig[]> 
       colorPalette: 'red',
       requiresConfirmation: true,
       confirmTitle: 'Unpublish Post?',
-      confirmMessage: 'This will revert the published post to Draft status. It will no longer be visible as published.',
+      confirmMessage:
+        'This will revert the published post to Draft status. It will no longer be visible as published.',
     },
   ],
 };
@@ -130,7 +138,11 @@ export function validatePostForPublish(
     {
       id: 'title',
       label: 'Post Title',
-      passed: Boolean(post?.title && post.title.trim().length > 0 && post.title.trim() !== 'Untitled'),
+      passed: Boolean(
+        post?.title &&
+        post.title.trim().length > 0 &&
+        post.title.trim() !== 'Untitled',
+      ),
       missingMessage: 'Title must be provided and cannot be "Untitled"',
     },
     {
@@ -162,8 +174,8 @@ export function validatePostForPublish(
       label: 'SEO URL Slug',
       passed: Boolean(
         post?.slug &&
-          post.slug.trim().length > 0 &&
-          /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug.trim()),
+        post.slug.trim().length > 0 &&
+        /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug.trim()),
       ),
       missingMessage: 'Valid kebab-case slug is required (e.g. my-first-post)',
     },
@@ -173,9 +185,22 @@ export function validatePostForPublish(
       passed: blocksCount !== undefined ? blocksCount > 0 : true,
       missingMessage: 'At least one content block must be added to the post',
     },
+    {
+      id: 'attachments_ready',
+      label: 'File Attachments Uploaded',
+      passed: !post?.blocks?.some(
+        (b) =>
+          (b.type === 'attachment' || b.type === 'image') &&
+          (b.uploadStatus === 'uploading' || b.uploadStatus === 'error'),
+      ),
+      missingMessage:
+        'All file attachments and uploads must complete before publishing',
+    },
   ];
 
-  const missingItems = checks.filter((c) => !c.passed).map((c) => c.missingMessage);
+  const missingItems = checks
+    .filter((c) => !c.passed)
+    .map((c) => c.missingMessage);
   const isValid = checks.every((c) => c.passed);
 
   return {
