@@ -1,5 +1,5 @@
 import type { ElementType } from 'react';
-import type { BlockType } from './block';
+import type { BlockType, IBlock } from './block';
 import type { PostStatus } from './workflow';
 
 export interface IPost {
@@ -17,6 +17,26 @@ export interface IPost {
   seoTitle?: string;
   seoDescription?: string;
   editorialNotes?: string;
+  blocks?: IBlock[];
+}
+
+export interface IPostDbRow {
+  id?: string;
+  title?: string;
+  author?: string;
+  status?: PostStatus;
+  category?: string;
+  last_updated?: string;
+  publish_date?: string | null;
+  excerpt?: string;
+  cover_image?: string | null;
+  slug?: string;
+  tags?: string[];
+  seo_title?: string;
+  seo_description?: string;
+  editorial_notes?: string;
+  blocks?: IBlock[];
+  created_at?: string;
 }
 
 export interface IBlockOptionItem {

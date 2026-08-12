@@ -20,6 +20,7 @@ import { FiUploadCloud, FiTrash2, FiRefreshCw } from 'react-icons/fi';
 import { IoIosArrowBack } from 'react-icons/io';
 import type { IPost } from '../../../types/posts/posts';
 import BlockEditor from './block/BlockEditor';
+import { postsRepository } from '../../../repositories/post.repositories';
 
 function BlogView() {
   const navigate = useNavigate();
@@ -82,11 +83,20 @@ function BlogView() {
     }
   }, [postId]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setCoverImage(imageUrl);
+      try {
+        const publicUrl = await postsRepository.uploadFile(
+          'post-attachments',
+          file,
+        );
+        console.log('publicUrl', publicUrl);
+        setCoverImage(publicUrl);
+      } catch (err) {
+        console.log('err', err);
+        console.error('Error uploading cover image to Supabase:', err);
+      }
     }
   };
 
@@ -106,13 +116,20 @@ function BlogView() {
     setIsDragging(false);
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
     if (file && file.type.startsWith('image/')) {
-      const imageUrl = URL.createObjectURL(file);
-      setCoverImage(imageUrl);
+      try {
+        const publicUrl = await postsRepository.uploadFile(
+          'post-attachments',
+          file,
+        );
+        setCoverImage(publicUrl);
+      } catch (err) {
+        console.error('Error uploading dropped cover image to Supabase:', err);
+      }
     }
   };
 
@@ -220,7 +237,11 @@ function BlogView() {
                       <FiUploadCloud size={24} />
                     </Box>
                     <Box>
-                      <Text fontWeight='semibold' fontSize='sm' color='gray.700'>
+                      <Text
+                        fontWeight='semibold'
+                        fontSize='sm'
+                        color='gray.700'
+                      >
                         Click to upload{' '}
                         <Text as='span' fontWeight='normal' color='gray.500'>
                           or drag and drop
@@ -287,7 +308,12 @@ function BlogView() {
             /* Reader View Header */
             <VStack align='stretch' gap='4' mb='6'>
               {coverImage && (
-                <Box overflow='hidden' borderRadius='2xl' boxShadow='md' maxH='380px'>
+                <Box
+                  overflow='hidden'
+                  borderRadius='2xl'
+                  boxShadow='md'
+                  maxH='380px'
+                >
                   <Image
                     src={coverImage}
                     alt={title || 'Cover image'}
@@ -299,7 +325,13 @@ function BlogView() {
               )}
               <HStack gap='2' flexWrap='wrap'>
                 {singlePost.category && (
-                  <Badge size='sm' colorPalette='purple' variant='solid' borderRadius='full' px='3'>
+                  <Badge
+                    size='sm'
+                    colorPalette='purple'
+                    variant='solid'
+                    borderRadius='full'
+                    px='3'
+                  >
                     {singlePost.category}
                   </Badge>
                 )}
@@ -309,11 +341,26 @@ function BlogView() {
                   </Text>
                 )}
               </HStack>
-              <Heading as='h1' size='2xl' fontWeight='extrabold' color='gray.900' lineHeight='tight'>
+              <Heading
+                as='h1'
+                size='2xl'
+                fontWeight='extrabold'
+                color='gray.900'
+                lineHeight='tight'
+              >
                 {title || 'Untitled Article'}
               </Heading>
               {excerpt && (
-                <Text fontSize='lg' color='gray.600' fontStyle='italic' lineHeight='relaxed' borderLeft='3px solid' borderColor='purple.300' pl='3' py='0.5'>
+                <Text
+                  fontSize='lg'
+                  color='gray.600'
+                  fontStyle='italic'
+                  lineHeight='relaxed'
+                  borderLeft='3px solid'
+                  borderColor='purple.300'
+                  pl='3'
+                  py='0.5'
+                >
                   {excerpt}
                 </Text>
               )}

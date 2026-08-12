@@ -8,6 +8,7 @@ export { DividerBlock } from './DividerBlock';
 export { CalloutBlock } from './CalloutBlock';
 export { CodeBlock } from './CodeBlock';
 export { ImageBlock } from './ImageBlock';
+export { AttachmentBlock } from './AttachmentBlock';
 export { ColumnBlock } from './ColumnBlock';
 export { SortableBlockItem } from './SortableBlockItem';
 export { SortableBlockList } from './SortableBlockList';

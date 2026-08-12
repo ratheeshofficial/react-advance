@@ -15,8 +15,7 @@ import PrimarySelect from '../../../components/common/PrimarySelect';
 import { usePosts } from '../../../hooks/usePosts';
 
 function BlogPost() {
-  const { list, posts } = usePosts();
-  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  const { list, posts, isLoadingPosts: isPostsLoading } = usePosts();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortValue, setSortValue] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
@@ -65,7 +64,7 @@ function BlogPost() {
 
   const debouncedSearchQuery = useDebounce(searchQuery, 1000);
   const isSearching = searchQuery !== debouncedSearchQuery;
-  const isLoading = isLoadingPosts || isSearching;
+  const isLoading = isPostsLoading || isSearching;
 
   useEffect(() => {
     list();
@@ -106,15 +105,7 @@ function BlogPost() {
     }
 
     return result;
-  }, [debouncedSearchQuery, sortValue, statusFilter, author, category]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoadingPosts(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  }, [posts, debouncedSearchQuery, sortValue, statusFilter, author, category]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchQuery(e.target.value);

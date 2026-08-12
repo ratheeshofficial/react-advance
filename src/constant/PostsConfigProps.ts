@@ -13,6 +13,7 @@ import {
   LuListOrdered,
   LuList,
   LuLayoutDashboard,
+  LuPaperclip,
 } from 'react-icons/lu';
 
 export const BLOCK_OPTIONS: IBlockOptionItem[] = [
@@ -98,6 +99,16 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     color: 'orange.600',
     bg: 'orange.50',
     badge: 'Media',
+    category: 'Media & Code',
+  },
+  {
+    type: 'attachment',
+    title: 'Attachment File',
+    subtitle: 'Upload document or file download link',
+    icon: LuPaperclip,
+    color: 'teal.600',
+    bg: 'teal.50',
+    badge: 'File',
     category: 'Media & Code',
   },
   {
