@@ -1,8 +1,13 @@
 import { Box, VStack, HStack, Input, Button, Text, Flex, IconButton } from '@chakra-ui/react';
 import { LuPlus, LuX, LuList } from 'react-icons/lu';
+import { memo } from 'react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function UnorderedListBlock({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const UnorderedListBlock = memo(function UnorderedListBlock({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   const items = block.items && block.items.length > 0 ? block.items : [block.content || 'Bullet list item 1'];
 
   const handleItemChange = (index: number, val: string) => {
@@ -42,12 +47,13 @@ export function UnorderedListBlock({ block, onChange, isEditing = true }: BaseBl
                     value={item}
                     onChange={(e) => handleItemChange(idx, e.target.value)}
                     placeholder={`Bullet item ${idx + 1}...`}
+                    aria-label={`Bullet list item ${idx + 1}`}
                     bg='gray.50'
                     _focus={{ bg: 'white', borderColor: 'purple.500' }}
                   />
                   {items.length > 1 && (
                     <IconButton
-                      aria-label='Remove item'
+                      aria-label={`Remove bullet item ${idx + 1}`}
                       size='xs'
                       variant='ghost'
                       colorPalette='red'
@@ -84,6 +90,6 @@ export function UnorderedListBlock({ block, onChange, isEditing = true }: BaseBl
       </Flex>
     </Box>
   );
-}
+});
 
 export default UnorderedListBlock;

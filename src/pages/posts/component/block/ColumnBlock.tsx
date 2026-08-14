@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import type {
   BaseBlockProps,
   ColumnLayoutType,
@@ -32,7 +32,7 @@ const LAYOUT_CONFIG: Record<
   ],
 };
 
-export function ColumnBlock({
+export const ColumnBlock = memo(function ColumnBlock({
   block,
   onChange,
   isEditing = true,
@@ -277,6 +277,6 @@ export function ColumnBlock({
       />
     </Box>
   );
-}
+});
 
 export default ColumnBlock;

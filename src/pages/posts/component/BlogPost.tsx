@@ -14,6 +14,8 @@ import useDebounce from '../../../hooks/useDebounce';
 import PrimarySelect from '../../../components/common/PrimarySelect';
 import { usePosts } from '../../../hooks/usePosts';
 import { FiSearch } from 'react-icons/fi';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ListingErrorFallback } from '../../../components/error/ErrorFallback';
 
 const STATUS_TABS = [
   { name: 'All', color: '' },
@@ -336,4 +338,12 @@ function BlogPost() {
   );
 }
 
-export default BlogPost;
+export function BlogPostWithErrorBoundary() {
+  return (
+    <ErrorBoundary FallbackComponent={ListingErrorFallback}>
+      <BlogPost />
+    </ErrorBoundary>
+  );
+}
+
+export default BlogPostWithErrorBoundary;

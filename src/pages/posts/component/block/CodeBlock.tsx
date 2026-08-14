@@ -1,9 +1,13 @@
 import { Box, Flex, Textarea, IconButton, Input, Badge } from '@chakra-ui/react';
 import { LuCode, LuCopy, LuCheck } from 'react-icons/lu';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function CodeBlock({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const CodeBlock = memo(function CodeBlock({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   const [copied, setCopied] = useState(false);
   const language = block.language || 'typescript';
 
@@ -38,6 +42,7 @@ export function CodeBlock({ block, onChange, isEditing = true }: BaseBlockProps)
                 value={language}
                 onChange={(e) => onChange?.({ ...block, language: e.target.value })}
                 placeholder='Language'
+                aria-label='Code language'
                 bg='gray.700'
                 borderColor='gray.600'
                 color='white'
@@ -50,7 +55,7 @@ export function CodeBlock({ block, onChange, isEditing = true }: BaseBlockProps)
           </Flex>
 
           <IconButton
-            aria-label='Copy code'
+            aria-label='Copy code to clipboard'
             size='xs'
             variant='ghost'
             color='gray.300'
@@ -68,6 +73,7 @@ export function CodeBlock({ block, onChange, isEditing = true }: BaseBlockProps)
               value={block.content || ''}
               onChange={(e) => onChange?.({ ...block, content: e.target.value })}
               placeholder='Paste or write code here...'
+              aria-label='Code snippet content'
               fontFamily='monospace'
               fontSize='sm'
               bg='gray.950'
@@ -92,6 +98,6 @@ export function CodeBlock({ block, onChange, isEditing = true }: BaseBlockProps)
       </Box>
     </Box>
   );
-}
+});
 
 export default CodeBlock;

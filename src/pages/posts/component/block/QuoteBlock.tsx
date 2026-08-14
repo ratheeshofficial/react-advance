@@ -1,8 +1,13 @@
+import { memo } from 'react';
 import { Box, Textarea, Text, Flex } from '@chakra-ui/react';
 import { LuQuote } from 'react-icons/lu';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function QuoteBlock({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const QuoteBlock = memo(function QuoteBlock({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   return (
     <Box py='1'>
       <Box
@@ -22,6 +27,7 @@ export function QuoteBlock({ block, onChange, isEditing = true }: BaseBlockProps
               value={block.content || ''}
               onChange={(e) => onChange?.({ ...block, content: e.target.value })}
               placeholder='Enter inspirational quote or snippet...'
+              aria-label='Quote content'
               variant='subtle'
               size='md'
               fontStyle='italic'
@@ -43,6 +49,6 @@ export function QuoteBlock({ block, onChange, isEditing = true }: BaseBlockProps
       </Box>
     </Box>
   );
-}
+});
 
 export default QuoteBlock;

@@ -1,7 +1,12 @@
+import { memo } from 'react';
 import { Box, Input } from '@chakra-ui/react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function Heading2Block({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const Heading2Block = memo(function Heading2Block({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   return (
     <Box py='1'>
       {isEditing ? (
@@ -9,6 +14,7 @@ export function Heading2Block({ block, onChange, isEditing = true }: BaseBlockPr
           value={block.content || ''}
           onChange={(e) => onChange?.({ ...block, content: e.target.value })}
           placeholder='Heading 2 title…'
+          aria-label='Heading 2 content'
           border='none'
           outline='none'
           _focus={{ outline: 'none', boxShadow: 'none' }}
@@ -32,7 +38,7 @@ export function Heading2Block({ block, onChange, isEditing = true }: BaseBlockPr
       )}
     </Box>
   );
-}
+});
 
 export default Heading2Block;
 

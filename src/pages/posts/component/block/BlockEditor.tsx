@@ -1,4 +1,4 @@
-import { useReducer, useMemo } from 'react';
+import { useReducer, useMemo, useCallback, useEffect, useRef } from 'react';
 import {
   Box,
   Button,
@@ -32,7 +32,8 @@ type BlockEditorAction =
   | { type: 'REORDER_BLOCKS'; activeId: string; overId: string }
   | { type: 'DUPLICATE_BLOCK'; blockId: string }
   | { type: 'TOGGLE_EDITING_MODE' }
-  | { type: 'SET_INSERT_AFTER'; blockId: string | null };
+  | { type: 'SET_INSERT_AFTER'; blockId: string | null }
+  | { type: 'SET_BLOCKS'; blocks: IBlock[] };
 
 const initialBlocks: IBlock[] = [
   {
@@ -156,6 +157,12 @@ function blockEditorReducer(
         insertAfterBlockId: action.blockId,
       };
     }
+    case 'SET_BLOCKS': {
+      return {
+        ...state,
+        blocks: action.blocks,
+      };
+    }
     default:
       return state;
   }
@@ -164,13 +171,37 @@ function blockEditorReducer(
 export interface BlockEditorProps {
   isEditingMode?: boolean;
   onToggleEditingMode?: () => void;
+  initialBlocks?: IBlock[];
+  onChangeBlocks?: (blocks: IBlock[]) => void;
 }
 
 export function BlockEditor({
   isEditingMode: externalIsEditingMode,
+  initialBlocks: propsInitialBlocks,
+  onChangeBlocks,
 }: BlockEditorProps = {}) {
   const { open, onOpen, onClose } = useDisclosure();
-  const [state, dispatch] = useReducer(blockEditorReducer, initialState);
+  const [state, dispatch] = useReducer(
+    blockEditorReducer,
+    initialState,
+    (init) => {
+      if (propsInitialBlocks && propsInitialBlocks.length > 0) {
+        return { ...init, blocks: propsInitialBlocks };
+      }
+      return init;
+    },
+  );
+
+  const prevInitialBlocksRef = useRef(propsInitialBlocks);
+  useEffect(() => {
+    if (
+      propsInitialBlocks &&
+      propsInitialBlocks !== prevInitialBlocksRef.current
+    ) {
+      prevInitialBlocksRef.current = propsInitialBlocks;
+      dispatch({ type: 'SET_BLOCKS', blocks: propsInitialBlocks });
+    }
+  }, [propsInitialBlocks]);
 
   const isEditingMode =
     externalIsEditingMode !== undefined
@@ -178,39 +209,48 @@ export function BlockEditor({
       : state.isEditingMode;
   const { blocks } = state;
 
-  const handleOpenPicker = (blockId?: string) => {
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    onChangeBlocks?.(blocks);
+  }, [blocks, onChangeBlocks]);
+
+  const handleOpenPicker = useCallback((blockId?: string) => {
     dispatch({ type: 'SET_INSERT_AFTER', blockId: blockId ?? null });
     onOpen();
-  };
+  }, [onOpen]);
 
-  const handleClosePicker = () => {
+  const handleClosePicker = useCallback(() => {
     dispatch({ type: 'SET_INSERT_AFTER', blockId: null });
     onClose();
-  };
+  }, [onClose]);
 
-  const handleAddBlock = (type: BlockType, columnLayout?: ColumnLayoutType) => {
+  const handleAddBlock = useCallback((type: BlockType, columnLayout?: ColumnLayoutType) => {
     dispatch({ type: 'ADD_BLOCK', blockType: type, columnLayout });
-  };
+  }, []);
 
-  const handleUpdateBlock = (updated: IBlock) => {
+  const handleUpdateBlock = useCallback((updated: IBlock) => {
     dispatch({ type: 'UPDATE_BLOCK', updated });
-  };
+  }, []);
 
-  const handleDeleteBlock = (id: string) => {
+  const handleDeleteBlock = useCallback((id: string) => {
     dispatch({ type: 'DELETE_BLOCK', id });
-  };
+  }, []);
 
-  const handleMoveBlock = (index: number, direction: 'up' | 'down') => {
+  const handleMoveBlock = useCallback((index: number, direction: 'up' | 'down') => {
     dispatch({ type: 'MOVE_BLOCK', index, direction });
-  };
+  }, []);
 
-  const handleDuplicateBlock = (blockId: string) => {
+  const handleDuplicateBlock = useCallback((blockId: string) => {
     dispatch({ type: 'DUPLICATE_BLOCK', blockId });
-  };
+  }, []);
 
-  const handleReorderBlocks = (activeId: string, overId: string) => {
+  const handleReorderBlocks = useCallback((activeId: string, overId: string) => {
     dispatch({ type: 'REORDER_BLOCKS', activeId, overId });
-  };
+  }, []);
 
   const totalWords = useMemo(() => {
     return blocks.reduce((acc, b) => {

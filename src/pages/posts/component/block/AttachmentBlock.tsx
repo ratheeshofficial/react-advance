@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 import {
   Box,
   Flex,
@@ -20,7 +20,7 @@ import {
 import { postsRepository } from '../../../../repositories/post.repositories';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function AttachmentBlock({
+export const AttachmentBlock = memo(function AttachmentBlock({
   block,
   onChange,
   isEditing = true,
@@ -85,6 +85,7 @@ export function AttachmentBlock({
           <input
             type='file'
             ref={fileInputRef}
+            aria-label='File upload input'
             style={{ display: 'none' }}
             onChange={handleFileSelect}
           />
@@ -165,6 +166,7 @@ export function AttachmentBlock({
               <Button
                 size='sm'
                 variant='outline'
+                aria-label='Select file to upload'
                 onClick={() => fileInputRef.current?.click()}
               >
                 <FiFileText style={{ marginRight: '6px' }} /> Select File
@@ -195,6 +197,7 @@ export function AttachmentBlock({
               <Input
                 size='xs'
                 variant='subtle'
+                aria-label='Display label for download link'
                 value={block.content || ''}
                 onChange={(e) =>
                   onChange?.({ ...block, content: e.target.value })
@@ -205,6 +208,7 @@ export function AttachmentBlock({
               <Button
                 size='xs'
                 variant='ghost'
+                aria-label='Re-upload file'
                 onClick={() => fileInputRef.current?.click()}
               >
                 Re-upload
@@ -215,6 +219,6 @@ export function AttachmentBlock({
       </Box>
     </Box>
   );
-}
+});
 
 export default AttachmentBlock;

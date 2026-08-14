@@ -1,8 +1,13 @@
+import { memo } from 'react';
 import { Box, Input, Heading, Flex } from '@chakra-ui/react';
 import { LuHeading3 } from 'react-icons/lu';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function Heading3Block({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const Heading3Block = memo(function Heading3Block({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   return (
     <Box py='1'>
       {isEditing ? (
@@ -14,6 +19,7 @@ export function Heading3Block({ block, onChange, isEditing = true }: BaseBlockPr
             value={block.content || ''}
             onChange={(e) => onChange?.({ ...block, content: e.target.value })}
             placeholder='H3 Heading Title...'
+            aria-label='Heading 3 content'
             variant='subtle'
             size='md'
             fontWeight='semibold'
@@ -30,6 +36,6 @@ export function Heading3Block({ block, onChange, isEditing = true }: BaseBlockPr
       )}
     </Box>
   );
-}
+});
 
 export default Heading3Block;

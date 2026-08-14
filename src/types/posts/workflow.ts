@@ -196,6 +196,15 @@ export function validatePostForPublish(
       missingMessage:
         'All file attachments and uploads must complete before publishing',
     },
+    {
+      id: 'image_alt_text',
+      label: 'Image Alt Text Provided',
+      passed: !post?.blocks?.some(
+        (b) => b.type === 'image' && (!b.altText || b.altText.trim().length === 0),
+      ),
+      missingMessage:
+        'All image blocks must have descriptive alt text before publishing',
+    },
   ];
 
   const missingItems = checks

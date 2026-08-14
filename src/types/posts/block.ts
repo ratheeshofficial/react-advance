@@ -20,6 +20,7 @@ export interface IBlock {
   content?: string;
   src?: string;
   caption?: string;
+  altText?: string;
   language?: string;
   calloutType?: 'info' | 'warning' | 'success' | 'note';
   items?: string[];
