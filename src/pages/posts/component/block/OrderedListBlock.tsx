@@ -9,9 +9,10 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { LuPlus, LuX, LuListOrdered } from 'react-icons/lu';
+import { memo } from 'react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function OrderedListBlock({
+export const OrderedListBlock = memo(function OrderedListBlock({
   block,
   onChange,
   isEditing = true,
@@ -60,12 +61,13 @@ export function OrderedListBlock({
                     value={item}
                     onChange={(e) => handleItemChange(idx, e.target.value)}
                     placeholder={`List item ${idx + 1}...`}
+                    aria-label={`List item ${idx + 1}`}
                     bg='gray.50'
                     _focus={{ bg: 'white', borderColor: 'purple.500' }}
                   />
                   {items.length > 1 && (
                     <IconButton
-                      aria-label='Remove item'
+                      aria-label={`Remove list item ${idx + 1}`}
                       size='xs'
                       variant='ghost'
                       colorPalette='red'
@@ -104,6 +106,6 @@ export function OrderedListBlock({
       </Flex>
     </Box>
   );
-}
+});
 
 export default OrderedListBlock;

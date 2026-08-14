@@ -1,4 +1,4 @@
-import type React from 'react';
+import React, { memo } from 'react';
 import type { IBlock } from '../../../../types/posts/block';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -99,7 +99,7 @@ const getBlockTheme = (type: string) => {
   }
 };
 
-export function SortableBlockItem({
+export const SortableBlockItem = memo(function SortableBlockItem({
   block,
   index,
   totalBlocks,
@@ -154,19 +154,22 @@ export function SortableBlockItem({
           >
             <HStack gap='9px' align='center'>
               {showDragHandle && (
-                <Text
+                <Box
+                  as='button'
                   color='var(--muted-2)'
                   cursor='grab'
                   fontSize='14px'
                   letterSpacing='1px'
                   userSelect='none'
+                  aria-label={`Drag block ${index + 1} (${theme.label}) to reorder`}
                   _active={{ cursor: 'grabbing' }}
+                  _focusVisible={{ outline: '2px solid var(--accent)', borderRadius: '4px' }}
                   title='Drag to reorder'
                   {...attributes}
                   {...listeners}
                 >
                   ⠿
-                </Text>
+                </Box>
               )}
               <HStack
                 bg={theme.pillBg}
@@ -187,60 +190,75 @@ export function SortableBlockItem({
 
             <HStack gap='5px' align='center'>
               {index > 0 && (
-                <Flex
+                <Box
+                  as='button'
+                  aria-label={`Move block ${index + 1} up`}
+                  tabIndex={0}
                   w='26px'
                   h='26px'
                   borderRadius='6px'
                   border='1px solid var(--rule)'
                   bg='var(--paper-raised)'
-                  align='center'
-                  justify='center'
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='center'
                   color='var(--muted)'
                   cursor='pointer'
                   transition='all 0.12s ease'
                   _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
+                  _focusVisible={{ outline: '2px solid var(--accent)', borderRadius: '6px' }}
                   onClick={() => onMoveBlock(index, 'up')}
                   title='Move block up'
                 >
                   <FiChevronUp size={14} />
-                </Flex>
+                </Box>
               )}
               {index < totalBlocks - 1 && (
-                <Flex
+                <Box
+                  as='button'
+                  aria-label={`Move block ${index + 1} down`}
+                  tabIndex={0}
                   w='26px'
                   h='26px'
                   borderRadius='6px'
                   border='1px solid var(--rule)'
                   bg='var(--paper-raised)'
-                  align='center'
-                  justify='center'
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='center'
                   color='var(--muted)'
                   cursor='pointer'
                   transition='all 0.12s ease'
                   _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
+                  _focusVisible={{ outline: '2px solid var(--accent)', borderRadius: '6px' }}
                   onClick={() => onMoveBlock(index, 'down')}
                   title='Move block down'
                 >
                   <FiChevronDown size={14} />
-                </Flex>
+                </Box>
               )}
-              <Flex
+              <Box
+                as='button'
+                aria-label={`Delete block ${index + 1}`}
+                tabIndex={0}
                 w='26px'
                 h='26px'
                 borderRadius='6px'
                 border='1px solid var(--rule)'
                 bg='var(--paper-raised)'
-                align='center'
-                justify='center'
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
                 color='var(--muted)'
                 cursor='pointer'
                 transition='all 0.12s ease'
                 _hover={{ bg: '#FBEAEA', color: '#C43333', borderColor: '#F0C7C7' }}
+                _focusVisible={{ outline: '2px solid #C43333', borderRadius: '6px' }}
                 onClick={() => onDeleteBlock(block.id)}
                 title='Delete block'
               >
                 <FiTrash2 size={12} />
-              </Flex>
+              </Box>
             </HStack>
           </Flex>
         )}
@@ -275,7 +293,10 @@ export function SortableBlockItem({
             transition='opacity 0.15s ease'
             _groupHover={{ opacity: 1 }}
           />
-          <Flex
+          <Box
+            as='button'
+            aria-label={`Insert block after block ${index + 1}`}
+            tabIndex={0}
             position='relative'
             zIndex={2}
             w='26px'
@@ -284,24 +305,26 @@ export function SortableBlockItem({
             bg='var(--paper-raised)'
             border='1.5px solid var(--rule)'
             color='var(--muted-2)'
-            align='center'
-            justify='center'
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
             cursor='pointer'
             opacity='0'
             transform='scale(0.85)'
             transition='all 0.15s ease'
             _groupHover={{ opacity: 1, transform: 'scale(1)' }}
             _hover={{ bg: 'var(--accent)', borderColor: 'var(--accent)', color: 'white' }}
+            _focusVisible={{ opacity: 1, transform: 'scale(1)', outline: '2px solid var(--accent)' }}
             onClick={() => onOpenPicker(block.id)}
             title='Insert block here'
           >
             <FiPlus size={13} />
-          </Flex>
+          </Box>
         </Box>
       )}
     </Box>
   );
-}
+});
 
 export default SortableBlockItem;
 

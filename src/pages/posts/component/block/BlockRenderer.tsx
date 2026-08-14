@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 import { ParagraphBlock } from './ParagraphBlock';
 import { Heading2Block } from './Heading2Block';
@@ -12,7 +13,7 @@ import { ImageBlock } from './ImageBlock';
 import { AttachmentBlock } from './AttachmentBlock';
 import { ColumnBlock } from './ColumnBlock';
 
-export function BlockRenderer(props: BaseBlockProps) {
+export const BlockRenderer = memo(function BlockRenderer(props: BaseBlockProps) {
   switch (props.block.type) {
     case 'paragraph':
       return <ParagraphBlock {...props} />;
@@ -41,6 +42,6 @@ export function BlockRenderer(props: BaseBlockProps) {
     default:
       return <ParagraphBlock {...props} />;
   }
-}
+});
 
 export default BlockRenderer;

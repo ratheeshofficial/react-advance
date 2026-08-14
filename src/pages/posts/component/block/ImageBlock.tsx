@@ -1,12 +1,16 @@
 import { Box, Flex, Input, Text, Image, VStack } from '@chakra-ui/react';
-import { LuLink } from 'react-icons/lu';
-import { useState } from 'react';
+import { LuLink, LuImage } from 'react-icons/lu';
+import { useState, memo } from 'react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
 const DEFAULT_PLACEHOLDER =
   'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80';
 
-export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const ImageBlock = memo(function ImageBlock({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   const imgSrc = block.src || DEFAULT_PLACEHOLDER;
   const [imgError, setImgError] = useState(false);
 
@@ -29,12 +33,30 @@ export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps
               <Input
                 size='sm'
                 variant='subtle'
+                aria-label='Image URL'
                 value={block.src || ''}
                 onChange={(e) => {
                   setImgError(false);
                   onChange?.({ ...block, src: e.target.value });
                 }}
                 placeholder='Paste Image URL (e.g., https://...)'
+                bg='white'
+                _focus={{ borderColor: 'purple.500' }}
+              />
+            </Flex>
+
+            {/* Alt Text Input (Required for accessibility and publishing) */}
+            <Flex gap='2' align='center'>
+              <Box color='purple.500'>
+                <LuImage />
+              </Box>
+              <Input
+                size='sm'
+                variant='subtle'
+                aria-label='Image Alt Text (required for publishing)'
+                value={block.altText || ''}
+                onChange={(e) => onChange?.({ ...block, altText: e.target.value })}
+                placeholder='Image Alt Text (required before publish)…'
                 bg='white'
                 _focus={{ borderColor: 'purple.500' }}
               />
@@ -52,7 +74,7 @@ export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps
             >
               <Image
                 src={imgError ? DEFAULT_PLACEHOLDER : imgSrc}
-                alt={block.caption || 'Block image'}
+                alt={block.altText || block.caption || 'Block image'}
                 maxH='320px'
                 w='100%'
                 objectFit='cover'
@@ -63,6 +85,7 @@ export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps
             <Input
               size='xs'
               variant='subtle'
+              aria-label='Image caption'
               value={block.caption || ''}
               onChange={(e) => onChange?.({ ...block, caption: e.target.value })}
               placeholder='Add image caption (optional)...'
@@ -75,7 +98,7 @@ export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps
         <VStack gap='2' align='center' w='100%'>
           <Image
             src={imgError ? DEFAULT_PLACEHOLDER : imgSrc}
-            alt={block.caption || 'Block image'}
+            alt={block.altText || block.caption || 'Block image'}
             borderRadius='xl'
             maxH='420px'
             w='100%'
@@ -92,6 +115,6 @@ export function ImageBlock({ block, onChange, isEditing = true }: BaseBlockProps
       )}
     </Box>
   );
-}
+});
 
 export default ImageBlock;

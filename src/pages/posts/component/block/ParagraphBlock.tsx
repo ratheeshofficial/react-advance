@@ -1,7 +1,12 @@
+import { memo } from 'react';
 import { Box, Textarea, Text } from '@chakra-ui/react';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function ParagraphBlock({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const ParagraphBlock = memo(function ParagraphBlock({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   return (
     <Box py='1'>
       {isEditing ? (
@@ -9,6 +14,7 @@ export function ParagraphBlock({ block, onChange, isEditing = true }: BaseBlockP
           value={block.content || ''}
           onChange={(e) => onChange?.({ ...block, content: e.target.value })}
           placeholder='Write paragraph text here…'
+          aria-label='Paragraph content'
           border='none'
           outline='none'
           _focus={{ outline: 'none', boxShadow: 'none' }}
@@ -35,7 +41,7 @@ export function ParagraphBlock({ block, onChange, isEditing = true }: BaseBlockP
       )}
     </Box>
   );
-}
+});
 
 export default ParagraphBlock;
 

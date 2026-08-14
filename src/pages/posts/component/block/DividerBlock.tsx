@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { Box } from '@chakra-ui/react';
 
-export function DividerBlock() {
+export const DividerBlock = memo(function DividerBlock() {
   return (
     <Box py='4'>
       <Box
@@ -13,6 +14,6 @@ export function DividerBlock() {
       />
     </Box>
   );
-}
+});
 
 export default DividerBlock;

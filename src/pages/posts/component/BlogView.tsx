@@ -21,10 +21,13 @@ import {
   FiEye,
 } from 'react-icons/fi';
 import type { IPost } from '../../../types/posts/posts';
+import type { IBlock } from '../../../types/posts/block';
 import BlockEditor from './block/BlockEditor';
 import { postsRepository } from '../../../repositories/post.repositories';
 
 import { showToast } from '../../../utils/toast.utils';
+import { ErrorBoundary } from 'react-error-boundary';
+import { EditorErrorFallback } from '../../../components/error/ErrorFallback';
 
 function BlogView() {
   const navigate = useNavigate();
@@ -46,25 +49,69 @@ function BlogView() {
 
   const [isEditingMode, setIsEditingMode] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
+  const [blocks, setBlocks] = useState<IBlock[]>(singlePost?.blocks || []);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const isSameValue =
-    title === (singlePost?.title || '') &&
-    excerpt === (singlePost?.excerpt || '') &&
-    coverImage === (singlePost?.cover_image || '');
+  // Track saved baseline using state adjusted during render
+  const [savedState, setSavedState] = useState({
+    postId: singlePost?.id,
+    lastUpdated: singlePost?.lastUpdated,
+    title: singlePost?.title || '',
+    excerpt: singlePost?.excerpt || '',
+    coverImage: singlePost?.cover_image || null,
+    blocksJson: JSON.stringify(singlePost?.blocks || []),
+  });
+
+  // Adjust savedState during render when singlePost data loads or updates
+  if (
+    singlePost &&
+    (singlePost.id !== savedState.postId ||
+      singlePost.lastUpdated !== savedState.lastUpdated)
+  ) {
+    const postBlocks = singlePost.blocks || [];
+    setSavedState({
+      postId: singlePost.id,
+      lastUpdated: singlePost.lastUpdated,
+      title: singlePost.title || '',
+      excerpt: singlePost.excerpt || '',
+      coverImage: singlePost.cover_image || null,
+      blocksJson: JSON.stringify(postBlocks),
+    });
+    setBlocks(postBlocks);
+  }
+
+  const hasChanges =
+    title !== savedState.title ||
+    excerpt !== savedState.excerpt ||
+    coverImage !== savedState.coverImage ||
+    JSON.stringify(blocks) !== savedState.blocksJson;
 
   async function saveDraft(showNotification = false) {
     if (!postId) return;
     try {
+      const currentBlocksJson = JSON.stringify(blocks);
+      const newLastUpdated = new Date().toISOString();
       const payload: IPost = {
         ...singlePost,
         title: title,
         excerpt: excerpt,
+        blocks: blocks,
         status: singlePost?.status || 'Draft',
-        lastUpdated: new Date().toISOString(),
+        lastUpdated: newLastUpdated,
         cover_image: coverImage as string,
       };
+
+      setSavedState({
+        postId: postId,
+        lastUpdated: newLastUpdated,
+        title: title,
+        excerpt: excerpt,
+        coverImage: coverImage,
+        blocksJson: currentBlocksJson,
+      });
+
       await update(postId, payload);
+
       if (showNotification) {
         showToast.success(
           'Draft Saved',
@@ -78,7 +125,7 @@ function BlogView() {
   }
 
   useEffect(() => {
-    if (!singlePost || isSameValue) {
+    if (!singlePost || !hasChanges) {
       return;
     }
 
@@ -88,10 +135,10 @@ function BlogView() {
       setTimeout(() => {
         setIsAutoUpdating(false);
       }, 1000);
-    }, 1000);
+    }, 1500);
 
     return () => clearTimeout(timer);
-  }, [title, excerpt, coverImage]);
+  }, [title, excerpt, coverImage, blocks, hasChanges]);
 
   useEffect(() => {
     if (postId) {
@@ -547,6 +594,8 @@ function BlogView() {
           <BlockEditor
             isEditingMode={isEditingMode}
             onToggleEditingMode={() => setIsEditingMode((prev) => !prev)}
+            initialBlocks={singlePost?.blocks}
+            onChangeBlocks={setBlocks}
           />
         </Box>
       ) : (
@@ -558,4 +607,12 @@ function BlogView() {
   );
 }
 
-export default BlogView;
+export function BlogViewWithErrorBoundary() {
+  return (
+    <ErrorBoundary FallbackComponent={EditorErrorFallback}>
+      <BlogView />
+    </ErrorBoundary>
+  );
+}
+
+export default BlogViewWithErrorBoundary;

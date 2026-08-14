@@ -1,8 +1,13 @@
+import { memo } from 'react';
 import { Box, Flex, Textarea, Text, HStack } from '@chakra-ui/react';
 import { FiInfo, FiAlertTriangle, FiCheckCircle, FiHelpCircle } from 'react-icons/fi';
 import type { BaseBlockProps } from '../../../../types/posts/block';
 
-export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockProps) {
+export const CalloutBlock = memo(function CalloutBlock({
+  block,
+  onChange,
+  isEditing = true,
+}: BaseBlockProps) {
   const type = block.calloutType || 'note';
 
   const typeConfigs = {
@@ -64,6 +69,7 @@ export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockPro
                 <Box
                   key={t}
                   as='button'
+                  aria-label={`Set callout type to ${t}`}
                   px='7px'
                   py='2px'
                   fontFamily="'IBM Plex Mono', monospace"
@@ -88,6 +94,7 @@ export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockPro
             value={block.content || ''}
             onChange={(e) => onChange?.({ ...block, content: e.target.value })}
             placeholder='Click "Add block" or hover between sections to insert new content anytime.'
+            aria-label='Callout content'
             border='none'
             outline='none'
             _focus={{ outline: 'none', boxShadow: 'none' }}
@@ -112,7 +119,7 @@ export function CalloutBlock({ block, onChange, isEditing = true }: BaseBlockPro
       </Box>
     </Box>
   );
-}
+});
 
 export default CalloutBlock;
 
