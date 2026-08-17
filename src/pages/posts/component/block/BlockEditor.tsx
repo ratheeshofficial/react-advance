@@ -269,14 +269,16 @@ export function BlockEditor({
         justify='space-between'
         mb='4'
         pb='3.5'
-        borderBottom='1px solid var(--rule)'
+        borderBottomWidth='1px'
+        borderBottomStyle='solid'
+        borderBottomColor='border.default'
       >
         <Box>
           <Text
             fontFamily="'Fraunces', serif"
             fontWeight='600'
             fontSize='17px'
-            color='var(--ink)'
+            color='text.primary'
             lineHeight='1.2'
           >
             Content
@@ -284,7 +286,7 @@ export function BlockEditor({
           <Text
             fontFamily="'IBM Plex Mono', monospace"
             fontSize='11px'
-            color='var(--muted-2)'
+            color='text.muted'
             mt='0.5'
           >
             {blocks.length} {blocks.length === 1 ? 'BLOCK' : 'BLOCKS'} · ~
@@ -296,16 +298,16 @@ export function BlockEditor({
           {/* <Button
             size='sm'
             variant='outline'
-            borderColor='var(--rule)'
-            bg='var(--paper-raised)'
-            color='var(--ink-soft)'
+            borderColor='border.default'
+            bg='bg.surface'
+            color='text.secondary'
             fontFamily="'Inter', sans-serif"
             fontSize='13px'
             fontWeight='600'
             borderRadius='8px'
             px='3'
             py='2'
-            _hover={{ bg: 'var(--rule-soft)' }}
+            _hover={{ bg: 'bg.subtle' }}
             onClick={handleToggleMode}
           >
             {isEditingMode ? <FiEye size={14} style={{ marginRight: '4px' }} /> : <FiEdit3 size={14} style={{ marginRight: '4px' }} />}
@@ -316,16 +318,16 @@ export function BlockEditor({
             <Button
               size='sm'
               variant='outline'
-              borderColor='var(--rule)'
-              bg='var(--paper-raised)'
-              color='var(--ink-soft)'
+              borderColor='border.default'
+              bg='bg.surface'
+              color='text.secondary'
               fontFamily="'Inter', sans-serif"
               fontSize='13px'
               fontWeight='600'
               borderRadius='8px'
               px='3.5'
               py='2'
-              _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
+              _hover={{ bg: 'bg.subtle', color: 'text.primary' }}
               onClick={() => handleOpenPicker()}
             >
               <FiPlus size={14} style={{ marginRight: '4px' }} />
@@ -343,11 +345,13 @@ export function BlockEditor({
           <Box
             p='8'
             textAlign='center'
-            bg='var(--paper-raised)'
+            bg='bg.surface'
             borderRadius='9px'
-            border='1px solid var(--rule)'
+            borderWidth='1px'
+            borderStyle='solid'
+            borderColor='border.default'
           >
-            <Text color='var(--muted-2)' fontStyle='italic' fontSize='13.5px'>
+            <Text color='text.muted' fontStyle='italic' fontSize='13.5px'>
               No content blocks added to this post yet. Switch to Edit Mode to
               add blocks.
             </Text>

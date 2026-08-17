@@ -19,7 +19,7 @@ export default function NotFoundPage() {
         <Heading fontSize={{ base: '4xl', md: '6xl' }} fontWeight='extrabold'>
           404 - Page Not Found
         </Heading>
-        <Text fontSize='xl' color='gray.500' maxW='lg'>
+        <Text fontSize='xl' color='text.muted' maxW='lg'>
           Oops! It seems you've wandered into the unknown. The page you are
           looking for doesn't exist or has been moved.
         </Text>

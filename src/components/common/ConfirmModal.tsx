@@ -28,14 +28,14 @@ export function ConfirmModal({
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content borderRadius='xl' p='4'>
+          <Dialog.Content borderRadius='xl' p='4' bg='bg.surface' color='text.primary'>
             <Dialog.Header>
-              <Dialog.Title fontSize='md' fontWeight='bold' color='gray.800'>
+              <Dialog.Title fontSize='md' fontWeight='bold' color='text.primary'>
                 {title}
               </Dialog.Title>
             </Dialog.Header>
             <Dialog.Body py='2'>
-              <Text fontSize='sm' color='gray.600'>
+              <Text fontSize='sm' color='text.muted'>
                 {description}
               </Text>
             </Dialog.Body>

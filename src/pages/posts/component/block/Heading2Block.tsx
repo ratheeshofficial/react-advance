@@ -21,7 +21,7 @@ export const Heading2Block = memo(function Heading2Block({
           fontFamily="'Fraunces', serif"
           fontSize='21px'
           fontWeight='600'
-          color='var(--ink)'
+          color='text.primary'
           py='2'
           px='0'
         />
@@ -30,7 +30,7 @@ export const Heading2Block = memo(function Heading2Block({
           fontFamily="'Fraunces', serif"
           fontSize='21px'
           fontWeight='600'
-          color='var(--ink)'
+          color='text.primary'
           py='2'
         >
           {block.content || 'Heading 2 Title'}

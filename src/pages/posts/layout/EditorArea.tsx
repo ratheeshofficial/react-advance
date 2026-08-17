@@ -10,8 +10,8 @@ export const EditorArea = ({ children }: { children?: React.ReactNode }) => {
       w={{ base: '100%', md: 'calc(100% - 220px)', xl: 'calc(100% - 560px)' }}
       py={{ base: 4, md: 6 }}
       px={{ base: 4, md: 7 }}
-      bg='var(--paper)'
-      color='var(--ink)'
+      bg='bg.content'
+      color='text.primary'
       overflowY={{ base: 'visible', xl: 'auto' }}
       css={hideScrollbarCss}
     >

@@ -23,11 +23,15 @@ export interface WorkflowActionsToolbarProps {
 
 const getStatusStyles = (status?: string) => {
   const s = (status || 'draft').toLowerCase();
-  if (s === 'published') return { bg: 'var(--published-soft)', color: 'var(--published)' };
-  if (s === 'in review' || s === 'review' || s === 'inreview') return { bg: 'var(--review-soft)', color: 'var(--review)' };
-  if (s === 'approved') return { bg: 'var(--approved-soft)', color: 'var(--approved)' };
-  if (s === 'scheduled') return { bg: 'var(--scheduled-soft)', color: 'var(--scheduled)' };
-  return { bg: 'var(--draft-soft)', color: 'var(--draft)' };
+  if (s === 'published')
+    return { bg: 'status.published.subtle', color: 'status.published.fg' };
+  if (s === 'in review' || s === 'review' || s === 'inreview')
+    return { bg: 'status.review.subtle', color: 'status.review.fg' };
+  if (s === 'approved')
+    return { bg: 'status.approved.subtle', color: 'status.approved.fg' };
+  if (s === 'scheduled')
+    return { bg: 'status.scheduled.subtle', color: 'status.scheduled.fg' };
+  return { bg: 'status.draft.subtle', color: 'status.draft.fg' };
 };
 
 export function WorkflowActionsToolbar({
@@ -142,7 +146,7 @@ export function WorkflowActionsToolbar({
           fontFamily="'Inter', sans-serif"
           letterSpacing='0.02em'
           gap='6px'
-          shadow='var(--shadow-sm)'
+          shadow='sm'
         >
           <Box w='6px' h='6px' borderRadius='full' bg={statusStyle.color} />
           <Text>{currentStatus}</Text>
@@ -150,8 +154,8 @@ export function WorkflowActionsToolbar({
 
         {currentStatus === 'Scheduled' && post.publishDate && (
           <HStack
-            color='var(--scheduled)'
-            bg='var(--scheduled-soft)'
+            color='status.scheduled.fg'
+            bg='status.scheduled.subtle'
             px='2.5'
             py='1.5'
             borderRadius='full'
@@ -170,9 +174,9 @@ export function WorkflowActionsToolbar({
       <Button
         size='sm'
         variant='outline'
-        borderColor='var(--rule)'
-        bg='var(--paper-raised)'
-        color='var(--ink-soft)'
+        borderColor='border.default'
+        bg='bg.surface'
+        color='text.secondary'
         fontSize='12.5px'
         fontWeight='500'
         fontFamily="'Inter', sans-serif"
@@ -180,11 +184,13 @@ export function WorkflowActionsToolbar({
         px='3'
         py='1.5'
         h='auto'
-        _hover={{ bg: 'var(--rule-soft)' }}
+        _hover={{ bg: 'bg.subtle' }}
         onClick={() => setIsChecklistOpen(true)}
       >
         <HStack gap='6px' align='center'>
-          <FiCheckSquare size={13} color={validationResult.isValid ? 'var(--published)' : 'var(--stamp)'} />
+          <Box color={validationResult.isValid ? 'status.published.fg' : 'stamp.fg'}>
+            <FiCheckSquare size={13} />
+          </Box>
           <Text>
             Checklist ({validationResult.checks.filter((c) => c.passed).length}/
             {validationResult.checks.length})
@@ -200,7 +206,7 @@ export function WorkflowActionsToolbar({
             key={t.actionLabel}
             size='sm'
             bg={targetTheme.color}
-            color='white'
+            color='text.inverse'
             fontFamily="'Inter', sans-serif"
             fontSize='12.5px'
             fontWeight='600'
@@ -208,7 +214,7 @@ export function WorkflowActionsToolbar({
             px='3.5'
             py='1.5'
             h='auto'
-            shadow='var(--shadow-sm)'
+            shadow='sm'
             transition='all 0.12s ease'
             _hover={{ opacity: 0.9, transform: 'translateY(-1px)' }}
             onClick={() => handleActionClick(t)}

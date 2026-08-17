@@ -31,7 +31,7 @@ export const UnorderedListBlock = memo(function UnorderedListBlock({
     <Box py='1'>
       <Flex gap='2' align='top'>
         {isEditing && (
-          <Box color='purple.600' pt='2' fontSize='lg'>
+          <Box color='accent.fg' pt='2' fontSize='lg'>
             <LuList />
           </Box>
         )}
@@ -40,7 +40,7 @@ export const UnorderedListBlock = memo(function UnorderedListBlock({
             <VStack align='stretch' gap='2'>
               {items.map((item, idx) => (
                 <HStack key={idx} gap='2'>
-                  <Box w='2' h='2' borderRadius='full' bg='purple.500' mx='1' />
+                  <Box w='2' h='2' borderRadius='full' bg='accent.solid' mx='1' />
                   <Input
                     size='sm'
                     variant='subtle'
@@ -48,8 +48,8 @@ export const UnorderedListBlock = memo(function UnorderedListBlock({
                     onChange={(e) => handleItemChange(idx, e.target.value)}
                     placeholder={`Bullet item ${idx + 1}...`}
                     aria-label={`Bullet list item ${idx + 1}`}
-                    bg='gray.50'
-                    _focus={{ bg: 'white', borderColor: 'purple.500' }}
+                    bg='bg.muted'
+                    _focus={{ bg: 'bg.surface', borderColor: 'accent.solid' }}
                   />
                   {items.length > 1 && (
                     <IconButton
@@ -78,8 +78,8 @@ export const UnorderedListBlock = memo(function UnorderedListBlock({
             <VStack align='stretch' gap='2' pl='1'>
               {items.map((item, idx) => (
                 <HStack key={idx} align='top' gap='3'>
-                  <Box w='2' h='2' borderRadius='full' bg='purple.500' mt='2.5' flexShrink={0} />
-                  <Text fontSize='lg' color='gray.800' lineHeight='1.7'>
+                  <Box w='2' h='2' borderRadius='full' bg='accent.solid' mt='2.5' flexShrink={0} />
+                  <Text fontSize='lg' color='text.primary' lineHeight='1.7'>
                     {item}
                   </Text>
                 </HStack>

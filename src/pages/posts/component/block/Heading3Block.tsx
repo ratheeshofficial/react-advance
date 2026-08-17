@@ -12,7 +12,7 @@ export const Heading3Block = memo(function Heading3Block({
     <Box py='1'>
       {isEditing ? (
         <Flex gap='2' align='center'>
-          <Box color='purple.500' fontSize='lg'>
+          <Box color='accent.fg' fontSize='lg'>
             <LuHeading3 />
           </Box>
           <Input
@@ -24,13 +24,13 @@ export const Heading3Block = memo(function Heading3Block({
             size='md'
             fontWeight='semibold'
             fontSize='lg'
-            bg='gray.50'
-            _focus={{ bg: 'white', borderColor: 'purple.500' }}
+            bg='bg.muted'
+            _focus={{ bg: 'bg.surface', borderColor: 'accent.solid' }}
             borderRadius='md'
           />
         </Flex>
       ) : (
-        <Heading as='h3' size='lg' fontWeight='bold' color='gray.800' pt='1'>
+        <Heading as='h3' size='lg' fontWeight='bold' color='text.primary' pt='1'>
           {block.content || 'H3 Heading'}
         </Heading>
       )}

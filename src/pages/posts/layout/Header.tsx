@@ -4,6 +4,7 @@ import { usePosts } from '../../../hooks/usePosts';
 import type { IPost } from '../../../types/posts/posts';
 import WorkflowActionsToolbar from '../component/workflow/WorkflowActionsToolbar';
 import { FiPlus } from 'react-icons/fi';
+import { ColorModeButton } from '../../../components/ui/color-mode';
 
 export const Header = () => {
   const { create, singlePost } = usePosts();
@@ -29,9 +30,10 @@ export const Header = () => {
   return (
     <Flex
       h='66px'
-      bg='var(--paper-raised)'
-      borderBottom='1px solid var(--rule)'
-      color='var(--ink)'
+      bg='bg.surface'
+      borderBottom='1px solid'
+      borderColor='border.default'
+      color='text.primary'
       align='center'
       px={{ base: '4', md: '7' }}
       justify='space-between'
@@ -46,7 +48,7 @@ export const Header = () => {
             w='10px'
             h='10px'
             borderRadius='2px'
-            bg='var(--stamp)'
+            bg='stamp.solid'
             transform='rotate(45deg)'
           />
           <Text
@@ -54,7 +56,7 @@ export const Header = () => {
             fontSize={{ base: 'lg', md: '21px' }}
             fontWeight='600'
             letterSpacing='0.01em'
-            color='var(--ink)'
+            color='text.primary'
           >
             Editorial Desk
           </Text>
@@ -66,30 +68,31 @@ export const Header = () => {
         <WorkflowActionsToolbar postId={postId} post={singlePost} />
       )}
 
-      {/* Right Action: New Blog Button */}
-      <Button
-        size='sm'
-        bg='var(--accent)'
-        color='white'
-        fontFamily="'Inter', sans-serif"
-        fontWeight='600'
-        fontSize='13.5px'
-        px='4'
-        py='2'
-        borderRadius='8px'
-        shadow='var(--shadow-sm)'
-        transition='all 0.12s ease'
-        _hover={{
-          bg: '#4d3eb5',
-          transform: 'translateY(-1px)',
-          shadow: 'var(--shadow-md)',
-        }}
-        onClick={handleCreateBlog}
-      >
-        <FiPlus size={15} style={{ marginRight: '4px' }} />
-        New Blog
-      </Button>
+      <HStack gap='2' flexShrink={0}>
+        <ColorModeButton />
+        <Button
+          size='sm'
+          bg='accent.solid'
+          color='text.inverse'
+          fontFamily="'Inter', sans-serif"
+          fontWeight='600'
+          fontSize='13.5px'
+          px='4'
+          py='2'
+          borderRadius='8px'
+          shadow='sm'
+          transition='all 0.12s ease'
+          _hover={{
+            bg: 'accent.hover',
+            transform: 'translateY(-1px)',
+            shadow: 'md',
+          }}
+          onClick={handleCreateBlog}
+        >
+          <FiPlus size={15} style={{ marginRight: '4px' }} />
+          New Blog
+        </Button>
+      </HStack>
     </Flex>
   );
 };
-

@@ -9,9 +9,10 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       p='8'
       m='4'
       borderRadius='16px'
-      bg='var(--paper-raised, #ffffff)'
-      border='1px solid var(--rule, #e5e7eb)'
-      shadow='var(--shadow-sm)'
+      bg='bg.surface'
+      border='1px solid'
+      borderColor='border.default'
+      shadow='sm'
       textAlign='center'
       maxW='520px'
       mx='auto'
@@ -21,8 +22,8 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
           w='48px'
           h='48px'
           borderRadius='full'
-          bg='#FBEAEA'
-          color='#C43333'
+          bg='danger.subtle'
+          color='danger.fg'
           align='center'
           justify='center'
           fontSize='22px'
@@ -36,11 +37,11 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
             fontFamily="'Fraunces', serif"
             fontSize='20px'
             fontWeight='600'
-            color='var(--ink, #161a23)'
+            color='text.primary'
           >
             Something went wrong
           </Heading>
-          <Text fontSize='13.5px' color='var(--muted, #64748b)'>
+          <Text fontSize='13.5px' color='text.muted'>
             An unexpected error occurred while rendering this component.
           </Text>
         </VStack>
@@ -49,9 +50,10 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
           <Box
             w='100%'
             p='3'
-            bg='var(--rule-soft, #f8fafc)'
+            bg='bg.muted'
             borderRadius='8px'
-            border='1px solid var(--rule, #e2e8f0)'
+            border='1px solid'
+            borderColor='border.default'
             textAlign='left'
             maxH='120px'
             overflowY='auto'
@@ -59,7 +61,7 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
             <Text
               fontFamily="'IBM Plex Mono', monospace"
               fontSize='11.5px'
-              color='#C43333'
+              color='danger.fg'
               whiteSpace='pre-wrap'
             >
               {(error as Error).message}
@@ -70,14 +72,14 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         <HStack gap='3' justify='center'>
           <Button
             size='sm'
-            bg='var(--accent, #6366f1)'
-            color='white'
+            bg='accent.solid'
+            color='text.inverse'
             borderRadius='8px'
             fontSize='13px'
             fontWeight='600'
             px='4'
             py='2'
-            _hover={{ opacity: 0.9 }}
+            _hover={{ bg: 'accent.hover' }}
             onClick={resetErrorBoundary}
           >
             <FiRefreshCw size={14} style={{ marginRight: '6px' }} />
@@ -86,14 +88,14 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
           <Button
             size='sm'
             variant='outline'
-            borderColor='var(--rule, #e2e8f0)'
-            color='var(--ink-soft, #334155)'
+            borderColor='border.default'
+            color='text.secondary'
             borderRadius='8px'
             fontSize='13px'
             fontWeight='600'
             px='4'
             py='2'
-            _hover={{ bg: 'var(--rule-soft, #f1f5f9)' }}
+            _hover={{ bg: 'bg.subtle' }}
             onClick={() => (window.location.href = '/')}
           >
             <FiHome size={14} style={{ marginRight: '6px' }} />
@@ -112,9 +114,10 @@ export function ListingErrorFallback({ error, resetErrorBoundary }: FallbackProp
       p='10'
       my='6'
       borderRadius='16px'
-      bg='var(--paper-raised, #ffffff)'
-      border='1px solid var(--rule, #e5e7eb)'
-      shadow='var(--shadow-sm)'
+      bg='bg.surface'
+      border='1px solid'
+      borderColor='border.default'
+      shadow='sm'
       textAlign='center'
       maxW='600px'
       mx='auto'
@@ -124,8 +127,8 @@ export function ListingErrorFallback({ error, resetErrorBoundary }: FallbackProp
           w='52px'
           h='52px'
           borderRadius='full'
-          bg='#FEF3C7'
-          color='#D97706'
+          bg='stamp.subtle'
+          color='stamp.fg'
           align='center'
           justify='center'
           fontSize='24px'
@@ -139,11 +142,11 @@ export function ListingErrorFallback({ error, resetErrorBoundary }: FallbackProp
             fontFamily="'Fraunces', serif"
             fontSize='22px'
             fontWeight='600'
-            color='var(--ink, #161a23)'
+            color='text.primary'
           >
             Failed to load posts listing
           </Heading>
-          <Text fontSize='14px' color='var(--muted, #64748b)'>
+          <Text fontSize='14px' color='text.muted'>
             We ran into an issue while retrieving your articles workspace.
           </Text>
         </VStack>
@@ -152,15 +155,16 @@ export function ListingErrorFallback({ error, resetErrorBoundary }: FallbackProp
           <Box
             w='100%'
             p='3'
-            bg='var(--rule-soft, #f8fafc)'
+            bg='bg.muted'
             borderRadius='8px'
-            border='1px solid var(--rule, #e2e8f0)'
+            border='1px solid'
+            borderColor='border.default'
             textAlign='left'
           >
             <Text
               fontFamily="'IBM Plex Mono', monospace"
               fontSize='11.5px'
-              color='#B45309'
+              color='stamp.fg'
               whiteSpace='pre-wrap'
             >
               {(error as Error).message}
@@ -170,15 +174,15 @@ export function ListingErrorFallback({ error, resetErrorBoundary }: FallbackProp
 
         <Button
           size='sm'
-          bg='var(--accent, #6366f1)'
-          color='white'
+          bg='accent.solid'
+          color='text.inverse'
           borderRadius='8px'
           fontSize='13px'
           fontWeight='600'
           px='5'
           py='2.5'
           h='auto'
-          _hover={{ opacity: 0.9 }}
+          _hover={{ bg: 'accent.hover' }}
           onClick={resetErrorBoundary}
         >
           <FiRefreshCw size={14} style={{ marginRight: '6px' }} />
@@ -196,9 +200,10 @@ export function EditorErrorFallback({ error, resetErrorBoundary }: FallbackProps
       p='10'
       my='6'
       borderRadius='16px'
-      bg='var(--paper-raised, #ffffff)'
-      border='1px solid var(--rule, #e5e7eb)'
-      shadow='var(--shadow-sm)'
+      bg='bg.surface'
+      border='1px solid'
+      borderColor='border.default'
+      shadow='sm'
       textAlign='center'
       maxW='640px'
       mx='auto'
@@ -208,8 +213,8 @@ export function EditorErrorFallback({ error, resetErrorBoundary }: FallbackProps
           w='56px'
           h='56px'
           borderRadius='full'
-          bg='#FBEAEA'
-          color='#C43333'
+          bg='danger.subtle'
+          color='danger.fg'
           align='center'
           justify='center'
           fontSize='26px'
@@ -223,11 +228,11 @@ export function EditorErrorFallback({ error, resetErrorBoundary }: FallbackProps
             fontFamily="'Fraunces', serif"
             fontSize='24px'
             fontWeight='600'
-            color='var(--ink, #161a23)'
+            color='text.primary'
           >
             Editor Encountered an Error
           </Heading>
-          <Text fontSize='14px' color='var(--muted, #64748b)'>
+          <Text fontSize='14px' color='text.muted'>
             An unhandled exception occurred within the block editor workspace.
           </Text>
         </VStack>
@@ -236,9 +241,10 @@ export function EditorErrorFallback({ error, resetErrorBoundary }: FallbackProps
           <Box
             w='100%'
             p='3.5'
-            bg='var(--rule-soft, #f8fafc)'
+            bg='bg.muted'
             borderRadius='8px'
-            border='1px solid var(--rule, #e2e8f0)'
+            border='1px solid'
+            borderColor='border.default'
             textAlign='left'
             maxH='140px'
             overflowY='auto'
@@ -246,7 +252,7 @@ export function EditorErrorFallback({ error, resetErrorBoundary }: FallbackProps
             <Text
               fontFamily="'IBM Plex Mono', monospace"
               fontSize='12px'
-              color='#C43333'
+              color='danger.fg'
               whiteSpace='pre-wrap'
             >
               {(error as Error).message}
@@ -257,15 +263,15 @@ export function EditorErrorFallback({ error, resetErrorBoundary }: FallbackProps
         <HStack gap='3.5' justify='center'>
           <Button
             size='sm'
-            bg='var(--accent, #6366f1)'
-            color='white'
+            bg='accent.solid'
+            color='text.inverse'
             borderRadius='8px'
             fontSize='13.5px'
             fontWeight='600'
             px='5'
             py='2.5'
             h='auto'
-            _hover={{ opacity: 0.9 }}
+            _hover={{ bg: 'accent.hover' }}
             onClick={resetErrorBoundary}
           >
             <FiRefreshCw size={14} style={{ marginRight: '6px' }} />
@@ -274,15 +280,15 @@ export function EditorErrorFallback({ error, resetErrorBoundary }: FallbackProps
           <Button
             size='sm'
             variant='outline'
-            borderColor='var(--rule, #e2e8f0)'
-            color='var(--ink-soft, #334155)'
+            borderColor='border.default'
+            color='text.secondary'
             borderRadius='8px'
             fontSize='13.5px'
             fontWeight='600'
             px='5'
             py='2.5'
             h='auto'
-            _hover={{ bg: 'var(--rule-soft, #f1f5f9)' }}
+            _hover={{ bg: 'bg.subtle' }}
             onClick={() => (window.location.href = '/')}
           >
             <FiHome size={14} style={{ marginRight: '6px' }} />

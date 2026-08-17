@@ -11,11 +11,15 @@ const DEFAULT_COVER_IMAGE =
 
 const getStatusStyles = (status?: string) => {
   const s = (status || 'draft').toLowerCase();
-  if (s === 'published') return { bg: 'var(--published-soft)', color: 'var(--published)' };
-  if (s === 'in review' || s === 'review') return { bg: 'var(--review-soft)', color: 'var(--review)' };
-  if (s === 'approved') return { bg: 'var(--approved-soft)', color: 'var(--approved)' };
-  if (s === 'scheduled') return { bg: 'var(--scheduled-soft)', color: 'var(--scheduled)' };
-  return { bg: 'var(--draft-soft)', color: 'var(--draft)' };
+  if (s === 'published')
+    return { bg: 'status.published.subtle', color: 'status.published.fg' };
+  if (s === 'in review' || s === 'review')
+    return { bg: 'status.review.subtle', color: 'status.review.fg' };
+  if (s === 'approved')
+    return { bg: 'status.approved.subtle', color: 'status.approved.fg' };
+  if (s === 'scheduled')
+    return { bg: 'status.scheduled.subtle', color: 'status.scheduled.fg' };
+  return { bg: 'status.draft.subtle', color: 'status.draft.fg' };
 };
 
 function PostCard({ post }: { post: IPost }) {
@@ -36,16 +40,17 @@ function PostCard({ post }: { post: IPost }) {
     <Link to='/app/posts/$postId' params={{ postId: String(post.id) }} style={{ textDecoration: 'none' }}>
       <Box
         role='group'
-        bg='var(--paper-raised)'
-        border='1px solid var(--rule)'
-        borderRadius='var(--radius)'
+        bg='bg.surface'
+        border='1px solid'
+        borderColor='border.default'
+        borderRadius='editorial'
         overflow='hidden'
         cursor='pointer'
         transition='transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease'
         _hover={{
           transform: 'translateY(-3px)',
-          boxShadow: 'var(--shadow-lg)',
-          borderColor: 'var(--rule)',
+          boxShadow: 'lg',
+          borderColor: 'border.default',
         }}
         h='full'
         display='flex'
@@ -57,7 +62,7 @@ function PostCard({ post }: { post: IPost }) {
           w='100%'
           aspectRatio={16 / 10}
           overflow='hidden'
-          bg='var(--rule-soft)'
+          bg='bg.subtle'
         >
           <Image
             src={imgSrc}
@@ -76,7 +81,7 @@ function PostCard({ post }: { post: IPost }) {
             position='absolute'
             top='10px'
             left='10px'
-            bg='rgba(255,255,255,0.92)'
+            bg='bg.surface'
             px='9px'
             py='4px'
             borderRadius='5px'
@@ -84,7 +89,7 @@ function PostCard({ post }: { post: IPost }) {
             fontSize='10px'
             fontWeight='600'
             letterSpacing='0.04em'
-            color='var(--ink-soft)'
+            color='text.secondary'
             backdropFilter='blur(4px)'
           >
             {(post.category || 'General').toUpperCase()}
@@ -104,7 +109,7 @@ function PostCard({ post }: { post: IPost }) {
             fontWeight='700'
             fontFamily="'Inter', sans-serif"
             letterSpacing='0.02em'
-            shadow='0 1px 3px rgba(0,0,0,0.15)'
+            shadow='sm'
             transform='rotate(-2deg)'
             gap='5px'
           >
@@ -119,11 +124,11 @@ function PostCard({ post }: { post: IPost }) {
             fontFamily="'Fraunces', serif"
             fontWeight='600'
             fontSize='16.5px'
-            color='var(--ink)'
+            color='text.primary'
             lineHeight='1.3'
             mb='5px'
             lineClamp={2}
-            _groupHover={{ color: 'var(--accent)' }}
+            _groupHover={{ color: 'accent.fg' }}
             transition='color 0.15s ease'
           >
             {post.title || 'Untitled Post'}
@@ -131,7 +136,7 @@ function PostCard({ post }: { post: IPost }) {
 
           <Text
             fontSize='12.5px'
-            color='var(--muted)'
+            color='text.muted'
             lineHeight='1.45'
             mb='12px'
             lineClamp={2}
@@ -142,7 +147,7 @@ function PostCard({ post }: { post: IPost }) {
           <Text
             fontFamily="'IBM Plex Mono', monospace"
             fontSize='10.5px'
-            color='var(--muted-2)'
+            color='text.muted'
             mb='12px'
             mt='auto'
           >
@@ -154,15 +159,16 @@ function PostCard({ post }: { post: IPost }) {
             align='center'
             justify='space-between'
             pt='12px'
-            borderTop='1px solid var(--rule-soft)'
+            borderTop='1px solid'
+            borderColor='border.subtle'
           >
             <HStack gap='7px' align='center'>
               <Flex
                 w='22px'
                 h='22px'
                 borderRadius='full'
-                bg='var(--accent-soft)'
-                color='var(--accent)'
+                bg='accent.subtle'
+                color='accent.fg'
                 fontSize='9.5px'
                 fontWeight='700'
                 fontFamily="'Inter', sans-serif"
@@ -172,7 +178,7 @@ function PostCard({ post }: { post: IPost }) {
               >
                 {getInitials(post.author || 'Admin')}
               </Flex>
-              <Text fontSize='12px' fontWeight='600' color='var(--ink-soft)'>
+              <Text fontSize='12px' fontWeight='600' color='text.secondary'>
                 {post.author || 'Admin'}
               </Text>
             </HStack>
@@ -183,9 +189,9 @@ function PostCard({ post }: { post: IPost }) {
               borderRadius='5px'
               align='center'
               justify='center'
-              color='var(--muted-2)'
+              color='text.muted'
               transition='all 0.12s ease'
-              _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
+              _hover={{ bg: 'bg.subtle', color: 'text.primary' }}
             >
               <FiMoreHorizontal size={14} />
             </Flex>
@@ -197,4 +203,3 @@ function PostCard({ post }: { post: IPost }) {
 }
 
 export default PostCard;
-

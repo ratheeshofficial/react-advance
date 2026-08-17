@@ -19,11 +19,11 @@ import { ListingErrorFallback } from '../../../components/error/ErrorFallback';
 
 const STATUS_TABS = [
   { name: 'All', color: '' },
-  { name: 'Draft', color: 'var(--draft)' },
-  { name: 'In review', color: 'var(--review)' },
-  { name: 'Approved', color: 'var(--approved)' },
-  { name: 'Scheduled', color: 'var(--scheduled)' },
-  { name: 'Published', color: 'var(--published)' },
+  { name: 'Draft', color: 'status.draft.fg' },
+  { name: 'In review', color: 'status.review.fg' },
+  { name: 'Approved', color: 'status.approved.fg' },
+  { name: 'Scheduled', color: 'status.scheduled.fg' },
+  { name: 'Published', color: 'status.published.fg' },
 ];
 
 function BlogPost() {
@@ -179,14 +179,17 @@ function BlogPost() {
           flex='1'
           align='center'
           gap='2.5'
-          bg='var(--paper-raised)'
-          border='1px solid var(--rule)'
+          bg='bg.surface'
+          border='1px solid'
+          borderColor='border.default'
           borderRadius='9px'
           px='3.5'
           py='2'
-          shadow='var(--shadow-sm)'
+          shadow='sm'
         >
-          <FiSearch size={15} color='var(--muted-2)' />
+          <Box color='text.muted'>
+            <FiSearch size={15} />
+          </Box>
           <Input
             border='none'
             outline='none'
@@ -195,7 +198,7 @@ function BlogPost() {
             fontSize='13.5px'
             w='100%'
             bg='transparent'
-            color='var(--ink)'
+            color='text.primary'
             placeholder='Search posts by title, author, or tag…'
             value={searchQuery}
             onChange={handleChange}
@@ -217,7 +220,7 @@ function BlogPost() {
       {/* Signature Interaction: Status Tabs Bar */}
       <Flex
         gap='4px'
-        bg='var(--rule-soft)'
+        bg='bg.subtle'
         p='4px'
         borderRadius='10px'
         mb='4'
@@ -233,8 +236,8 @@ function BlogPost() {
             <Button
               key={tab.name}
               onClick={() => setStatusFilter(tab.name)}
-              bg={isActive ? '#ffffff' : 'transparent'}
-              color={isActive ? 'var(--ink)' : 'var(--muted)'}
+              bg={isActive ? 'bg.surface' : 'transparent'}
+              color={isActive ? 'text.primary' : 'text.muted'}
               borderRadius='7px'
               px='3.5'
               py='2'
@@ -242,8 +245,8 @@ function BlogPost() {
               fontFamily="'Inter', sans-serif"
               fontSize='13px'
               fontWeight='600'
-              shadow={isActive ? 'var(--shadow-sm)' : 'none'}
-              _hover={{ color: 'var(--ink)' }}
+              shadow={isActive ? 'sm' : 'none'}
+              _hover={{ color: 'text.primary' }}
               whiteSpace='nowrap'
             >
               <HStack gap='7px' align='center'>
@@ -287,15 +290,15 @@ function BlogPost() {
 
         <Button
           size='sm'
-          bg='var(--ink)'
-          color='white'
+          bg='text.primary'
+          color='bg.canvas'
           borderRadius='8px'
           fontSize='12.5px'
           fontWeight='500'
           px='3.5'
           py='2'
           h='auto'
-          _hover={{ bg: 'var(--ink-soft)' }}
+          _hover={{ bg: 'text.secondary' }}
           onClick={handleReset}
         >
           Reset filters
@@ -305,7 +308,7 @@ function BlogPost() {
       {/* Post Cards Grid */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap='18px'>
         {isLoading ? (
-          <Box p='6' color='var(--muted)'>
+          <Box p='6' color='text.muted'>
             <Text fontFamily="'IBM Plex Mono', monospace" fontSize='13px'>
               Loading editorial desk posts...
             </Text>
@@ -316,13 +319,13 @@ function BlogPost() {
           <Box
             p='10'
             textAlign='center'
-            color='var(--muted)'
+            color='text.muted'
             gridColumn='1 / -1'
           >
             <Text
               fontFamily="'Fraunces', serif"
               fontSize='18px'
-              color='var(--ink-soft)'
+              color='text.secondary'
               mb='2'
             >
               No posts found

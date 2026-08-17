@@ -24,15 +24,15 @@ export const CodeBlock = memo(function CodeBlock({
       <Box
         borderRadius='xl'
         overflow='hidden'
-        bg='gray.900'
-        color='gray.100'
+        bg='code.bg'
+        color='text.inverse'
         borderWidth='1px'
-        borderColor='gray.800'
+        borderColor='code.border'
       >
         {/* Header bar */}
-        <Flex justify='space-between' align='center' px='4' py='2' bg='gray.800/80'>
+        <Flex justify='space-between' align='center' px='4' py='2' bg='code.header'>
           <Flex align='center' gap='2'>
-            <Box color='purple.400'>
+            <Box color='accent.fg'>
               <LuCode />
             </Box>
             {isEditing ? (
@@ -43,9 +43,9 @@ export const CodeBlock = memo(function CodeBlock({
                 onChange={(e) => onChange?.({ ...block, language: e.target.value })}
                 placeholder='Language'
                 aria-label='Code language'
-                bg='gray.700'
-                borderColor='gray.600'
-                color='white'
+                bg='code.input'
+                borderColor='code.border'
+                color='text.inverse'
               />
             ) : (
               <Badge size='sm' variant='solid' colorPalette='purple'>
@@ -58,11 +58,17 @@ export const CodeBlock = memo(function CodeBlock({
             aria-label='Copy code to clipboard'
             size='xs'
             variant='ghost'
-            color='gray.300'
-            _hover={{ color: 'white', bg: 'gray.700' }}
+            color='text.muted'
+            _hover={{ color: 'text.inverse', bg: 'code.input' }}
             onClick={handleCopy}
           >
-            {copied ? <LuCheck color='#4ade80' /> : <LuCopy />}
+            {copied ? (
+              <Box color='status.published.fg'>
+                <LuCheck />
+              </Box>
+            ) : (
+              <LuCopy />
+            )}
           </IconButton>
         </Flex>
 
@@ -76,10 +82,10 @@ export const CodeBlock = memo(function CodeBlock({
               aria-label='Code snippet content'
               fontFamily='monospace'
               fontSize='sm'
-              bg='gray.950'
-              color='purple.200'
-              borderColor='gray.800'
-              _focus={{ borderColor: 'purple.400' }}
+              bg='code.bg'
+              color='accent.fg'
+              borderColor='code.border'
+              _focus={{ borderColor: 'accent.solid' }}
               minH='100px'
             />
           ) : (
@@ -87,7 +93,7 @@ export const CodeBlock = memo(function CodeBlock({
               as='pre'
               fontFamily='monospace'
               fontSize='sm'
-              color='purple.200'
+              color='accent.fg'
               overflowX='auto'
               whiteSpace='pre-wrap'
             >

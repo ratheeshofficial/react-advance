@@ -56,7 +56,7 @@ function ColumnLayoutPicker({
           overflow='hidden'
           boxShadow='2xl'
           border='1px solid'
-          borderColor='gray.100'
+          borderColor='border.subtle'
         >
           {/* Modal Header */}
           <Dialog.Header
@@ -64,15 +64,15 @@ function ColumnLayoutPicker({
             pt='5'
             pb='3'
             borderBottom='1px solid'
-            borderColor='gray.100'
-            bg='white'
+            borderColor='border.subtle'
+            bg='bg.surface'
           >
             <Flex justify='space-between' align='center' w='100%'>
               <VStack align='start' gap='0' w='90%'>
-                <Dialog.Title fontSize='xl' fontWeight='bold' color='gray.800'>
+                <Dialog.Title fontSize='xl' fontWeight='bold' color='text.primary'>
                   Choose Column Layout
                 </Dialog.Title>
-                <Text fontSize='xs' color='gray.500'>
+                <Text fontSize='xs' color='text.muted'>
                   Select a layout to structure your content
                 </Text>
               </VStack>
@@ -89,7 +89,7 @@ function ColumnLayoutPicker({
           </Dialog.Header>
 
           {/* Modal Body */}
-          <Dialog.Body p='5' maxH='60vh' overflowY='auto' bg='gray.50/50'>
+          <Dialog.Body p='5' maxH='60vh' overflowY='auto' bg='bg.muted'>
             <Grid
               templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }}
               gap='4'
@@ -102,27 +102,27 @@ function ColumnLayoutPicker({
                     as='button'
                     textAlign='left'
                     p='4'
-                    bg='white'
+                    bg='bg.surface'
                     borderRadius='xl'
                     borderWidth='2px'
-                    borderColor={isSelected ? 'purple.500' : 'gray.200'}
+                    borderColor={isSelected ? 'accent.solid' : 'border.default'}
                     boxShadow={isSelected ? 'md' : 'sm'}
                     transition='all 0.2s ease-in-out'
                     cursor='pointer'
                     _hover={{
                       transform: 'translateY(-2px)',
                       boxShadow: 'md',
-                      borderColor: 'purple.400',
+                      borderColor: 'accent.hover',
                     }}
                     onClick={() => handleSelect(opt.id)}
                   >
                     {/* Visual Layout Representation */}
                     <Box
                       p='3'
-                      bg='gray.50'
+                      bg='bg.muted'
                       borderRadius='lg'
                       borderWidth='1px'
-                      borderColor='gray.200'
+                      borderColor='border.default'
                       mb='3'
                     >
                       <Flex gap='2' h='10' align='stretch'>
@@ -130,11 +130,11 @@ function ColumnLayoutPicker({
                           <Box
                             key={idx}
                             flex={weight}
-                            bg={isSelected ? 'purple.100' : 'purple.50'}
+                            bg={isSelected ? 'accent.subtle' : 'bg.subtle'}
                             borderWidth='1.5px'
                             borderStyle='dashed'
                             borderColor={
-                              isSelected ? 'purple.400' : 'purple.300'
+                              isSelected ? 'accent.solid' : 'accent.subtle'
                             }
                             borderRadius='md'
                             transition='all 0.2s'
@@ -149,7 +149,7 @@ function ColumnLayoutPicker({
                                   : '60%'
                               }
                               h='8px'
-                              bg={isSelected ? 'purple.500' : 'purple.300'}
+                              bg={isSelected ? 'accent.solid' : 'accent.subtle'}
                               borderRadius='full'
                               opacity={0.8}
                             />
@@ -161,10 +161,10 @@ function ColumnLayoutPicker({
                     {/* Content Details */}
                     <Flex justify='space-between' align='center'>
                       <VStack align='start' gap='0.5'>
-                        <Text fontSize='sm' fontWeight='bold' color='gray.800'>
+                        <Text fontSize='sm' fontWeight='bold' color='text.primary'>
                           {opt.title}
                         </Text>
-                        <Text fontSize='xs' color='gray.500'>
+                        <Text fontSize='xs' color='text.muted'>
                           {opt.subtitle}
                         </Text>
                       </VStack>
@@ -173,8 +173,8 @@ function ColumnLayoutPicker({
                           w='6'
                           h='6'
                           borderRadius='full'
-                          bg='purple.500'
-                          color='white'
+                          bg='accent.solid'
+                          color='text.inverse'
                           align='center'
                           justify='center'
                           fontSize='xs'
@@ -194,9 +194,9 @@ function ColumnLayoutPicker({
           <Dialog.Footer
             px='6'
             py='3'
-            bg='white'
+            bg='bg.surface'
             borderTop='1px solid'
-            borderColor='gray.100'
+            borderColor='border.subtle'
           >
             <Button
               variant='outline'

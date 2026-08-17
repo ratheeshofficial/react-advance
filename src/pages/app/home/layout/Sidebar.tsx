@@ -12,10 +12,10 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
   return (
     <Box
       w={{ base: 'full', md: '260px' }}
-      bg='white'
+      bg='bg.surface'
       p='6'
       borderRightWidth='1px'
-      borderColor='gray.200'
+      borderColor='border.default'
       h='100%'
       // boxShadow='sm'
       display='flex'
@@ -25,13 +25,13 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
       <Flex align='center' justify='space-between' mb='8' px='2'>
         <Heading
           size='md'
-          color='blue.600'
+          color='accent.fg'
           fontWeight='black'
           letterSpacing='tighter'
         >
           REACT
         </Heading>
-        {onClose && <CloseButton color='gray' display={{ base: 'flex', md: 'none' }} onClick={onClose} />}
+        {onClose && <CloseButton color='text.muted' display={{ base: 'flex', md: 'none' }} onClick={onClose} />}
       </Flex>
       <VStack align='stretch' gap='2'>
         {navItems.map((item) => (
@@ -43,12 +43,12 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
               display: 'block',
               textDecoration: 'none',
               borderRadius: '8px',
-              color: '#4b5563',
+              color: 'var(--chakra-colors-text-muted)',
             }}
             activeProps={{
               style: {
-                backgroundColor: '#eff6ff',
-                color: '#2563eb',
+                backgroundColor: 'var(--chakra-colors-accent-subtle)',
+                color: 'var(--chakra-colors-accent-fg)',
               },
             }}
             activeOptions={{ exact: true }}
@@ -61,7 +61,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
               cursor='pointer'
               color='inherit'
               _hover={{
-                bg: 'blackAlpha.50',
+                bg: 'bg.subtle',
               }}
               transition='all 0.2s'
             >

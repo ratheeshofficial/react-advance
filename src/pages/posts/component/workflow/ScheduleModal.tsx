@@ -87,13 +87,13 @@ export function ScheduleModal({
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content borderRadius='xl' p='4'>
+          <Dialog.Content borderRadius='xl' p='4' bg='bg.surface' color='text.primary'>
             <Dialog.Header>
               <HStack gap='2' align='center'>
-                <Box color='purple.600' fontSize='xl'>
+                <Box color='accent.fg' fontSize='xl'>
                   <FiCalendar />
                 </Box>
-                <Dialog.Title fontSize='md' fontWeight='bold' color='gray.800'>
+                <Dialog.Title fontSize='md' fontWeight='bold' color='text.primary'>
                   Schedule Publication
                 </Dialog.Title>
               </HStack>
@@ -101,12 +101,12 @@ export function ScheduleModal({
 
             <Dialog.Body py='3'>
               <VStack align='stretch' gap='3'>
-                <Text fontSize='xs' color='gray.600'>
+                <Text fontSize='xs' color='text.muted'>
                   Choose the future date and time when this post should be automatically published.
                 </Text>
 
                 <Box>
-                  <Text fontSize='xs' fontWeight='bold' mb='1' color='gray.700'>
+                  <Text fontSize='xs' fontWeight='bold' mb='1' color='text.secondary'>
                     Publish Date & Time
                   </Text>
                   <Input
@@ -116,11 +116,14 @@ export function ScheduleModal({
                     onChange={(e) => handleDateTimeChange(e.target.value)}
                     borderRadius='md'
                     size='sm'
+                    bg='bg.muted'
+                    borderColor='border.default'
+                    color='text.primary'
                   />
                 </Box>
 
                 {errorMsg && (
-                  <HStack color='red.600' fontSize='xs' gap='1.5' align='center'>
+                  <HStack color='danger.fg' fontSize='xs' gap='1.5' align='center'>
                     <FiAlertCircle />
                     <Text fontWeight='medium'>{errorMsg}</Text>
                   </HStack>

@@ -54,14 +54,20 @@ export const ColorModeButton = React.forwardRef<
   HTMLButtonElement,
   ColorModeButtonProps
 >(function ColorModeButton(props, ref) {
-  const { toggleColorMode } = useColorMode();
+  const { toggleColorMode, colorMode } = useColorMode();
+  const label =
+    colorMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+
   return (
-    <ClientOnly fallback={<Skeleton boxSize='9' />}>
+    <ClientOnly fallback={<Skeleton boxSize='9' borderRadius='md' />}>
       <IconButton
         onClick={toggleColorMode}
         variant='ghost'
-        aria-label='Toggle color mode'
+        aria-label={label}
+        title={label}
         size='sm'
+        color='text.secondary'
+        _hover={{ bg: 'bg.subtle', color: 'text.primary' }}
         ref={ref}
         {...props}
         css={{

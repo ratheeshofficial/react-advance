@@ -165,10 +165,10 @@ export const ColumnBlock = memo(function ColumnBlock({
               flex={{ base: '1 1 100%', md: `${col.flex} ${col.flex} 0%` }}
               w={{ base: '100%', md: 'auto' }}
               p={isEditing ? { base: '2.5', sm: '3.5' } : '0'}
-              bg={isEditing ? 'purple.50/30' : 'transparent'}
+              bg={isEditing ? 'accent.subtle' : 'transparent'}
               borderRadius={isEditing ? 'xl' : 'none'}
               borderWidth={isEditing ? '1px' : '0px'}
-              borderColor='purple.200'
+              borderColor='accent.solid'
               borderStyle='dashed'
             >
               {isEditing ? (
@@ -184,7 +184,7 @@ export const ColumnBlock = memo(function ColumnBlock({
                     >
                       {col.label}
                     </Badge>
-                    <Text fontSize='2xs' color='gray.400' fontWeight='medium'>
+                    <Text fontSize='2xs' color='text.muted' fontWeight='medium'>
                       {colBlocks.length}{' '}
                       {colBlocks.length === 1 ? 'block' : 'blocks'}
                     </Text>
@@ -195,12 +195,12 @@ export const ColumnBlock = memo(function ColumnBlock({
                       p='6'
                       textAlign='center'
                       borderWidth='1px'
-                      borderColor='gray.200'
+                      borderColor='border.default'
                       borderStyle='dashed'
                       borderRadius='lg'
-                      bg='white'
+                      bg='bg.surface'
                     >
-                      <Text fontSize='xs' color='gray.400' mb='3'>
+                      <Text fontSize='xs' color='text.muted' mb='3'>
                         Empty Column
                       </Text>
                       <Button

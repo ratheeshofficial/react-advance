@@ -42,57 +42,57 @@ const getBlockTheme = (type: string) => {
     case 'heading2':
     case 'heading3':
       return {
-        borderColor: 'var(--approved)',
-        pillBg: 'var(--approved-soft)',
-        pillColor: 'var(--approved)',
+        borderColor: 'status.approved.fg',
+        pillBg: 'status.approved.subtle',
+        pillColor: 'status.approved.fg',
         label: type === 'heading3' ? 'Heading 3' : 'Heading 2',
         Icon: FiType,
       };
     case 'paragraph':
       return {
-        borderColor: 'var(--muted-2)',
-        pillBg: 'var(--rule-soft)',
-        pillColor: 'var(--muted)',
+        borderColor: 'text.muted',
+        pillBg: 'bg.subtle',
+        pillColor: 'text.muted',
         label: 'Paragraph',
         Icon: FiAlignLeft,
       };
     case 'callout':
       return {
-        borderColor: 'var(--stamp)',
-        pillBg: 'var(--stamp-soft)',
-        pillColor: 'var(--stamp)',
+        borderColor: 'stamp.fg',
+        pillBg: 'stamp.subtle',
+        pillColor: 'stamp.fg',
         label: 'Callout',
         Icon: FiInfo,
       };
     case 'code':
       return {
-        borderColor: 'var(--scheduled)',
-        pillBg: 'var(--scheduled-soft)',
-        pillColor: 'var(--scheduled)',
+        borderColor: 'status.scheduled.fg',
+        pillBg: 'status.scheduled.subtle',
+        pillColor: 'status.scheduled.fg',
         label: 'Code',
         Icon: FiCode,
       };
     case 'quote':
       return {
-        borderColor: 'var(--accent)',
-        pillBg: 'var(--accent-soft)',
-        pillColor: 'var(--accent)',
+        borderColor: 'accent.solid',
+        pillBg: 'accent.subtle',
+        pillColor: 'accent.fg',
         label: 'Quote',
         Icon: FiMessageSquare,
       };
     case 'attachment':
       return {
-        borderColor: 'var(--published)',
-        pillBg: 'var(--published-soft)',
-        pillColor: 'var(--published)',
+        borderColor: 'status.published.fg',
+        pillBg: 'status.published.subtle',
+        pillColor: 'status.published.fg',
         label: 'Attachment',
         Icon: FiPaperclip,
       };
     default:
       return {
-        borderColor: 'var(--accent)',
-        pillBg: 'var(--accent-soft)',
-        pillColor: 'var(--accent)',
+        borderColor: 'accent.solid',
+        pillBg: 'accent.subtle',
+        pillColor: 'accent.fg',
         label: type.charAt(0).toUpperCase() + type.slice(1),
         Icon: FiAlignLeft,
       };
@@ -138,13 +138,16 @@ export const SortableBlockItem = memo(function SortableBlockItem({
     <Box ref={setNodeRef} style={style} mb={isEditingMode ? '1' : '4'}>
       <Box
         position='relative'
-        bg={isEditingMode ? 'var(--paper-raised)' : 'transparent'}
-        border={isEditingMode ? '1px solid var(--rule)' : 'none'}
-        borderLeft={isEditingMode ? `4px solid ${theme.borderColor}` : 'none'}
+        bg={isEditingMode ? 'bg.surface' : 'transparent'}
+        borderWidth={isEditingMode ? '1px' : '0'}
+        borderStyle='solid'
+        borderColor='border.default'
+        borderLeftWidth={isEditingMode ? '4px' : '0'}
+        borderLeftColor={isEditingMode ? theme.borderColor : 'transparent'}
         borderRadius={isEditingMode ? '9px' : '0'}
         p={isEditingMode ? '14px 16px 16px' : '0'}
         transition='all 0.15s ease'
-        _hover={isEditingMode ? { shadow: 'var(--shadow-sm)' } : {}}
+        _hover={isEditingMode ? { shadow: 'sm' } : {}}
       >
         {isEditingMode && (
           <Flex
@@ -156,14 +159,14 @@ export const SortableBlockItem = memo(function SortableBlockItem({
               {showDragHandle && (
                 <Box
                   as='button'
-                  color='var(--muted-2)'
+                  color='text.muted'
                   cursor='grab'
                   fontSize='14px'
                   letterSpacing='1px'
                   userSelect='none'
                   aria-label={`Drag block ${index + 1} (${theme.label}) to reorder`}
                   _active={{ cursor: 'grabbing' }}
-                  _focusVisible={{ outline: '2px solid var(--accent)', borderRadius: '4px' }}
+                  _focusVisible={{ outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'accent.solid', borderRadius: '4px' }}
                   title='Drag to reorder'
                   {...attributes}
                   {...listeners}
@@ -197,16 +200,18 @@ export const SortableBlockItem = memo(function SortableBlockItem({
                   w='26px'
                   h='26px'
                   borderRadius='6px'
-                  border='1px solid var(--rule)'
-                  bg='var(--paper-raised)'
+                  borderWidth='1px'
+                  borderStyle='solid'
+                  borderColor='border.default'
+                  bg='bg.surface'
                   display='flex'
                   alignItems='center'
                   justifyContent='center'
-                  color='var(--muted)'
+                  color='text.muted'
                   cursor='pointer'
                   transition='all 0.12s ease'
-                  _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
-                  _focusVisible={{ outline: '2px solid var(--accent)', borderRadius: '6px' }}
+                  _hover={{ bg: 'bg.subtle', color: 'text.primary' }}
+                  _focusVisible={{ outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'accent.solid', borderRadius: '6px' }}
                   onClick={() => onMoveBlock(index, 'up')}
                   title='Move block up'
                 >
@@ -221,16 +226,18 @@ export const SortableBlockItem = memo(function SortableBlockItem({
                   w='26px'
                   h='26px'
                   borderRadius='6px'
-                  border='1px solid var(--rule)'
-                  bg='var(--paper-raised)'
+                  borderWidth='1px'
+                  borderStyle='solid'
+                  borderColor='border.default'
+                  bg='bg.surface'
                   display='flex'
                   alignItems='center'
                   justifyContent='center'
-                  color='var(--muted)'
+                  color='text.muted'
                   cursor='pointer'
                   transition='all 0.12s ease'
-                  _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
-                  _focusVisible={{ outline: '2px solid var(--accent)', borderRadius: '6px' }}
+                  _hover={{ bg: 'bg.subtle', color: 'text.primary' }}
+                  _focusVisible={{ outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'accent.solid', borderRadius: '6px' }}
                   onClick={() => onMoveBlock(index, 'down')}
                   title='Move block down'
                 >
@@ -244,16 +251,18 @@ export const SortableBlockItem = memo(function SortableBlockItem({
                 w='26px'
                 h='26px'
                 borderRadius='6px'
-                border='1px solid var(--rule)'
-                bg='var(--paper-raised)'
+                borderWidth='1px'
+                borderStyle='solid'
+                borderColor='border.default'
+                bg='bg.surface'
                 display='flex'
                 alignItems='center'
                 justifyContent='center'
-                color='var(--muted)'
+                color='text.muted'
                 cursor='pointer'
                 transition='all 0.12s ease'
-                _hover={{ bg: '#FBEAEA', color: '#C43333', borderColor: '#F0C7C7' }}
-                _focusVisible={{ outline: '2px solid #C43333', borderRadius: '6px' }}
+                _hover={{ bg: 'danger.subtle', color: 'danger.fg', borderColor: 'danger.border' }}
+                _focusVisible={{ outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'danger.fg', borderRadius: '6px' }}
                 onClick={() => onDeleteBlock(block.id)}
                 title='Delete block'
               >
@@ -288,7 +297,7 @@ export const SortableBlockItem = memo(function SortableBlockItem({
             right='0'
             top='50%'
             h='1px'
-            bg='var(--rule)'
+            bg='border.default'
             opacity='0'
             transition='opacity 0.15s ease'
             _groupHover={{ opacity: 1 }}
@@ -302,9 +311,11 @@ export const SortableBlockItem = memo(function SortableBlockItem({
             w='26px'
             h='26px'
             borderRadius='full'
-            bg='var(--paper-raised)'
-            border='1.5px solid var(--rule)'
-            color='var(--muted-2)'
+            bg='bg.surface'
+            borderWidth='1.5px'
+            borderStyle='solid'
+            borderColor='border.default'
+            color='text.muted'
             display='flex'
             alignItems='center'
             justifyContent='center'
@@ -313,8 +324,8 @@ export const SortableBlockItem = memo(function SortableBlockItem({
             transform='scale(0.85)'
             transition='all 0.15s ease'
             _groupHover={{ opacity: 1, transform: 'scale(1)' }}
-            _hover={{ bg: 'var(--accent)', borderColor: 'var(--accent)', color: 'white' }}
-            _focusVisible={{ opacity: 1, transform: 'scale(1)', outline: '2px solid var(--accent)' }}
+            _hover={{ bg: 'accent.solid', borderColor: 'accent.solid', color: 'text.inverse' }}
+            _focusVisible={{ opacity: 1, transform: 'scale(1)', outlineWidth: '2px', outlineStyle: 'solid', outlineColor: 'accent.solid' }}
             onClick={() => onOpenPicker(block.id)}
             title='Insert block here'
           >

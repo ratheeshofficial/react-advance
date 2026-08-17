@@ -202,11 +202,13 @@ function BlogView() {
         justify='space-between'
         py='3.5'
         px='5'
-        bg='var(--paper-raised)'
-        borderBottom='1px solid var(--rule)'
+        bg='bg.surface'
+        borderBottomWidth='1px'
+        borderBottomStyle='solid'
+        borderBottomColor='border.default'
         borderRadius='12px'
         mb='6'
-        shadow='var(--shadow-sm)'
+        shadow='sm'
         position='sticky'
         top='0'
         zIndex={30}
@@ -216,14 +218,16 @@ function BlogView() {
             w='32px'
             h='32px'
             borderRadius='8px'
-            border='1px solid var(--rule)'
-            bg='var(--paper-raised)'
+            borderWidth='1px'
+            borderStyle='solid'
+            borderColor='border.default'
+            bg='bg.surface'
             align='center'
             justify='center'
-            color='var(--ink-soft)'
+            color='text.secondary'
             cursor='pointer'
             transition='all 0.12s ease'
-            _hover={{ bg: 'var(--rule-soft)', color: 'var(--ink)' }}
+            _hover={{ bg: 'bg.subtle', color: 'text.primary' }}
             onClick={() => navigate({ to: '/' })}
           >
             <FiArrowLeft size={16} />
@@ -233,15 +237,15 @@ function BlogView() {
               fontFamily="'Fraunces', serif"
               fontWeight='600'
               fontSize='19px'
-              color='var(--ink)'
+              color='text.primary'
             >
               Blog Editor
             </Text>
             <Box
               bg={
-                isEditingMode ? 'var(--accent-soft)' : 'var(--published-soft)'
+                isEditingMode ? 'accent.subtle' : 'status.published.subtle'
               }
-              color={isEditingMode ? 'var(--accent)' : 'var(--published)'}
+              color={isEditingMode ? 'accent.fg' : 'status.published.fg'}
               fontSize='11px'
               fontWeight='700'
               px='2.5'
@@ -259,13 +263,13 @@ function BlogView() {
             gap='1.5'
             fontFamily="'IBM Plex Mono', monospace"
             fontSize='11.5px'
-            color='var(--muted-2)'
+            color='text.muted'
           >
             <Box
               w='6px'
               h='6px'
               borderRadius='full'
-              bg={isAutoUpdating ? 'var(--stamp)' : 'var(--published)'}
+              bg={isAutoUpdating ? 'stamp.fg' : 'status.published.fg'}
             />
             <Text>{isAutoUpdating ? 'Auto Saving...' : 'Saved to Cloud'}</Text>
           </HStack>
@@ -273,16 +277,16 @@ function BlogView() {
           <Button
             size='sm'
             variant='outline'
-            borderColor='var(--rule)'
-            bg='var(--paper-raised)'
-            color='var(--ink-soft)'
+            borderColor='border.default'
+            bg='bg.surface'
+            color='text.secondary'
             fontFamily="'Inter', sans-serif"
             fontSize='13px'
             fontWeight='600'
             borderRadius='8px'
             px='3.5'
             py='2'
-            _hover={{ bg: 'var(--rule-soft)' }}
+            _hover={{ bg: 'bg.subtle' }}
             onClick={() => setIsEditingMode((prev) => !prev)}
           >
             <FiEye size={14} style={{ marginRight: '5px' }} />
@@ -291,16 +295,16 @@ function BlogView() {
 
           {/* <Button
             size='sm'
-            bg='var(--accent)'
-            color='white'
+            bg='accent.solid'
+            color='text.inverse'
             fontFamily="'Inter', sans-serif"
             fontSize='13px'
             fontWeight='600'
             borderRadius='8px'
             px='4'
             py='2'
-            shadow='var(--shadow-sm)'
-            _hover={{ bg: '#4d3eb5' }}
+            shadow='sm'
+            _hover={{ bg: 'accent.hover' }}
             onClick={() => saveDraft(true)}
           >
             <FiCheck size={14} style={{ marginRight: '4px' }} />
@@ -310,7 +314,7 @@ function BlogView() {
       </Flex>
 
       {isLoadingPosts ? (
-        <Box p='8' textAlign='center' color='var(--muted)'>
+        <Box p='8' textAlign='center' color='text.muted'>
           <Text fontFamily="'IBM Plex Mono', monospace">
             Loading post content...
           </Text>
@@ -325,7 +329,7 @@ function BlogView() {
                   fontFamily="'Inter', sans-serif"
                   fontSize='12px'
                   fontWeight='700'
-                  color='var(--ink-soft)'
+                  color='text.secondary'
                   textTransform='uppercase'
                   letterSpacing='0.05em'
                   mb='2'
@@ -339,17 +343,19 @@ function BlogView() {
                     setTitle(e.target.value)
                   }
                   border='none'
-                  borderBottom='2px solid var(--rule)'
+                  borderBottomWidth='2px'
+                  borderBottomStyle='solid'
+                  borderBottomColor='border.default'
                   borderRadius='0'
                   bg='transparent'
                   fontFamily="'Fraunces', serif"
                   fontSize='28px'
                   fontWeight='600'
-                  color='var(--ink)'
+                  color='text.primary'
                   py='2'
                   px='1'
                   outline='none'
-                  _focus={{ borderColor: 'var(--accent)', boxShadow: 'none' }}
+                  _focus={{ borderColor: 'accent.solid', boxShadow: 'none' }}
                   transition='border-color 0.15s ease'
                 />
               </Box>
@@ -360,7 +366,7 @@ function BlogView() {
                   fontFamily="'Inter', sans-serif"
                   fontSize='12px'
                   fontWeight='700'
-                  color='var(--ink-soft)'
+                  color='text.secondary'
                   textTransform='uppercase'
                   letterSpacing='0.05em'
                   mb='2'
@@ -373,21 +379,23 @@ function BlogView() {
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setExcerpt(e.target.value)
                   }
-                  border='1px solid var(--rule)'
+                  borderWidth='1px'
+                  borderStyle='solid'
+                  borderColor='border.default'
                   borderRadius='9px'
-                  bg='var(--paper-raised)'
+                  bg='bg.muted'
                   fontFamily="'Inter', sans-serif"
                   fontSize='13.5px'
-                  color='var(--ink-soft)'
+                  color='text.secondary'
                   p='3'
                   minH='60px'
                   outline='none'
-                  _focus={{ borderColor: 'var(--accent)', boxShadow: 'none' }}
+                  _focus={{ borderColor: 'accent.solid', boxShadow: 'none' }}
                 />
                 <Text
                   fontFamily="'IBM Plex Mono', monospace"
                   fontSize='10.5px'
-                  color='var(--muted-2)'
+                  color='text.muted'
                   textAlign='right'
                   mt='1.5'
                 >
@@ -401,7 +409,7 @@ function BlogView() {
                   fontFamily="'Inter', sans-serif"
                   fontSize='12px'
                   fontWeight='700'
-                  color='var(--ink-soft)'
+                  color='text.secondary'
                   textTransform='uppercase'
                   letterSpacing='0.05em'
                   mb='2'
@@ -419,19 +427,18 @@ function BlogView() {
 
                 {!coverImage ? (
                   <Box
-                    border='2px dashed var(--rule)'
-                    borderColor={isDragging ? 'var(--accent)' : 'var(--rule)'}
-                    bg={
-                      isDragging ? 'var(--accent-soft)' : 'var(--paper-raised)'
-                    }
+                    borderWidth='2px'
+                    borderStyle='dashed'
+                    borderColor={isDragging ? 'accent.solid' : 'border.default'}
+                    bg={isDragging ? 'accent.subtle' : 'bg.muted'}
                     borderRadius='12px'
                     p='6'
                     textAlign='center'
                     cursor='pointer'
                     transition='all 0.15s ease'
                     _hover={{
-                      borderColor: 'var(--accent)',
-                      bg: 'var(--accent-soft)',
+                      borderColor: 'accent.solid',
+                      bg: 'accent.subtle',
                     }}
                     onClick={() => fileInputRef.current?.click()}
                     onDragOver={handleDragOver}
@@ -443,8 +450,8 @@ function BlogView() {
                         w='40px'
                         h='40px'
                         borderRadius='full'
-                        bg='var(--accent-soft)'
-                        color='var(--accent)'
+                        bg='accent.subtle'
+                        color='accent.fg'
                         align='center'
                         justify='center'
                       >
@@ -454,17 +461,17 @@ function BlogView() {
                         <Text
                           fontWeight='600'
                           fontSize='13.5px'
-                          color='var(--ink-soft)'
+                          color='text.secondary'
                         >
                           Click to upload{' '}
-                          <Text as='span' fontWeight='400' color='var(--muted)'>
+                          <Text as='span' fontWeight='400' color='text.muted'>
                             or drag and drop
                           </Text>
                         </Text>
                         <Text
                           fontFamily="'IBM Plex Mono', monospace"
                           fontSize='11px'
-                          color='var(--muted-2)'
+                          color='text.muted'
                           mt='1'
                         >
                           SVG, PNG, JPG or GIF (max. 10MB)
@@ -478,8 +485,8 @@ function BlogView() {
                     borderRadius='12px'
                     overflow='hidden'
                     aspectRatio={16 / 7}
-                    bg='var(--rule-soft)'
-                    shadow='var(--shadow-sm)'
+                    bg='bg.subtle'
+                    shadow='sm'
                   >
                     <Image
                       src={coverImage}
@@ -491,13 +498,13 @@ function BlogView() {
                     <HStack position='absolute' top='12px' right='12px' gap='2'>
                       <Button
                         size='xs'
-                        bg='rgba(22,26,35,0.72)'
-                        color='white'
+                        bg='bg.overlay'
+                        color='text.inverse'
                         backdropFilter='blur(6px)'
                         borderRadius='7px'
                         fontSize='12px'
                         fontWeight='600'
-                        _hover={{ bg: 'rgba(22,26,35,0.85)' }}
+                        _hover={{ bg: 'bg.overlay' }}
                         onClick={() => fileInputRef.current?.click()}
                       >
                         <FiRefreshCw size={12} style={{ marginRight: '4px' }} />
@@ -505,13 +512,13 @@ function BlogView() {
                       </Button>
                       <Button
                         size='xs'
-                        bg='rgba(196,40,40,0.85)'
-                        color='white'
+                        bg='danger.overlay'
+                        color='text.inverse'
                         backdropFilter='blur(6px)'
                         borderRadius='7px'
                         fontSize='12px'
                         fontWeight='600'
-                        _hover={{ bg: 'rgba(196,40,40,0.95)' }}
+                        _hover={{ bg: 'danger.overlay' }}
                         onClick={handleRemoveImage}
                       >
                         <FiTrash2 size={12} style={{ marginRight: '4px' }} />
@@ -529,9 +536,9 @@ function BlogView() {
               gap='4'
               mb='6'
               p='6'
-              bg='var(--paper-raised)'
+              bg='bg.surface'
               borderRadius='12px'
-              shadow='var(--shadow-sm)'
+              shadow='sm'
             >
               {coverImage && (
                 <Box overflow='hidden' borderRadius='12px' aspectRatio={16 / 7}>
@@ -547,8 +554,8 @@ function BlogView() {
               <HStack gap='2' flexWrap='wrap'>
                 {singlePost.category && (
                   <Badge
-                    bg='var(--accent-soft)'
-                    color='var(--accent)'
+                    bg='accent.subtle'
+                    color='accent.fg'
                     borderRadius='5px'
                     px='2.5'
                     py='1'
@@ -560,7 +567,7 @@ function BlogView() {
                   </Badge>
                 )}
                 {singlePost.author && (
-                  <Text fontSize='13px' color='var(--muted)' fontWeight='500'>
+                  <Text fontSize='13px' color='text.muted' fontWeight='500'>
                     By {singlePost.author}
                   </Text>
                 )}
@@ -569,7 +576,7 @@ function BlogView() {
                 fontFamily="'Fraunces', serif"
                 fontSize='32px'
                 fontWeight='600'
-                color='var(--ink)'
+                color='text.primary'
                 lineHeight='1.25'
               >
                 {title || 'Untitled Article'}
@@ -577,10 +584,12 @@ function BlogView() {
               {excerpt && (
                 <Text
                   fontSize='15px'
-                  color='var(--muted)'
+                  color='text.muted'
                   fontStyle='italic'
                   lineHeight='1.6'
-                  borderLeft='3px solid var(--accent)'
+                  borderLeftWidth='3px'
+                  borderLeftStyle='solid'
+                  borderLeftColor='accent.solid'
                   pl='3'
                   py='1'
                 >
@@ -599,7 +608,7 @@ function BlogView() {
           />
         </Box>
       ) : (
-        <Box p='8' textAlign='center' color='var(--muted)'>
+        <Box p='8' textAlign='center' color='text.muted'>
           Post not found
         </Box>
       )}
