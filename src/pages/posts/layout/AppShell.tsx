@@ -9,7 +9,7 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
   const MetaPanel = childrenArray[3];
 
   return (
-    <Flex direction='column' h='100vh' w='100vw' overflow='hidden' bg='var(--paper)'>
+    <Flex direction='column' h='100vh' w='100vw' overflow='hidden' bg='bg.canvas'>
       {Header}
       <Flex
         flex='1'

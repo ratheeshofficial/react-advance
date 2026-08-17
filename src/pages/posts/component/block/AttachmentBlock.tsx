@@ -74,12 +74,8 @@ export const AttachmentBlock = memo(function AttachmentBlock({
         p='4'
         borderRadius='xl'
         borderWidth='1px'
-        borderColor={block.uploadStatus === 'error' ? 'red.300' : 'gray.200'}
-        bg={block.uploadStatus === 'error' ? 'red.50' : 'gray.50'}
-        _dark={{
-          bg: block.uploadStatus === 'error' ? 'red.900' : 'gray.800',
-          borderColor: block.uploadStatus === 'error' ? 'red.700' : 'gray.700',
-        }}
+        borderColor={block.uploadStatus === 'error' ? 'danger.border' : 'border.default'}
+        bg={block.uploadStatus === 'error' ? 'danger.subtle' : 'bg.muted'}
       >
         <VStack gap='3' align='stretch'>
           <input
@@ -98,7 +94,7 @@ export const AttachmentBlock = memo(function AttachmentBlock({
               gap='3'
             >
               <Flex align='center' gap='3'>
-                <Box p='2' bg='blue.500' color='white' borderRadius='lg'>
+                <Box p='2' bg='accent.solid' color='text.inverse' borderRadius='lg'>
                   <FiPaperclip size={20} />
                 </Box>
                 <Box>
@@ -107,7 +103,7 @@ export const AttachmentBlock = memo(function AttachmentBlock({
                   </Text>
                   <Flex align='center' gap='2' mt='0.5'>
                     {block.attachmentName && (
-                      <Text fontSize='xs' color='gray.500'>
+                      <Text fontSize='xs' color='text.muted'>
                         {block.attachmentName}
                       </Text>
                     )}
@@ -133,12 +129,12 @@ export const AttachmentBlock = memo(function AttachmentBlock({
             </Flex>
           ) : block.uploadStatus === 'uploading' ? (
             <Flex align='center' gap='3' py='2'>
-              <Spinner size='sm' color='blue.500' />
+              <Spinner size='sm' color='accent.solid' />
               <Box>
                 <Text fontSize='sm' fontWeight='medium'>
                   Uploading {block.attachmentName || 'file'}...
                 </Text>
-                <Text fontSize='xs' color='gray.500'>
+                <Text fontSize='xs' color='text.muted'>
                   Please wait while attachment is uploaded to Supabase Storage
                 </Text>
               </Box>
@@ -151,14 +147,14 @@ export const AttachmentBlock = memo(function AttachmentBlock({
               py='4'
               gap='3'
             >
-              <Box p='3' borderRadius='full' bg='gray.100' color='gray.500'>
+              <Box p='3' borderRadius='full' bg='bg.subtle' color='text.muted'>
                 <FiUploadCloud size={24} />
               </Box>
               <Box textAlign='center'>
                 <Text fontSize='sm' fontWeight='medium'>
                   Upload file attachment
                 </Text>
-                <Text fontSize='xs' color='gray.500' mt='1'>
+                <Text fontSize='xs' color='text.muted' mt='1'>
                   Upload documents, PDFs, or media to display a download block
                 </Text>
               </Box>
@@ -173,7 +169,7 @@ export const AttachmentBlock = memo(function AttachmentBlock({
               </Button>
 
               {block.uploadStatus === 'error' && (
-                <Flex align='center' gap='2' color='red.600' mt='1'>
+                <Flex align='center' gap='2' color='danger.fg' mt='1'>
                   <FiAlertCircle size={16} />
                   <Text fontSize='xs'>
                     {block.uploadError || 'Upload failed. Please try again.'}
@@ -189,9 +185,9 @@ export const AttachmentBlock = memo(function AttachmentBlock({
               align='center'
               pt='2'
               borderTopWidth='1px'
-              borderColor='gray.200'
+              borderColor='border.default'
             >
-              <Text fontSize='xs' color='gray.500' whiteSpace='nowrap'>
+              <Text fontSize='xs' color='text.muted' whiteSpace='nowrap'>
                 Display Label:
               </Text>
               <Input
@@ -203,7 +199,7 @@ export const AttachmentBlock = memo(function AttachmentBlock({
                   onChange?.({ ...block, content: e.target.value })
                 }
                 placeholder='Custom label for download link...'
-                bg='white'
+                bg='bg.surface'
               />
               <Button
                 size='xs'

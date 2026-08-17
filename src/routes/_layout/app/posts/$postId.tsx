@@ -9,7 +9,7 @@ function LazyEditorWrapper() {
   return (
     <Suspense
       fallback={
-        <Box p='10' textAlign='center' color='var(--muted)'>
+        <Box p='10' textAlign='center' color='text.muted'>
           <Text fontFamily="'IBM Plex Mono', monospace" fontSize='13px'>
             Loading editor workspace…
           </Text>

@@ -9,7 +9,7 @@ export function HomeLayout() {
   const isDrawerOpen = open;
 
   return (
-    <Flex h='100vh' w='100vw' overflow='hidden' bg='gray.50'>
+    <Flex h='100vh' w='100vw' overflow='hidden' bg='bg.canvas'>
       <Box display={{ base: 'none', md: 'block' }} h='full'>
         <Sidebar />
       </Box>
@@ -27,12 +27,12 @@ export function HomeLayout() {
           <Box
             maxW='7xl'
             mx='auto'
-            bg='white'
+            bg='bg.surface'
             p={{ base: '4', md: '6' }}
             borderRadius='xl'
             // shadow='sm'
             minH='full'
-            color='black'
+            color='text.primary'
           >
             <Outlet />
           </Box>

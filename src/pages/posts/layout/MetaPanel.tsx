@@ -249,10 +249,10 @@ export const MetaPanel = () => {
     setIsDeleteConfirmOpen(false);
     if (postId) {
       await handleDeletePost(postId, navigate);
-      showToast.error(
-        'Post Deleted',
-        'The post has been deleted successfully.',
-      );
+      // showToast.error(
+      //   'Post Deleted',
+      //   'The post has been deleted successfully.',
+      // );
     }
   };
 
@@ -300,9 +300,11 @@ export const MetaPanel = () => {
       h={{ base: 'auto', xl: '100%' }}
       overflowY={{ base: 'visible', xl: 'auto' }}
       w={{ base: '100%', xl: '340px' }}
-      bg='var(--paper-raised)'
-      borderTop={{ base: '1px solid var(--rule)', xl: 'none' }}
-      borderLeft={{ base: 'none', xl: '1px solid var(--rule)' }}
+      bg='bg.surface'
+      borderTop={{ base: '1px solid', xl: 'none' }}
+      borderTopColor={{ base: 'border.default' }}
+      borderLeft={{ base: 'none', xl: '1px solid' }}
+      borderLeftColor={{ xl: 'border.default' }}
       p='5'
       css={hideScrollbarCss}
       flexShrink={0}
@@ -312,15 +314,15 @@ export const MetaPanel = () => {
           fontFamily="'Inter', sans-serif"
           fontWeight='700'
           fontSize='14px'
-          color='var(--ink)'
+          color='text.primary'
         >
           Post Metadata
         </Text>
         {postId &&
           (isAutoUpdating ? (
             <Badge
-              bg='var(--accent-soft)'
-              color='var(--accent)'
+              bg='accent.subtle'
+              color='accent.fg'
               fontSize='10.5px'
               fontFamily="'IBM Plex Mono', monospace"
               px='2'
@@ -331,8 +333,8 @@ export const MetaPanel = () => {
             </Badge>
           ) : isContextDirty ? (
             <Badge
-              bg='var(--stamp-soft)'
-              color='var(--stamp)'
+              bg='stamp.subtle'
+              color='stamp.fg'
               fontSize='10.5px'
               fontFamily="'IBM Plex Mono', monospace"
               px='2'
@@ -343,8 +345,8 @@ export const MetaPanel = () => {
             </Badge>
           ) : (
             <Badge
-              bg='var(--published-soft)'
-              color='var(--published)'
+              bg='status.published.subtle'
+              color='status.published.fg'
               fontSize='10.5px'
               fontFamily="'IBM Plex Mono', monospace"
               px='2'
@@ -363,16 +365,16 @@ export const MetaPanel = () => {
           textAlign='center'
           py='12'
           px='3'
-          color='var(--muted)'
+          color='text.muted'
         >
           <Flex
             w='52px'
             h='52px'
             borderRadius='full'
-            bg='var(--rule-soft)'
+            bg='bg.subtle'
             align='center'
             justify='center'
-            color='var(--muted-2)'
+            color='text.muted'
             mb='4'
           >
             <svg
@@ -390,7 +392,7 @@ export const MetaPanel = () => {
             fontFamily="'Fraunces', serif"
             fontWeight='600'
             fontSize='15px'
-            color='var(--ink-soft)'
+            color='text.secondary'
             mb='1.5'
           >
             No post selected
@@ -398,7 +400,7 @@ export const MetaPanel = () => {
           <Text
             fontSize='12.5px'
             lineHeight='1.5'
-            color='var(--muted)'
+            color='text.muted'
             maxW='200px'
           >
             Choose a post from the list to view SEO settings, revision history,
@@ -408,7 +410,7 @@ export const MetaPanel = () => {
       ) : isLoadingPosts ? (
         <Text
           fontSize='13px'
-          color='var(--muted)'
+          color='text.muted'
           fontFamily="'IBM Plex Mono', monospace"
           py='4'
         >
@@ -419,11 +421,12 @@ export const MetaPanel = () => {
           <VStack align='stretch' gap='4'>
             {/* Publishing Details */}
             <Box
-              bg='var(--paper-raised)'
+              bg='bg.muted'
               p='4'
               borderRadius='9px'
-              border='1px solid var(--rule)'
-              shadow='var(--shadow-sm)'
+              border='1px solid'
+              borderColor='border.default'
+              shadow='sm'
             >
               <Text
                 fontFamily="'IBM Plex Mono', monospace"
@@ -431,7 +434,7 @@ export const MetaPanel = () => {
                 fontWeight='600'
                 textTransform='uppercase'
                 letterSpacing='0.08em'
-                color='var(--muted-2)'
+                color='text.muted'
                 mb='3'
               >
                 Details
@@ -443,7 +446,7 @@ export const MetaPanel = () => {
                   <Text
                     fontSize='xs'
                     fontWeight='semibold'
-                    color='gray.700'
+                    color='text.secondary'
                     mb='1'
                   >
                     Author *
@@ -461,7 +464,7 @@ export const MetaPanel = () => {
                     )}
                   />
                   {errors.author && (
-                    <Text fontSize='xs' color='red.500' mt='1'>
+                    <Text fontSize='xs' color='danger.fg' mt='1'>
                       {errors.author.message}
                     </Text>
                   )}
@@ -472,7 +475,7 @@ export const MetaPanel = () => {
                   <Text
                     fontSize='xs'
                     fontWeight='semibold'
-                    color='gray.700'
+                    color='text.secondary'
                     mb='1'
                   >
                     Category *
@@ -490,7 +493,7 @@ export const MetaPanel = () => {
                     )}
                   />
                   {errors.category && (
-                    <Text fontSize='xs' color='red.500' mt='1'>
+                    <Text fontSize='xs' color='danger.fg' mt='1'>
                       {errors.category.message}
                     </Text>
                   )}
@@ -501,7 +504,7 @@ export const MetaPanel = () => {
                   <Text
                     fontSize='xs'
                     fontWeight='semibold'
-                    color='gray.700'
+                    color='text.secondary'
                     mb='1'
                   >
                     URL Slug *
@@ -510,18 +513,18 @@ export const MetaPanel = () => {
                     align='center'
                     borderRadius='md'
                     border='1px solid'
-                    borderColor={errors.slug ? 'red.400' : 'gray.300'}
+                    borderColor={errors.slug ? 'danger.fg' : 'border.default'}
                     overflow='hidden'
                   >
                     <Text
                       px='2.5'
                       py='1.5'
-                      bg='gray.100'
+                      bg='bg.subtle'
                       fontSize='xs'
-                      color='gray.600'
+                      color='text.muted'
                       fontWeight='medium'
                       borderRight='1px solid'
-                      borderColor='gray.300'
+                      borderColor='border.default'
                     >
                       /blog/
                     </Text>
@@ -543,7 +546,7 @@ export const MetaPanel = () => {
                   {errors.slug && (
                     <Text
                       fontSize='xs'
-                      color='red.500'
+                      color='danger.fg'
                       mt='1'
                       fontWeight='medium'
                     >
@@ -557,10 +560,10 @@ export const MetaPanel = () => {
                   justify='space-between'
                   pt='2'
                   borderTop='1px dashed'
-                  borderColor='gray.200'
+                  borderColor='border.subtle'
                 >
                   <Box>
-                    <Text fontSize='xs' color='gray.500'>
+                    <Text fontSize='xs' color='text.muted'>
                       Status
                     </Text>
                     <Badge
@@ -573,12 +576,12 @@ export const MetaPanel = () => {
                     </Badge>
                   </Box>
                   <Box textAlign='right'>
-                    <Text fontSize='xs' color='gray.500'>
+                    <Text fontSize='xs' color='text.muted'>
                       Last Updated
                     </Text>
                     <Text
                       fontSize='xs'
-                      color='gray.700'
+                      color='text.secondary'
                       fontWeight='medium'
                       mt='0.5'
                     >
@@ -591,11 +594,12 @@ export const MetaPanel = () => {
 
             {/* Tags Section */}
             <Box
-              bg='var(--paper-raised)'
+              bg='bg.muted'
               p='4'
               borderRadius='9px'
-              border='1px solid var(--rule)'
-              shadow='var(--shadow-sm)'
+              border='1px solid'
+              borderColor='border.default'
+              shadow='sm'
             >
               <Text
                 fontFamily="'IBM Plex Mono', monospace"
@@ -603,7 +607,7 @@ export const MetaPanel = () => {
                 fontWeight='600'
                 textTransform='uppercase'
                 letterSpacing='0.08em'
-                color='var(--muted-2)'
+                color='text.muted'
                 mb='3'
               >
                 Tags
@@ -623,9 +627,9 @@ export const MetaPanel = () => {
                   />
                   <Button
                     size='sm'
-                    bg='var(--accent)'
-                    color='white'
-                    _hover={{ bg: '#4d3eb5' }}
+                    bg='accent.solid'
+                    color='text.inverse'
+                    _hover={{ bg: 'accent.hover' }}
                     onClick={handleAddTag}
                     borderRadius='7px'
                   >
@@ -634,7 +638,7 @@ export const MetaPanel = () => {
                 </HStack>
 
                 {tagError && (
-                  <Text fontSize='xs' color='red.500'>
+                  <Text fontSize='xs' color='danger.fg'>
                     {tagError}
                   </Text>
                 )}
@@ -643,8 +647,8 @@ export const MetaPanel = () => {
                   {(getValues('tags') || []).map((tag) => (
                     <Badge
                       key={tag}
-                      bg='var(--accent-soft)'
-                      color='var(--accent)'
+                      bg='accent.subtle'
+                      color='accent.fg'
                       px='2.5'
                       py='1'
                       borderRadius='full'
@@ -659,7 +663,7 @@ export const MetaPanel = () => {
                         aria-label={`Remove tag ${tag}`}
                         size='2xs'
                         variant='ghost'
-                        color='var(--accent)'
+                        color='accent.fg'
                         minW='auto'
                         h='auto'
                         p='0'
@@ -672,7 +676,7 @@ export const MetaPanel = () => {
                   {(getValues('tags') || []).length === 0 && (
                     <Text
                       fontSize='12px'
-                      color='var(--muted-2)'
+                      color='text.muted'
                       fontStyle='italic'
                     >
                       No tags added yet.
@@ -684,11 +688,12 @@ export const MetaPanel = () => {
 
             {/* SEO Section */}
             <Box
-              bg='var(--paper-raised)'
+              bg='bg.muted'
               p='4'
               borderRadius='9px'
-              border='1px solid var(--rule)'
-              shadow='var(--shadow-sm)'
+              border='1px solid'
+              borderColor='border.default'
+              shadow='sm'
             >
               <Text
                 fontFamily="'IBM Plex Mono', monospace"
@@ -696,7 +701,7 @@ export const MetaPanel = () => {
                 fontWeight='600'
                 textTransform='uppercase'
                 letterSpacing='0.08em'
-                color='var(--muted-2)'
+                color='text.muted'
                 mb='3'
               >
                 SEO Settings
@@ -707,7 +712,7 @@ export const MetaPanel = () => {
                   <Text
                     fontSize='12px'
                     fontWeight='600'
-                    color='var(--ink-soft)'
+                    color='text.secondary'
                     mb='1'
                   >
                     SEO Title
@@ -732,7 +737,7 @@ export const MetaPanel = () => {
                     <Text
                       fontSize='12px'
                       fontWeight='600'
-                      color='var(--ink-soft)'
+                      color='text.secondary'
                     >
                       SEO Description
                     </Text>
@@ -740,7 +745,7 @@ export const MetaPanel = () => {
                       fontFamily="'IBM Plex Mono', monospace"
                       fontSize='10.5px'
                       fontWeight='500'
-                      color={seoCharCount > 160 ? 'red.500' : 'var(--muted-2)'}
+                      color={seoCharCount > 160 ? 'danger.fg' : 'text.muted'}
                     >
                       {seoCharCount} / 160 chars
                     </Text>
@@ -762,17 +767,17 @@ export const MetaPanel = () => {
                     <Badge
                       bg={
                         seoCharCount === 0
-                          ? 'var(--rule-soft)'
+                          ? 'bg.subtle'
                           : seoCharCount <= 160
-                            ? 'var(--published-soft)'
-                            : '#FBEAEA'
+                            ? 'status.published.subtle'
+                            : 'danger.subtle'
                       }
                       color={
                         seoCharCount === 0
-                          ? 'var(--muted)'
+                          ? 'text.muted'
                           : seoCharCount <= 160
-                            ? 'var(--published)'
-                            : '#C43333'
+                            ? 'status.published.fg'
+                            : 'danger.fg'
                       }
                       fontSize='10px'
                       fontFamily="'IBM Plex Mono', monospace"
@@ -789,11 +794,12 @@ export const MetaPanel = () => {
 
             {/* Editorial Notes */}
             <Box
-              bg='var(--paper-raised)'
+              bg='bg.muted'
               p='4'
               borderRadius='9px'
-              border='1px solid var(--rule)'
-              shadow='var(--shadow-sm)'
+              border='1px solid'
+              borderColor='border.default'
+              shadow='sm'
             >
               <Text
                 fontFamily="'IBM Plex Mono', monospace"
@@ -801,7 +807,7 @@ export const MetaPanel = () => {
                 fontWeight='600'
                 textTransform='uppercase'
                 letterSpacing='0.08em'
-                color='var(--muted-2)'
+                color='text.muted'
                 mb='3'
               >
                 Editorial Notes
@@ -827,13 +833,14 @@ export const MetaPanel = () => {
                 type='button'
                 flex={1}
                 size='sm'
-                bg='#FBEAEA'
-                color='#C43333'
-                border='1px solid #F0C7C7'
+                bg='danger.subtle'
+                color='danger.fg'
+                border='1px solid'
+                borderColor='danger.border'
                 borderRadius='8px'
                 fontSize='13px'
                 fontWeight='600'
-                _hover={{ bg: '#f7d7d7' }}
+                _hover={{ bg: 'danger.border' }}
                 onClick={handleDelete}
               >
                 Delete Post
@@ -843,13 +850,13 @@ export const MetaPanel = () => {
                 flex={1}
                 size='sm'
                 disabled={isLoadingPosts}
-                bg='var(--published)'
-                color='white'
+                bg='status.published.fg'
+                color='text.inverse'
                 borderRadius='8px'
                 fontSize='13px'
                 fontWeight='600'
-                shadow='var(--shadow-sm)'
-                _hover={{ bg: '#25754a' }}
+                shadow='sm'
+                _hover={{ bg: 'status.published.hover' }}
                 onClick={handleManualSave}
               >
                 Save Post

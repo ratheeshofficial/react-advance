@@ -75,7 +75,8 @@ export function AddBlockPicker({
             overflow='hidden'
             boxShadow='2xl'
             border='1px solid'
-            borderColor='gray.100'
+            borderColor='border.subtle'
+            bg='bg.surface'
           >
             {/* Custom Header */}
             <Box
@@ -83,19 +84,19 @@ export function AddBlockPicker({
               pt='5'
               pb='3'
               borderBottom='1px solid'
-              borderColor='gray.100'
-              bg='white'
+              borderColor='border.subtle'
+              bg='bg.surface'
             >
               <Flex justify='space-between' align='center'>
                 <VStack align='start' gap='0'>
                   <Dialog.Title
                     fontSize='xl'
                     fontWeight='bold'
-                    color='gray.800'
+                    color='text.primary'
                   >
                     Add Block
                   </Dialog.Title>
-                  <Text fontSize='xs' color='gray.500'>
+                  <Text fontSize='xs' color='text.muted'>
                     Choose a block type to add content to your post
                   </Text>
                 </VStack>
@@ -116,7 +117,7 @@ export function AddBlockPicker({
                   position='absolute'
                   left='3'
                   top='2.5'
-                  color='gray.400'
+                  color='text.muted'
                   zIndex='1'
                 >
                   <LuSearch />
@@ -128,16 +129,16 @@ export function AddBlockPicker({
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   borderRadius='xl'
-                  bg='gray.50'
-                  _focus={{ bg: 'white', borderColor: 'purple.500' }}
+                  bg='bg.muted'
+                  _focus={{ bg: 'bg.surface', borderColor: 'accent.solid' }}
                 />
               </Box>
             </Box>
 
             {/* Modal Body */}
-            <Dialog.Body p='5' maxH='60vh' overflowY='auto' bg='gray.50/50'>
+            <Dialog.Body p='5' maxH='60vh' overflowY='auto' bg='bg.muted'>
               {filteredOptions.length === 0 ? (
-                <VStack py='8' gap='2' color='gray.500'>
+                <VStack py='8' gap='2' color='text.muted'>
                   <Text fontSize='sm'>
                     No blocks found matching "{searchTerm}"
                   </Text>
@@ -162,10 +163,10 @@ export function AddBlockPicker({
                         as='button'
                         textAlign='left'
                         p='3.5'
-                        bg='white'
+                        bg='bg.surface'
                         borderRadius='xl'
                         borderWidth='1px'
-                        borderColor='gray.200'
+                        borderColor='border.default'
                         transition='all 0.2s ease-in-out'
                         cursor='pointer'
                         _hover={{
@@ -202,7 +203,7 @@ export function AddBlockPicker({
                             <Text
                               fontSize='sm'
                               fontWeight='bold'
-                              color='gray.800'
+                              color='text.primary'
                               lineClamp={1}
                             >
                               {opt.title}
@@ -217,7 +218,7 @@ export function AddBlockPicker({
                               </Badge>
                             )}
                           </HStack>
-                          <Text fontSize='xs' color='gray.500' lineClamp={1}>
+                          <Text fontSize='xs' color='text.muted' lineClamp={1}>
                             {opt.subtitle}
                           </Text>
                         </VStack>
@@ -232,9 +233,9 @@ export function AddBlockPicker({
             <Dialog.Footer
               px='6'
               py='3'
-              bg='white'
+              bg='bg.surface'
               borderTop='1px solid'
-              borderColor='gray.100'
+              borderColor='border.subtle'
             >
               <Button
                 variant='outline'

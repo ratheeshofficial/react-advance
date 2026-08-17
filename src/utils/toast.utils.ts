@@ -7,7 +7,7 @@ export interface ToastOptions {
 }
 
 export const showToast = {
-  success: (title: string, description?: string, duration = 1000) => {
+  success: (title: string, description?: string, duration = 2000) => {
     toaster.create({
       title,
       description,
@@ -15,7 +15,7 @@ export const showToast = {
       duration,
     });
   },
-  error: (title: string, description?: string, duration = 1000) => {
+  error: (title: string, description?: string, duration = 2000) => {
     toaster.create({
       title,
       description,

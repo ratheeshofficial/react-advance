@@ -21,13 +21,13 @@ export const ImageBlock = memo(function ImageBlock({
           borderRadius='xl'
           overflow='hidden'
           borderWidth='1px'
-          borderColor='gray.200'
-          bg='gray.50'
+          borderColor='border.default'
+          bg='bg.muted'
           p='3'
         >
           <VStack gap='3' align='stretch'>
             <Flex gap='2' align='center'>
-              <Box color='purple.500'>
+              <Box color='accent.fg'>
                 <LuLink />
               </Box>
               <Input
@@ -40,14 +40,14 @@ export const ImageBlock = memo(function ImageBlock({
                   onChange?.({ ...block, src: e.target.value });
                 }}
                 placeholder='Paste Image URL (e.g., https://...)'
-                bg='white'
-                _focus={{ borderColor: 'purple.500' }}
+                bg='bg.surface'
+                _focus={{ borderColor: 'accent.solid' }}
               />
             </Flex>
 
             {/* Alt Text Input (Required for accessibility and publishing) */}
             <Flex gap='2' align='center'>
-              <Box color='purple.500'>
+              <Box color='accent.fg'>
                 <LuImage />
               </Box>
               <Input
@@ -57,8 +57,8 @@ export const ImageBlock = memo(function ImageBlock({
                 value={block.altText || ''}
                 onChange={(e) => onChange?.({ ...block, altText: e.target.value })}
                 placeholder='Image Alt Text (required before publish)…'
-                bg='white'
-                _focus={{ borderColor: 'purple.500' }}
+                bg='bg.surface'
+                _focus={{ borderColor: 'accent.solid' }}
               />
             </Flex>
 
@@ -67,7 +67,7 @@ export const ImageBlock = memo(function ImageBlock({
               maxH='320px'
               borderRadius='lg'
               overflow='hidden'
-              bg='gray.100'
+              bg='bg.subtle'
               display='flex'
               justifyContent='center'
               alignItems='center'
@@ -90,7 +90,7 @@ export const ImageBlock = memo(function ImageBlock({
               onChange={(e) => onChange?.({ ...block, caption: e.target.value })}
               placeholder='Add image caption (optional)...'
               textAlign='center'
-              bg='white'
+              bg='bg.surface'
             />
           </VStack>
         </Box>
@@ -107,7 +107,7 @@ export const ImageBlock = memo(function ImageBlock({
             onError={() => setImgError(true)}
           />
           {block.caption && (
-            <Text fontSize='sm' color='gray.500' fontStyle='italic' textAlign='center'>
+            <Text fontSize='sm' color='text.muted' fontStyle='italic' textAlign='center'>
               {block.caption}
             </Text>
           )}

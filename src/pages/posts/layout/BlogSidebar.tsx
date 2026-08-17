@@ -2,7 +2,7 @@ import { Box, VStack, Text, Flex } from '@chakra-ui/react';
 import { Link, useParams } from '@tanstack/react-router';
 import { hideScrollbarCss } from '../../../constant/styles';
 import { usePosts } from '../../../hooks/usePosts';
-import { FiGrid, FiClock, FiBarChart2 } from 'react-icons/fi';
+import { FiGrid } from 'react-icons/fi';
 
 export const BlogSidebar = () => {
   const { posts } = usePosts();
@@ -13,10 +13,12 @@ export const BlogSidebar = () => {
     <Box
       h={{ base: 'auto', xl: '100%' }}
       w={{ base: '100%', md: '220px' }}
-      bg='var(--paper-raised)'
-      color='var(--ink)'
-      borderRight={{ base: 'none', md: '1px solid var(--rule)' }}
-      borderBottom={{ base: '1px solid var(--rule)', md: 'none' }}
+      bg='bg.surface'
+      color='text.primary'
+      borderRight={{ base: 'none', md: '1px solid' }}
+      borderRightColor={{ md: 'border.default' }}
+      borderBottom={{ base: '1px solid', md: 'none' }}
+      borderBottomColor={{ base: 'border.default' }}
       py='5'
       px='4'
       overflowY={{ base: 'visible', xl: 'auto' }}
@@ -29,7 +31,7 @@ export const BlogSidebar = () => {
           fontFamily="'IBM Plex Mono', monospace"
           fontSize='10.5px'
           letterSpacing='0.08em'
-          color='var(--muted-2)'
+          color='text.muted'
           textTransform='uppercase'
           fontWeight='500'
           mb='2.5'
@@ -58,15 +60,17 @@ export const BlogSidebar = () => {
                     fontWeight='500'
                     cursor='pointer'
                     transition='all 0.12s ease'
-                    bg={isActive ? 'var(--accent-soft)' : 'transparent'}
-                    color={isActive ? 'var(--accent)' : 'var(--ink-soft)'}
-                    _hover={{ bg: isActive ? 'var(--accent-soft)' : 'var(--rule-soft)' }}
+                    bg={isActive ? 'accent.subtle' : 'transparent'}
+                    color={isActive ? 'accent.fg' : 'text.secondary'}
+                    _hover={{
+                      bg: isActive ? 'accent.subtle' : 'bg.subtle',
+                    }}
                   >
                     <Box
                       w='6px'
                       h='6px'
                       borderRadius='full'
-                      bg={isActive ? 'var(--accent)' : 'var(--muted-2)'}
+                      bg={isActive ? 'accent.solid' : 'text.muted'}
                       flexShrink={0}
                     />
                     <Text
@@ -82,7 +86,12 @@ export const BlogSidebar = () => {
               );
             })
           ) : (
-            <Text fontSize='12px' color='var(--muted)' px='2' fontStyle='italic'>
+            <Text
+              fontSize='12px'
+              color='text.muted'
+              px='2'
+              fontStyle='italic'
+            >
               No posts created yet
             </Text>
           )}
@@ -90,7 +99,7 @@ export const BlogSidebar = () => {
       </Box>
 
       {/* Divider */}
-      <Box h='1px' bg='var(--rule-soft)' my='4' mx='2' />
+      <Box h='1px' bg='border.subtle' my='4' mx='2' />
 
       {/* Views Section */}
       <Box>
@@ -98,7 +107,7 @@ export const BlogSidebar = () => {
           fontFamily="'IBM Plex Mono', monospace"
           fontSize='10.5px'
           letterSpacing='0.08em'
-          color='var(--muted-2)'
+          color='text.muted'
           textTransform='uppercase'
           fontWeight='500'
           mb='2.5'
@@ -116,15 +125,15 @@ export const BlogSidebar = () => {
               borderRadius='7px'
               fontSize='13.5px'
               fontWeight='500'
-              color='var(--ink-soft)'
+              color='text.secondary'
               cursor='pointer'
-              _hover={{ bg: 'var(--rule-soft)' }}
+              _hover={{ bg: 'bg.subtle' }}
             >
-              <FiGrid size={14} color='var(--muted)' />
+              <FiGrid size={14} color='currentColor' />
               <Text>All posts</Text>
             </Flex>
           </Link>
-          <Flex
+          {/* <Flex
             align='center'
             gap='2.5'
             px='2.5'
@@ -153,10 +162,9 @@ export const BlogSidebar = () => {
           >
             <FiBarChart2 size={14} color='var(--muted)' />
             <Text>Analytics</Text>
-          </Flex>
+          </Flex> */}
         </VStack>
       </Box>
     </Box>
   );
 };
-

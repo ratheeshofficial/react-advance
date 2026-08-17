@@ -13,14 +13,14 @@ export const QuoteBlock = memo(function QuoteBlock({
       <Box
         pl='4'
         borderLeft='4px solid'
-        borderColor='purple.500'
-        bg='purple.50/40'
+        borderColor='accent.solid'
+        bg='accent.subtle'
         p='3'
         borderRadius='r-md'
       >
         {isEditing ? (
           <Flex gap='2' align='top'>
-            <Box color='purple.500' pt='2'>
+            <Box color='accent.fg' pt='2'>
               <LuQuote size={20} />
             </Box>
             <Textarea
@@ -31,17 +31,17 @@ export const QuoteBlock = memo(function QuoteBlock({
               variant='subtle'
               size='md'
               fontStyle='italic'
-              bg='white'
-              _focus={{ borderColor: 'purple.500' }}
+              bg='bg.surface'
+              _focus={{ borderColor: 'accent.solid' }}
               borderRadius='md'
             />
           </Flex>
         ) : (
           <Flex gap='3' align='top' py='1'>
-            <Box color='purple.500' pt='1'>
+            <Box color='accent.fg' pt='1'>
               <LuQuote size={24} />
             </Box>
-            <Text fontSize='lg' fontStyle='italic' color='gray.800' lineHeight='relaxed' fontWeight='medium'>
+            <Text fontSize='lg' fontStyle='italic' color='text.primary' lineHeight='relaxed' fontWeight='medium'>
               "{block.content || 'Quote text goes here...'}"
             </Text>
           </Flex>

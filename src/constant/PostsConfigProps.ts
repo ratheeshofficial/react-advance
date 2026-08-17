@@ -22,8 +22,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Paragraph',
     subtitle: 'Normal text body paragraph',
     icon: LuAlignLeft,
-    color: 'purple.600',
-    bg: 'purple.50',
+    color: 'purple.fg',
+    bg: 'purple.subtle',
     category: 'Text',
   },
   {
@@ -31,8 +31,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'H2 Heading',
     subtitle: 'Large section title',
     icon: LuHeading2,
-    color: 'blue.600',
-    bg: 'blue.50',
+    color: 'blue.fg',
+    bg: 'blue.subtle',
     badge: 'Popular',
     category: 'Text',
   },
@@ -41,8 +41,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'H3 Heading',
     subtitle: 'Small section sub-title',
     icon: LuHeading3,
-    color: 'indigo.600',
-    bg: 'indigo.50',
+    color: 'indigo.fg',
+    bg: 'indigo.subtle',
     category: 'Text',
   },
   {
@@ -50,8 +50,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Quote',
     subtitle: 'Quote block statement',
     icon: LuQuote,
-    color: 'pink.600',
-    bg: 'pink.50',
+    color: 'pink.fg',
+    bg: 'pink.subtle',
     category: 'Formatting',
   },
   {
@@ -59,8 +59,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Callout',
     subtitle: 'Important note or highlight box',
     icon: LuMessageSquareQuote,
-    color: 'amber.600',
-    bg: 'amber.50',
+    color: 'amber.fg',
+    bg: 'amber.subtle',
     badge: 'Useful',
     category: 'Formatting',
   },
@@ -69,8 +69,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Ordered List',
     subtitle: 'Numbered step-by-step list',
     icon: LuListOrdered,
-    color: 'teal.600',
-    bg: 'teal.50',
+    color: 'teal.fg',
+    bg: 'teal.subtle',
     category: 'Formatting',
   },
   {
@@ -78,8 +78,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Unordered List',
     subtitle: 'Bullet point items',
     icon: LuList,
-    color: 'emerald.600',
-    bg: 'emerald.50',
+    color: 'emerald.fg',
+    bg: 'emerald.subtle',
     category: 'Formatting',
   },
   {
@@ -87,8 +87,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Divider',
     subtitle: 'Horizontal section separator line',
     icon: LuMinus,
-    color: 'gray.600',
-    bg: 'gray.100',
+    color: 'gray.fg',
+    bg: 'gray.subtle',
     category: 'Formatting',
   },
   {
@@ -96,8 +96,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Image',
     subtitle: 'Insert image with caption',
     icon: LuImage,
-    color: 'orange.600',
-    bg: 'orange.50',
+    color: 'orange.fg',
+    bg: 'orange.subtle',
     badge: 'Media',
     category: 'Media & Code',
   },
@@ -106,8 +106,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Attachment File',
     subtitle: 'Upload document or file download link',
     icon: LuPaperclip,
-    color: 'teal.600',
-    bg: 'teal.50',
+    color: 'teal.fg',
+    bg: 'teal.subtle',
     badge: 'File',
     category: 'Media & Code',
   },
@@ -116,8 +116,8 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     title: 'Code',
     subtitle: 'Programming code snippet',
     icon: LuCode,
-    color: 'violet.600',
-    bg: 'violet.50',
+    color: 'violet.fg',
+    bg: 'violet.subtle',
     badge: 'Dev',
     category: 'Media & Code',
   },
@@ -125,10 +125,10 @@ export const BLOCK_OPTIONS: IBlockOptionItem[] = [
     type: 'column',
     title: 'Column',
     icon: LuLayoutDashboard,
-    color: 'blue.600',
+    color: 'blue.fg',
     subtitle: 'Add columns to your post',
     category: 'Layout',
-    bg: 'blue.50',
+    bg: 'blue.subtle',
   },
 ];
 
@@ -270,16 +270,16 @@ export const STATUS = [
 export const getStatusColor = (status: string) => {
   switch (status) {
     case 'Published':
-      return 'green.500';
+      return 'status.published.fg';
     case 'Scheduled':
-      return 'purple.500';
+      return 'status.scheduled.fg';
     case 'Approved':
-      return 'blue.500';
+      return 'status.approved.fg';
     case 'In Review':
-      return 'amber.500';
+      return 'status.review.fg';
     case 'Draft':
     default:
-      return 'gray.500';
+      return 'status.draft.fg';
   }
 };
 

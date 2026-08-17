@@ -12,26 +12,26 @@ export const CalloutBlock = memo(function CalloutBlock({
 
   const typeConfigs = {
     info: {
-      bg: 'var(--approved-soft)',
-      labelColor: 'var(--approved)',
+      bg: 'status.approved.subtle',
+      labelColor: 'status.approved.fg',
       Icon: FiInfo,
       label: 'INFO',
     },
     warning: {
-      bg: 'var(--stamp-soft)',
-      labelColor: 'var(--stamp)',
+      bg: 'stamp.subtle',
+      labelColor: 'stamp.fg',
       Icon: FiAlertTriangle,
       label: 'WARNING',
     },
     success: {
-      bg: 'var(--published-soft)',
-      labelColor: 'var(--published)',
+      bg: 'status.published.subtle',
+      labelColor: 'status.published.fg',
       Icon: FiCheckCircle,
       label: 'SUCCESS',
     },
     note: {
-      bg: 'var(--stamp-soft)',
-      labelColor: 'var(--stamp)',
+      bg: 'stamp.subtle',
+      labelColor: 'stamp.fg',
       Icon: FiHelpCircle,
       label: 'TIP',
     },
@@ -76,9 +76,9 @@ export const CalloutBlock = memo(function CalloutBlock({
                   fontSize='9.5px'
                   borderRadius='4px'
                   fontWeight={type === t ? '700' : '400'}
-                  bg={type === t ? 'white' : 'transparent'}
-                  color={type === t ? currentConfig.labelColor : 'var(--muted-2)'}
-                  shadow={type === t ? 'var(--shadow-sm)' : 'none'}
+                  bg={type === t ? 'bg.surface' : 'transparent'}
+                  color={type === t ? currentConfig.labelColor : 'text.muted'}
+                  shadow={type === t ? 'sm' : 'none'}
                   onClick={() => onChange?.({ ...block, calloutType: t })}
                   cursor='pointer'
                 >
@@ -100,7 +100,7 @@ export const CalloutBlock = memo(function CalloutBlock({
             _focus={{ outline: 'none', boxShadow: 'none' }}
             fontFamily="'Inter', sans-serif"
             fontSize='13.5px'
-            color='var(--ink-soft)'
+            color='text.secondary'
             lineHeight='1.5'
             py='0'
             px='0'
@@ -110,7 +110,7 @@ export const CalloutBlock = memo(function CalloutBlock({
           <Text
             fontFamily="'Inter', sans-serif"
             fontSize='13.5px'
-            color='var(--ink-soft)'
+            color='text.secondary'
             lineHeight='1.5'
           >
             {block.content || ''}

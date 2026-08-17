@@ -38,10 +38,10 @@ export function PublishChecklistModal({
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content borderRadius='xl' p='5' maxW='550px'>
+          <Dialog.Content borderRadius='xl' p='5' maxW='550px' bg='bg.surface' color='text.primary'>
             <Dialog.Header>
               <HStack justify='space-between' align='center'>
-                <Dialog.Title fontSize='lg' fontWeight='bold' color='gray.800'>
+                <Dialog.Title fontSize='lg' fontWeight='bold' color='text.primary'>
                   Publish Readiness Checklist
                 </Dialog.Title>
                 <Badge
@@ -61,24 +61,24 @@ export function PublishChecklistModal({
               {/* Alert Warning Box if missing items exist */}
               {!result.isValid && (
                 <Box
-                  bg='amber.50'
-                  borderColor='amber.300'
+                  bg='stamp.subtle'
+                  borderColor='stamp.fg'
                   borderWidth='1px'
                   borderRadius='lg'
                   p='4'
                   mb='5'
                 >
                   <HStack gap='3' align='flex-start'>
-                    <Box color='amber.600' fontSize='xl' pt='0.5'>
+                    <Box color='stamp.fg' fontSize='xl' pt='0.5'>
                       <FiAlertTriangle />
                     </Box>
                     <VStack align='start' gap='1'>
-                      <Text fontWeight='bold' fontSize='sm' color='amber.900'>
+                      <Text fontWeight='bold' fontSize='sm' color='stamp.fg'>
                         {result.missingItems.length} missing requirement
                         {result.missingItems.length > 1 ? 's' : ''} for
                         publishing
                       </Text>
-                      <Text fontSize='xs' color='amber.800'>
+                      <Text fontSize='xs' color='stamp.fg'>
                         Please fill out all mandatory fields before publishing
                         or scheduling this post.
                       </Text>
@@ -94,15 +94,15 @@ export function PublishChecklistModal({
                     key={check.id}
                     p='3'
                     borderRadius='md'
-                    bg={check.passed ? 'gray.50' : 'red.50'}
+                    bg={check.passed ? 'bg.muted' : 'danger.subtle'}
                     borderWidth='1px'
-                    borderColor={check.passed ? 'gray.200' : 'red.200'}
+                    borderColor={check.passed ? 'border.default' : 'danger.border'}
                     justify='space-between'
                     align='center'
                   >
                     <HStack gap='3'>
                       <Box
-                        color={check.passed ? 'green.600' : 'red.500'}
+                        color={check.passed ? 'status.published.fg' : 'danger.fg'}
                         fontSize='lg'
                       >
                         {check.passed ? <FiCheckCircle /> : <FiXCircle />}
@@ -111,12 +111,12 @@ export function PublishChecklistModal({
                         <Text
                           fontSize='sm'
                           fontWeight='semibold'
-                          color={check.passed ? 'gray.800' : 'red.900'}
+                          color={check.passed ? 'text.primary' : 'danger.fg'}
                         >
                           {check.label}
                         </Text>
                         {!check.passed && (
-                          <Text fontSize='xs' color='red.600'>
+                          <Text fontSize='xs' color='danger.fg'>
                             {check.missingMessage}
                           </Text>
                         )}

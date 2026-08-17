@@ -30,19 +30,19 @@ function PrimarySelect<T = string | number>({
   const chakraStyles: ChakraStylesConfig<IOptionProps<T>> = {
     control: (provided, state) => ({
       ...provided,
-      backgroundColor: 'var(--paper-raised)',
-      borderColor: state.isFocused ? 'var(--accent)' : 'var(--rule)',
+      backgroundColor: 'bg.muted',
+      borderColor: state.isFocused ? 'accent.solid' : 'border.default',
       borderRadius: '8px',
       minHeight: '36px',
       height: '36px',
-      boxShadow: state.isFocused ? '0 0 0 1px var(--accent)' : 'var(--shadow-sm)',
+      boxShadow: state.isFocused ? '0 0 0 1px var(--chakra-colors-accent-solid)' : 'sm',
       cursor: 'pointer',
       fontSize: '13px',
       fontWeight: '500',
-      color: 'var(--ink-soft)',
+      color: 'text.secondary',
       transition: 'all 0.15s ease',
       '&:hover': {
-        borderColor: state.isFocused ? 'var(--accent)' : 'var(--muted-2)',
+        borderColor: state.isFocused ? 'accent.solid' : 'text.muted',
       },
     }),
     valueContainer: (provided) => ({
@@ -51,19 +51,19 @@ function PrimarySelect<T = string | number>({
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: 'var(--ink-soft)',
+      color: 'text.secondary',
       fontWeight: '500',
       fontSize: '13px',
     }),
     placeholder: (provided) => ({
       ...provided,
-      color: prefixLabel ? 'var(--ink-soft)' : 'var(--muted-2)',
+      color: prefixLabel ? 'text.secondary' : 'text.muted',
       fontWeight: '500',
       fontSize: '13px',
     }),
     dropdownIndicator: (provided) => ({
       ...provided,
-      color: 'var(--muted-2)',
+      color: 'text.muted',
       padding: '0 8px',
       background: 'transparent',
       svg: {
@@ -76,22 +76,23 @@ function PrimarySelect<T = string | number>({
     }),
     clearIndicator: (provided) => ({
       ...provided,
-      color: 'var(--muted-2)',
+      color: 'text.muted',
       padding: '0 4px',
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: 'var(--paper-raised)',
+      backgroundColor: 'bg.surface',
       borderRadius: '9px',
-      border: '1px solid var(--rule)',
-      boxShadow: 'var(--shadow-md)',
+      border: '1px solid',
+      borderColor: 'border.default',
+      boxShadow: 'md',
       zIndex: 9999,
       overflow: 'hidden',
     }),
     menuList: (provided) => ({
       ...provided,
       padding: '4px',
-      backgroundColor: 'var(--paper-raised)',
+      backgroundColor: 'bg.surface',
     }),
     option: (provided, state) => ({
       ...provided,
@@ -101,13 +102,13 @@ function PrimarySelect<T = string | number>({
       padding: '6px 10px',
       cursor: 'pointer',
       backgroundColor: state.isSelected
-        ? 'var(--accent-soft)'
+        ? 'accent.subtle'
         : state.isFocused
-        ? 'var(--rule-soft)'
+        ? 'bg.subtle'
         : 'transparent',
-      color: state.isSelected ? 'var(--accent)' : 'var(--ink-soft)',
+      color: state.isSelected ? 'accent.fg' : 'text.secondary',
       '&:active': {
-        backgroundColor: 'var(--accent-soft)',
+        backgroundColor: 'accent.subtle',
       },
     }),
   };
@@ -130,4 +131,3 @@ function PrimarySelect<T = string | number>({
 }
 
 export default PrimarySelect;
-

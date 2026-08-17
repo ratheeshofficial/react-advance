@@ -21,7 +21,7 @@ export const ParagraphBlock = memo(function ParagraphBlock({
           fontFamily="'Inter', sans-serif"
           fontSize='14px'
           lineHeight='1.65'
-          color='var(--ink-soft)'
+          color='text.secondary'
           py='1'
           px='0'
           resize='vertical'
@@ -32,7 +32,7 @@ export const ParagraphBlock = memo(function ParagraphBlock({
           fontFamily="'Inter', sans-serif"
           fontSize='14px'
           lineHeight='1.65'
-          color='var(--ink-soft)'
+          color='text.secondary'
           whiteSpace='pre-wrap'
           py='1'
         >
