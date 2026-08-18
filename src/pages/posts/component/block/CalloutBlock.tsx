@@ -41,7 +41,7 @@ export const CalloutBlock = memo(function CalloutBlock({
   const IconComponent = currentConfig.Icon;
 
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       <Box
         p='12px 14px'
         borderRadius='8px'

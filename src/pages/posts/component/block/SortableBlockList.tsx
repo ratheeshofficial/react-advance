@@ -37,9 +37,10 @@ export function SortableBlockList({
   onOpenPicker,
   showDragHandle = true,
   showAddBelow = true,
-  gap = '4',
+  gap,
 }: SortableBlockListProps) {
   const sensors = useBlockSensors();
+  const resolvedGap = gap ?? (isEditingMode ? '2' : '4');
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -58,7 +59,7 @@ export function SortableBlockList({
         items={blocks.map((b) => b.id)}
         strategy={verticalListSortingStrategy}
       >
-        <VStack align='stretch' gap={gap}>
+        <VStack align='stretch' gap={resolvedGap}>
           {blocks.map((block, idx) => (
             <SortableBlockItem
               key={block.id}

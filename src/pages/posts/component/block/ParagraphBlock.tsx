@@ -8,7 +8,7 @@ export const ParagraphBlock = memo(function ParagraphBlock({
   isEditing = true,
 }: BaseBlockProps) {
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       {isEditing ? (
         <Textarea
           value={block.content || ''}
@@ -22,7 +22,7 @@ export const ParagraphBlock = memo(function ParagraphBlock({
           fontSize='14px'
           lineHeight='1.65'
           color='text.secondary'
-          py='1'
+          py={isEditing ? '1' : '0'}
           px='0'
           resize='vertical'
           minH='60px'
@@ -34,7 +34,7 @@ export const ParagraphBlock = memo(function ParagraphBlock({
           lineHeight='1.65'
           color='text.secondary'
           whiteSpace='pre-wrap'
-          py='1'
+          py={isEditing ? '1' : '0'}
         >
           {block.content || ''}
         </Text>

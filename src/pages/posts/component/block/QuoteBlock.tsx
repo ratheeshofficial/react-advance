@@ -9,7 +9,7 @@ export const QuoteBlock = memo(function QuoteBlock({
   isEditing = true,
 }: BaseBlockProps) {
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       <Box
         pl='4'
         borderLeft='4px solid'
@@ -37,7 +37,7 @@ export const QuoteBlock = memo(function QuoteBlock({
             />
           </Flex>
         ) : (
-          <Flex gap='3' align='top' py='1'>
+          <Flex gap='3' align='top' py='0'>
             <Box color='accent.fg' pt='1'>
               <LuQuote size={24} />
             </Box>
