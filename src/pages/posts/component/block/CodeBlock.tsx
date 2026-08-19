@@ -20,7 +20,7 @@ export const CodeBlock = memo(function CodeBlock({
   };
 
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       <Box
         borderRadius='xl'
         overflow='hidden'

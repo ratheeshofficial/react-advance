@@ -40,7 +40,7 @@ export const OrderedListBlock = memo(function OrderedListBlock({
   };
 
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       <Flex gap='2' align='top'>
         {isEditing && (
           <Box color='accent.fg' pt='2' fontSize='lg'>

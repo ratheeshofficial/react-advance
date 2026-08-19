@@ -9,7 +9,7 @@ export const Heading3Block = memo(function Heading3Block({
   isEditing = true,
 }: BaseBlockProps) {
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       {isEditing ? (
         <Flex gap='2' align='center'>
           <Box color='accent.fg' fontSize='lg'>
@@ -30,7 +30,7 @@ export const Heading3Block = memo(function Heading3Block({
           />
         </Flex>
       ) : (
-        <Heading as='h3' size='lg' fontWeight='bold' color='text.primary' pt='1'>
+        <Heading as='h3' size='lg' fontWeight='bold' color='text.primary' m='0'>
           {block.content || 'H3 Heading'}
         </Heading>
       )}

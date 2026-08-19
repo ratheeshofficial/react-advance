@@ -8,7 +8,7 @@ export const Heading2Block = memo(function Heading2Block({
   isEditing = true,
 }: BaseBlockProps) {
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       {isEditing ? (
         <Input
           value={block.content || ''}
@@ -22,7 +22,7 @@ export const Heading2Block = memo(function Heading2Block({
           fontSize='21px'
           fontWeight='600'
           color='text.primary'
-          py='2'
+          py={isEditing ? '2' : '0'}
           px='0'
         />
       ) : (
@@ -31,7 +31,7 @@ export const Heading2Block = memo(function Heading2Block({
           fontSize='21px'
           fontWeight='600'
           color='text.primary'
-          py='2'
+          py='0'
         >
           {block.content || 'Heading 2 Title'}
         </Box>

@@ -15,7 +15,7 @@ export const ImageBlock = memo(function ImageBlock({
   const [imgError, setImgError] = useState(false);
 
   return (
-    <Box py='1'>
+    <Box py={isEditing ? '1' : '0'}>
       {isEditing ? (
         <Box
           borderRadius='xl'

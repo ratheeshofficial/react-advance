@@ -21,6 +21,7 @@ import {
   FiMessageSquare,
 } from 'react-icons/fi';
 import { BlockRenderer } from './BlockRenderer';
+import { blockPreviewResetCss } from '../../../../constant/styles';
 
 export interface SortableBlockItemProps {
   block: IBlock;
@@ -135,7 +136,7 @@ export const SortableBlockItem = memo(function SortableBlockItem({
   };
 
   return (
-    <Box ref={setNodeRef} style={style} mb={isEditingMode ? '1' : '4'}>
+    <Box ref={setNodeRef} style={style}>
       <Box
         position='relative'
         bg={isEditingMode ? 'bg.surface' : 'transparent'}
@@ -272,24 +273,30 @@ export const SortableBlockItem = memo(function SortableBlockItem({
           </Flex>
         )}
 
-        <BlockRenderer
-          block={block}
-          onChange={onUpdateBlock}
-          onDelete={onDeleteBlock}
-          isEditing={isEditingMode}
-        />
+        <Box css={blockPreviewResetCss}>
+          <BlockRenderer
+            block={block}
+            onChange={onUpdateBlock}
+            onDelete={onDeleteBlock}
+            isEditing={isEditingMode}
+          />
+        </Box>
       </Box>
 
-      {/* Insert Zone Line & Button */}
+      {/* Insert zone overlays the seam below this block without reserving layout space */}
       {isEditingMode && showAddBelow && onOpenPicker && (
         <Box
-          position='relative'
+          position='absolute'
+          left='0'
+          right='0'
+          bottom='0'
           h='26px'
+          transform='translateY(50%)'
           display='flex'
           alignItems='center'
           justifyContent='center'
           role='group'
-          my='1'
+          zIndex={3}
         >
           <Box
             position='absolute'
